@@ -1,0 +1,88 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <p class="pCategory">Редагування категорій</p>
+      <button class="btn btn-dark" (click)="openModal(modal1)">Добавити</button>
+    </div>
+    <div class="card-body">
+      <input type="text" class="form-control" [(ngModel)]="nameCategory" name="nameCategory"
+        placeholder="шукати...">
+      <hr>
+      <table class="table table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th scope="col" [class.active]="category === 'id'" (click)="setCategory('id')">№
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col" [class.active]="category === 'nameEN'" (click)="setCategory('nameEN')">Назва EN
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col" [class.active]="category === 'nameUA'" (click)="setCategory('nameUA')">Назва УКР
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col">Деталі</th>
+              </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let category of adminCategory | orderBy: category:reverse:'case-insensitive'| search:nameCategory; let i=index">
+            <td>{{ i+1 }}</td>
+            <td>{{ category.nameEN }}</td>
+            <td>{{ category.nameUA }}</td>
+            <td class="delete">
+              <input type="button" value="Видалити" class="btn btn-danger" (click)="openModal2(modal2,category.id)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <ng-template #modal1>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Добавити категорію</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="resetModel()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div >
+          <div class="form-group">
+            <input [(ngModel)]="nameEN" name="nameEN" type="text" class="form-control" id="nameEN"
+              placeholder="Назва категорії англійською"  (input)="checkInputs()">
+          </div>
+          <div class="form-group">
+            <input [(ngModel)]="nameUA" name="nameUA" type="text" class="form-control" id="nameUA"
+              placeholder="Назва категорії українською"  (input)="checkInputs()">
+          </div>
+          <div class="custom-file mb-3" style="overflow: hidden;" *ngIf="!imageStatus">
+            <input (change)="uploadFile($event)" type="file" class="custom-file-input" id="productImage" required>
+            <label class="custom-file-label" for="productImage">Виберіть зображення для банера ...</label>
+          </div>
+          <div class="progress mb-3" *ngIf="!imageStatus">
+            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0"
+              aria-valuemax="100" [style.width]="(uploadProgress | async) + '%'"></div>
+          </div>
+           <div class="image mb-3" *ngIf="imageStatus" style="width: 200px; height: 200px;">
+          <img [src]="categoryImage" alt="" style="width: 100%; height: 100%;">
+        </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary mt-2 mr-2" (click)="resetModel()" >Закрити</button>
+          <button type="button" class="btn btn-secondary mt-2" 
+            [disabled]="!checkInput" (click)="addCategory()">Додати</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  <ng-template #modal2>
+    <div class="modal-body change">
+      <form>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary mt-2 mr-2 change2" >Відміна</button>
+          <button type="button" class="btn btn-danger mt-2 change2" (click)="deleteCategory()">Видалити</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>

@@ -1,0 +1,71 @@
+<div class="container">
+    <h1 class="page_name">Личный кабинет</h1>
+    <div class="profile_info">
+        <div class="profile_info_details">
+            <div class="profile_wrapper">
+            <div class="customer_info_form">
+                <h1 class="page_name_add">Мои данные</h1>
+                <div class="inputElementWrapper">
+                    <input class="inputElementItem" type="text" placeholder="Имя" required [(ngModel)]="userName">
+                    <label>Имя</label>
+                    <span class="focus-border"><i></i></span>
+                </div>
+                <div class="inputElementWrapper">
+                    <input class="inputElementItem" type="text" placeholder="Email" required [(ngModel)]="userEmail">
+                    <label>Емайл</label>
+                    <span class="focus-border"><i></i></span>
+                </div>
+                <div class="inputElementWrapper">
+                    <input class="inputElementItem" type="text" placeholder="Телефон" required [(ngModel)]="userPhone">
+                    <label>Телефон</label>
+                    <span class="focus-border"><i></i></span>
+                </div>
+
+            </div>
+        </div>
+        <input class="btn_order_exit" type="button" value="Редагувати " style="background-color: orange;" (click)="updateUser()">
+            <input class="btn_order_exit" type="button" value="Выйти"(click)="signOut()">
+
+
+        </div>
+        
+        <div class="customer_info_orders">
+            <p class="page_name_add second_page">Мои заказы</p>
+            <div class="customer_info_order"*ngFor="let order of userOrder" >
+                <div class="customer_info_order_date_status">
+                    <p>Заказ от {{order.dateOrder|date:'dd MMMM, HH:mm год'}}</p>
+                    <p style="font-weight: 700;">Cтатус заказа:{{order.status}}</p>
+                    <input class="btn_order_details" type="button" value="Детали"(click)="viewDetailsOrder(order)">
+                </div>
+                <div class="customer_info_order_details" *ngIf="viewDetails" > 
+                    <ul class="customer_info_order_details_ul">
+                        <li *ngFor="let product of order.ordersDetails">
+                    <div class="customer_info_order_details_img">
+                        <img class="profile_image" [src]='product?.image' alt="">
+                    </div>
+                    <div class="customer_info_order_details_title">
+                        <p> {{product?.nameUA}}
+                           </p>
+
+                    </div>
+                    <div class="customer_info_order_details_price">
+                        <span class="new_price">{{product?.price}} <span style="font-size: 12px;">грн</span></span>
+                    </div>
+                    <div class="customer_info_order_details_count">
+                        <p>× {{product?.count}}</p>
+                    </div>
+                    <div class="customer_info_order_details_price_end">
+                        <span class="new_price">{{product?.price*product?.count}} <span style="font-size: 12px;">грн</span></span>
+
+                    </div>
+                </li>
+                                </ul>
+<div class="customer_info_order_total">
+    <span> Заказ на суму: {{order?.totalPayment}}<span style="font-size: 12px;">грн</span></span>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-products-viewed></app-products-viewed>

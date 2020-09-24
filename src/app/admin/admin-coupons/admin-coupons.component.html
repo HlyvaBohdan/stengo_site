@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <p class="pCategory">Редагування купонів</p>
+      <button class="btn btn-dark" (click)="openModal(modal1)">Добавити</button>
+    </div>
+    <div class="card-body">
+      <hr>
+      <table class="table table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th scope="col"[class.active]="coupon === 'id'" (click)="setCoupon('id')" >№
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col"[class.active]="coupon === 'code'" (click)="setCoupon('code')" >Код
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col"[class.active]="coupon === 'percent'" (click)="setCoupon('percent')" >Відсоток знижки
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col">Видалити</th>
+              </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let coupon of adminCoupon | orderBy: coupon:reverse:'case-insensitive' let i=index">
+            <td>{{ i+1 }}</td>
+            <td>{{ coupon.code }}</td>
+            <td>{{ coupon.percent }}</td>
+            <td class="delete">
+              <input type="button" value="Видалити" class="btn btn-danger" (click)="deleteCoupon(coupon.id)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <ng-template #modal1>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Добавити купон</h4>
+      <button type="button" class="close pull-right" aria-label="Close"  (click)="resetModel()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div >
+          <div class="form-group">
+            <input [(ngModel)]="code" name="code" type="text" class="form-control" id="code"
+              placeholder="Код"(input)="checkInputs()" >
+          </div>
+          <div class="form-group">
+            <input [(ngModel)]="percent" name="percent" type="text" class="form-control" id="percent"
+              placeholder="Відсоток знижки" (input)="checkInputs()">
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary mt-2 mr-2" (click)="resetModel()" >Закрити</button>
+          <button type="button" class="btn btn-secondary mt-2" 
+            [disabled]="!checkInput" (click)="addCoupon()">Додати</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  

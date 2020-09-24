@@ -1,0 +1,37 @@
+.pProduct {
+    margin-top: 6px;
+    margin-bottom: 0px;
+    margin-left: 15px;
+    font-size: 18px;
+    font-weight: 700;
+}
+thead th {
+    cursor: pointer;
+    margin-right: 15px;
+    margin-left: 15px;
+
+    span {
+        visibility: hidden;
+    }
+
+    &.active {
+        color: #000;
+
+        span {
+            visibility: visible;
+        }
+    }
+}
+.table,.td{
+    text-align: center;
+}
+.mt-1{
+    width: 100%;
+}
+.pull-left{
+    font-size: 20px;
+}
+input[type=checkbox]:focus{
+    outline: none;
+}
+

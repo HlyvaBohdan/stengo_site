@@ -1,0 +1,338 @@
+.container {
+  font-family: SF Pro;
+  margin: 0 auto;
+  width: 90%;
+  min-height: 10vh;
+  margin-top: 3%;
+  .home_main {
+    width: 100%;
+    min-height: 200px;
+    .home_main_title {
+      width: inherit;
+      text-align: center;
+      line-height: 55px;
+      margin-top: 35px;
+      font-weight: bold;
+    }
+    .home_main_all_products {
+      margin-top: -3%;
+
+      .home_main_product {
+        width: 23%;
+        margin: 30px;
+        margin-bottom: 0px;
+
+        position: relative;
+        .product_image {
+          width: 100%;
+        }
+        .product_title {
+          width: 100%;
+          text-align: center;
+          min-height: 13%;
+          margin-top: 1%;
+          font-family: SF Pro;
+        }
+        .home_main_product_wishlist {
+          position: absolute;
+          top: 4%;
+          right: 0;
+        }
+        .home_main_product_details {
+          height: 80px;
+          display: flex;
+          
+          .home_main_product_details_price {
+            width: 50%;
+            text-align: center;
+            .old_price {
+              position: relative;
+            }
+            .old_price::before {
+              position: absolute;
+              content: "";
+              left: -2px;
+              top: 50%;
+              right: -2px;
+              border-top: 1px solid #2e2e2ead;
+              transform: rotate(7deg);
+            }
+
+            .new_price {
+              font-weight: 700;
+            }
+          }
+          .home_main_product_details_buy {
+            width: 50%;
+            text-align: center;
+            margin-top: -5px;
+
+            .btn_buy {
+              cursor: pointer;
+              color: #fff;
+              border: none;
+              background-color: #03b65d;
+              border-radius: 6px;
+              display: inline-block;
+              padding-top: 5px;
+              padding-bottom: 6px;
+              box-sizing: border-box;
+              margin: 0;
+              text-align: center;
+            }
+            .btn_basket {
+              cursor: pointer;
+              color: #fff;
+              border: none;
+              background-color: #fa9600;
+              border-radius: 6px;
+              padding-top: 5px;
+              padding-bottom: 6px;
+              margin-top: 3px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dots {
+  position: absolute;
+  bottom: 20px;
+  left: 47%;
+  text-align: center;
+}
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+
+.img_slide {
+  width: 100%;
+}
+
+@media (max-width: 969px) {
+  .home_main_all_products {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .home_main_title {
+    font-size: 24px;
+  }
+  .product_title {
+    font-size: 15px;
+  }
+  .old_price {
+    font-size: 12px;
+  }
+  .new_price {
+    font-size: 18px;
+  }
+  .btn_buy,
+  .btn_basket {
+    width: 85%;
+    font-size: 12px;
+  }
+  .home_main_product_wishlist {
+    font-size: 18px;
+  }
+}
+@media (min-width: 970px) {
+  .home_main_all_products {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+  }
+  .home_main_title {
+    font-size: 32px;
+  }
+  .product_title {
+    font-size: 19px;
+  }
+  .old_price {
+    font-size: 14px;
+  }
+  .new_price {
+    font-size: 20px;
+  }
+  .btn_buy,
+  .btn_basket {
+    width: 75%;
+    font-size: 13px;
+  }
+  .home_main_product_wishlist {
+    font-size: 22px;
+  }
+}
+@media (max-width: 767px) {
+  .container {
+    width: 100%;
+    .home_main {
+      .home_main_title {
+        font-size: 20px;
+        margin-top: 5px;
+      }
+      .home_main_all_products {
+        margin-top: 0%;
+        display: flex;
+
+        .home_main_product {
+          width: 100%;
+          margin: 0px 0px;
+          display: flex;
+          flex-flow: row wrap;
+          border: 1px solid #ebebeb;
+
+          position: relative;
+          .home_main_product_image {
+            width: 40%;
+            .product_image {
+              width: 100%;
+            }
+          }
+          .product_title {
+            width: 60%;
+            margin-top: 3%;
+            text-align: left;
+            font-family: SF Pro;
+          }
+          .home_main_product_wishlist {
+            position: absolute;
+            top: 54%;
+            right: 8%;
+          }
+          .home_main_product_details {
+            position: absolute;
+            height: 50%;
+            display: flex;
+            flex-flow: row wrap;
+            margin-top: 10px;
+            right: 10%;
+            top: 18%;
+            width: 50%;
+            .home_main_product_details_price {
+              width: 70%;
+              display: inline-flex;
+              align-items: center;
+              padding-top: 2%;
+              .old_price {
+                position: relative;
+                margin-right: 7px;
+              }
+              .old_price::before {
+                position: absolute;
+                content: "";
+                left: -2px;
+                top: 48%;
+                right: -2px;
+                border-top: 1px solid #2e2e2ead;
+                transform: rotate(7deg);
+              }
+
+              .new_price {
+                font-weight: 700;
+              }
+            }
+            .home_main_product_details_buy {
+              width: 80%;
+              height: 36%;
+
+              text-align: left;
+              margin-top: 7%;
+              display: flex;
+              justify-content: space-between;
+
+              .btn_buy {
+                cursor: pointer;
+                color: #fff;
+                width: 45%;
+                border: none;
+                background-color: #03b65d;
+                border-radius: 6px;
+                display: inline-block;
+                padding-top: 5px;
+                padding-bottom: 6px;
+                margin-right: 2%;
+                box-sizing: border-box;
+                margin: 0;
+                text-align: center;
+                font-size: 13px;
+              }
+              .btn_basket {
+                width: 45%;
+                cursor: pointer;
+                color: #fff;
+                border: none;
+                background-color: #fa9600;
+                border-radius: 6px;
+                padding-top: 5px;
+                padding-bottom: 6px;
+                margin-top: 0px;
+                text-align: center;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

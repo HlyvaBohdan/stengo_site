@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="products_head">
+        <button class="products_head_btn" type="button"
+            [textContent]="filterOpen || !filterOpenMobile ?'Фильтр':'Скрыть фильтр'" (click)="openfilter()"></button>
+        <button class="products_head_btn reset_filter_btn" type="button" (click)="resetfilter()">Сбросить
+            фильтр</button>
+        <p *ngIf="countProduct>0">Найдено: {{countProduct}} товаров </p>
+        <p *ngIf="countProduct == 0">По вашому запросу ничего не найдено! </p>
+    </div>
+    <div class="products_all">
+        <div class="products_all_filter" [ngClass]="{'openFilter':  filterOpen}"
+            [ngClass]="{'filterMobile': filterOpenMobile}">
+            <div class="filter_block">
+                <div class="filter_block_title">
+                    <p>Совместимость:</p>
+                </div>
+                <ul class="filter_list">
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="38/40mm" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="38/40mm"><span><a>Apple Watch 38mm/40mm</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="42/44mm" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="42/44mm"><span><a>Apple Watch 42mm/44mm</a> <i></i></span></label>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter_block">
+                <div class="filter_block_title">
+                    <p>Материал</p>
+                </div>
+                <ul class="filter_list">
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="silicone" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="silicone"><span><a>Силиконовый</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="siliconeNike" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="siliconeNike"><span><a>Силиконовый Nike</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="metal" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="metal"><span><a>Металлический</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="nylon" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="nylon"><span><a>Нейлоновый</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="leather" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="leather"><span><a>Кожанный</a> <i></i></span></label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="products_all_block" [ngStyle]="{'width':  !filterOpen ? '80%' : '100%'}">
+            <div class="products_all_block_main_product"
+                *ngFor="let product of userFilterProductFinal  | paginate: { itemsPerPage: 10, currentPage: p }">
+                <div class="products_all_block_main_product_image"
+                    [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+                    <a>
+                        <img class="product_image" [src]='product?.image' alt="">
+                    </a>
+                </div>
+                <div class="product_title"
+                    [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+                    <p>{{product?.nameUA}}</p>
+                </div>
+                <div class="products_all_block_main_product_details">
+                    <div class="products_all_block_main_product_details_price">
+                        <span class="old_price">{{product?.oldPrice}} <span style="font-size: 12px;">грн</span></span>
+                        <br>
+                        <span class="new_price">{{product?.price}}<span style="font-size: 12px;">грн</span></span>
+                    </div>
+                    <div class="products_all_block_main_product_details_buy">
+                        <input type="button" class="btn_buy" value="Купить" [routerLink]="[ '/basket']"
+                            (click)="addBasket(product)">
+                        <input type="button" class="btn_basket" value="В корзину" (click)="addBasket(product)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pagination-controls class="myPagination" (pageChange)="p = $event"></pagination-controls>
+</div>
+<app-products-viewed></app-products-viewed>

@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <p class="pCategory">Швидкі замовлення:</p>
+    </div>
+    <div class="card-body">
+      <hr>
+      <table class="table table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th scope="col" [class.active]="quickorder === 'id'" (click)="setOrder('id')">№
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col" [class.active]="quickorder === 'phone'" (click)="setOrder('phone')">Номер телефону
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col" [class.active]="quickorder === 'dateOrder'" (click)="setOrder('dateOrder')">Час замовлення
+                  <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+                </th>
+                <th scope="col">Фото продукту (Нажміть для переходу на сторінку продукту)
+                </th>
+                <th scope="col" >Видалення</th>
+              </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let order of quickOrders | orderBy: quickorder:reverse:'case-insensitive' let i=index">
+            <td>{{ i+1 }}</td>
+            <td>{{ order?.phone }}</td>
+            <td>{{ order.dateOrder |date:'dd MMMM, EEEE, HH:mm год' }}</td>
+            <td style="text-align: center;"><img [src]="order?.product.image" alt="" style="width: 100px; height: 100px;"[routerLink]="[ '/menu/'+order?.product.category.toLowerCase(), order?.product.subcategoryEN, order?.product.nameEN]"></td>
+            <td class="delete">
+              <input type="button" value="Видалити" class="btn btn-danger" (click)="deleteQuickOrder(order.id)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  

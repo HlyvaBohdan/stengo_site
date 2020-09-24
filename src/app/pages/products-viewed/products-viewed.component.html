@@ -1,0 +1,33 @@
+<div class="home_main" *ngIf="productsViewed?.length>0">
+    <div class="home_main_title">
+        <h2 >ПРОСМОТРЕННЫЕ ТОВАРЫ</h2>
+    </div>
+    <div class="home_main_all_products">
+        <div class="home_main_product" *ngFor="let product of productsViewed">
+            <div class="home_main_product_image">
+                <a >
+                    <img class="product_image"[src]='product?.image' alt="" [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+                </a>
+              
+            </div>
+            <div class="product_title" [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+                <p>{{product?.nameUA}}</p>
+            </div>
+              <!-- <div class="home_main_product_wishlist">
+                    <span class="far fa-heart"></span>
+                </div> -->
+             <div class="home_main_product_details">
+                 <div class="home_main_product_details_price">
+                     <span class="old_price">{{product?.oldPrice}}<span style="font-size: 12px;">грн</span></span>
+                     <br>
+                     <span class="new_price">{{product?.price}}<span style="font-size: 12px;">грн</span></span>
+
+                 </div>
+                 <div class="home_main_product_details_buy">
+                     <input type="button" class="btn_buy" value="Купить"[routerLink]="[ '/basket']" (click)="addBasket(product)">
+                     <input type="button" class="btn_basket" value="В корзину"(click)="addBasket(product)">
+                 </div>
+             </div>  
+    </div>
+    </div>
+</div>

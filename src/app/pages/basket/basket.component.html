@@ -1,0 +1,160 @@
+<div class="container">
+    <nav class="breadcrumbs"*ngIf="basket?.length>0 ">
+    <li>
+        <a href="/">
+            <span style="color: red;">stengo.com.ua</span>
+        </a>
+        <i>/</i>
+    </li>
+    <li>
+        <a href="">
+            <span>Корзина</span>
+        </a>
+        <i>/</i>
+    </li>
+
+</nav>
+<h1 class="page_name" *ngIf="basket?.length>0" [textContent]="orderComplete ? 'Спасибо за заказ!' :'Корзина'"></h1>
+<div class="empty_basket"*ngIf="basket?.length==0 && !orderComplete">
+    <p>Ваша корзина пустая</p>
+    <input type="button" value="За покупками!" class="empty_basket_btn" [routerLink]="[ '/home']">
+</div>
+
+
+<div class="basket_all">
+<div class="basket_summary" *ngIf="basket?.length>0">
+    <div class="basket_summary_all_products">
+        <div class="basket_summary_all_products_block" *ngFor="let product of basket">
+            <div class="basket_summary_all_products_block_image">
+                <img class="basket_image" [src]='product?.image' alt="">
+            </div>
+            <div class="basket_summary_all_products_block_info">
+               
+                    <a class="basket_summary_all_products_block_info_title">{{product?.nameUA}}</a>
+                <div class="basket_summary_all_products_block_info_add">
+                    <div class="basket_summary_all_products_block_info_add_count">
+                            <p class="count_p" *ngIf="!localItemMyProduct">Количество:</p>
+                            <div class="productCountWrapper" *ngIf="!localItemMyProduct">
+                                <span class="productCount lessProduct"(click)="productCount(product,false)"></span>
+                                <span>{{product?.count}}</span>
+                                <span class="productCount moreProduct update-cart-product" (click)="productCount(product,true)"></span>
+                            </div>     
+                    </div>
+                    <div class="basket_summary_all_products_block_info_add_price"*ngIf="!localItemMyProduct">
+                        <span class="new_price">{{product.price}}<span style="font-size: 12px;">грн</span></span>
+                    </div>
+                    
+                </div>
+                <button class="delete" (click)="deleteProductBasket(product)"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+
+   
+
+</div>
+<div class="basket_summary_products_total">
+    <p>Итого:</p>
+    <span class="new_price">{{totalPrice?.toFixed(0)}}<span style="font-size: 12px;">грн</span></span>
+    <div class="coupon">
+        <div class="inputElementWrapper">
+            <input class="inputElementItem" type="text" required [(ngModel)]="nameCoupon">
+            <span class="focus-border"><i></i></span>
+          </div>
+<input type="button" value="Ввести промокод" class="customer_buy btn_coupon" (click)="checkCoupon()">
+
+    </div>
+
+</div>
+</div>
+<form id="make-order-form" #orderForm="ngForm" novalidate (submit)="addOrder(orderForm)" *ngIf="!orderComplete && basket?.length>0">
+<div class="customer_details">
+    <div class="customer_info">
+        <p>Покупатель</p>
+        <div class="customer_info_form">
+            <div class="inputElementWrapper">
+                <input class="inputElementItem" ngModel name="userName" type="text" placeholder="Имя" required #name="ngModel">
+                <label>Имя*</label>
+                 <span class="focus-border"><i></i></span>
+              </div>
+              <div class="inputElementWrapper">
+                <input class="inputElementItem" ngModel name="userLastName" type="text" placeholder="Фамилия" required #name="ngModel">
+                <label>Фамилия*</label>
+                <span class="focus-border"><i></i></span>
+              </div>
+              <div class="inputElementWrapper">
+                <input class="inputElementItem"ngModel name="userPhone" #phone="ngModel" type="text" placeholder="Телефон" required #name="ngModel">
+                <label>Телефон*</label>
+                <span class="focus-border"><i></i></span>
+              </div>
+              <div class="inputElementWrapper">
+                <input class="inputElementItem" type="text" ngModel name="userEmail" placeholder="Емайл" required #name="ngModel">
+                <label>Емайл</label>
+                <span class="focus-border"><i></i></span>
+              </div>
+        </div>
+    </div>
+    <div class="customer_delivery">
+        <p>Способ доставки</p>
+        <div class="customer_delivery_radio">
+            <input class="radio_but" type="radio" id="radio" name="radio" checked value="Курєром по Львову (80грн)"  (click)="radioValue()">Курєром по Львову (80грн)
+            <label for="radio"></label>
+
+        </div>
+        <div class="customer_delivery_radio">
+            <input class="radio_but" type="radio" id="radio" name="radio" value="Самовывоз" (click)="radioValue()" >Самовывоз
+            <label for="radio"></label>
+        </div>
+        <div class="customer_delivery_radio">
+            <input class="radio_but" type="radio" id="radio" name="radio" value="Доставка в отделения Новой Почты" (click)="radioValue()" >Доставка в отделения Новой Почты
+            <label for="radio"></label>
+        </div>
+    </div>
+<input type="submit" [disabled]="orderForm.invalid" value="Оформить заказ" class="customer_buy">
+
+</div>
+</form>
+<div class="order_success" *ngIf="orderComplete && basket.length==0">
+    <div class="order_success_info">
+    <div class="customer_info_order">
+        <div class="customer_info_order_date_status">
+            <p>Заказ от: {{currentDate|date:'dd MMMM, EEEE, HH:mm' }}</p>
+            <p style="font-size: 16px;font-weight: 700; color: red;">Ожыдайте дзвонка оператора!</p>
+            <p style="font-size: 16px;font-weight: 700;">Cтатус заказа: в обработке</p>
+        </div>
+        <div class="customer_info_order_details"> 
+            <ul class="customer_info_order_details_ul">
+                <li *ngFor="let product of currentOrder">
+            <div class="customer_info_order_details_img">
+                <img class="profile_image" [src]='product?.image' alt="">
+            </div>
+            <div class="customer_info_order_details_title">
+                <p> {{product?.nameUA}}
+                   </p>
+
+            </div>
+            <div class="customer_info_order_details_price">
+                <span class="new_price">{{product?.price}} <span style="font-size: 12px;">грн</span></span>
+            </div>
+            <div class="customer_info_order_details_count">
+                <p>× {{product?.count}}</p>
+            </div>
+            <div class="customer_info_order_details_price_end">
+                <span class="new_price">{{product?.price*product?.count}} <span style="font-size: 12px;">грн</span></span>
+
+            </div>
+        </li>
+              </ul>
+              <div class="customer_info_order_total">
+                <span> Скидка: {{salePrice?.toFixed(0)}}<span style="font-size: 12px;">грн</span></span>
+                </div>
+<div class="customer_info_order_total">
+<span> Заказ на суму: {{currentTotalPrice?.toFixed(0)}}<span style="font-size: 12px;">грн</span></span>
+</div>
+        </div>
+    </div>
+</div>
+<input type="button" value="На главную" class="go_home" [routerLink]="[ '/home']" (click)="goHome()">
+
+</div>
+</div>
+</div>

@@ -1,0 +1,33 @@
+thead th {
+    cursor: pointer;
+    margin-right: 15px;
+    margin-left: 15px;
+  
+    span {
+      visibility: hidden;
+    }
+  
+    &.active {
+      color: #000;
+  
+      span {
+        visibility: visible;
+      }
+    }
+  }
+
+  .pCategory {
+    margin-top: 6px;
+    margin-bottom: 0px;
+    margin-left: 15px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .table thead th {
+    vertical-align: top;
+    text-align: center;
+  }
+  .table-active {
+    line-height: 15px;
+  }
+  

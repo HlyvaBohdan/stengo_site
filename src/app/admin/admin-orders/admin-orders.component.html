@@ -1,0 +1,118 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <p class="pProduct">Редагування замовлень</p>
+    </div>
+    <div class="card-body">
+      <input type="text" class="form-control" [(ngModel)]="nameOrder" name="nameOrder" placeholder="шукати...">
+      <hr>
+      <table class="table table-bordered">
+        <thead>
+          <tr class="table-active">
+            <th scope="col" [class.active]="order === 'id'" (click)="setOrder('id')">№
+              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+            </th>
+            <th scope="col" [class.active]="order === 'userPhone'" (click)="setOrder('userPhone')">Номер телефону
+              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+            </th>
+            <th scope="col" [class.active]="order === 'totalPayment'" (click)="setOrder('totalPayment')">Сума
+              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+            </th>
+            <th scope="col" [class.active]="order === 'dateOrder'" (click)="setOrder('dateOrder')">Час замовлення
+              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+            </th>
+            <th scope="col" [class.active]="order === 'status'" (click)="setOrder('status')">Статус
+              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+            </th>
+            <th scope="col">Деталі</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of adminOrders |searchOrder:nameOrder |orderBy: order:reverse:'case-insensitive'  let i = index">
+            <td>{{i+1 }}</td>
+            <td>{{ order.userPhone }}</td>
+            <td>{{ order.totalPayment}} грн</td>
+            <td>{{ order.dateOrder |date:'dd MMMM, EEEE, HH:mm год' }}</td>
+            <td>{{ order.status}}</td>
+            <td class="edit">
+              <input *ngIf="order.status=='В обробці'" type="button" value="Детально" class="btn btn-success"
+                (click)="openDetailsModal(order,modal1)">
+              <input *ngIf="order.status=='Прийнято'" type="button" value="Завершити" class="btn btn-success"
+                (click)="completeOrder(order)">
+              <input *ngIf="order.status=='Завершено' || order.status=='Відхилено'" type="button" value="Видалити"
+                class="btn btn-danger" (click)="deleteOrder(order)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <ng-template #modal1>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Деталі замовлення</h4>
+    </div>
+    <div class="modal-body">
+      <h6 class="modal-title pull-left">Дані одержувача</h6>
+      <table class="table table-bordered">
+        <thead>
+          <tr class="table-active">
+            <th>Імя</th>
+            <th style="text-align: center;">Прізвище</th>
+            <th>Телефон</th>
+            <th>Спосіб доставки</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="form-control" [(ngModel)]="orderUserName" name="orderUserName"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="orderUserLastName" name="orderUserLastName"></td>
+            <td> <input type="text" class="form-control" [(ngModel)]="orderPhone" name="orderPhone"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="orderMethodOfDelivery" name="orderMethodOfDelivery"></td>
+          </tr>
+        </tbody>
+      </table>
+      <h6 class="modal-title pull-left">Замовлення</h6>
+      <table class="table table-bordered">
+        <thead>
+          <tr class="table-active">
+            <th scope="col">Категорія</th>
+            <th scope="col">Підкатегорія</th>
+            <th scope="col">Назва </th>
+            <th scope="col">Совмістимість </th>
+            <th scope="col">Кількість</th>
+            <th scope="col">Колір</th>
+            <th scope="col">Ціна</th>
+            <th scope="col">Картинка</th>
+            <th scope="col">Видалення</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orderDetails">
+            <td>{{ order.category}}</td>
+            <td>{{ order.subcategory }}</td>
+            <td>{{ order.nameUA }}</td>
+            <td>{{ order.compability }}</td>
+            <td>
+              <div class="productCountWrapper">
+                <span class="productCount lessProduct" (click)="productCount(order,false)"></span>
+                <input class="product-qty" maxlength="3" type="text" [value]="order?.count">
+                <span class="productCount moreProduct update-cart-product" (click)="productCount(order,true)"></span>
+              </div>
+            </td>
+            <td>{{ order.color }}</td>
+            <td>{{ order.price }}</td>
+            <td><img [src]="order.image" alt="" style="width: 50px; height: 50px;"></td>
+            <td class="delete">
+              <input type="button" value="Видалити" class="btn btn-danger" (click)="deleteProductOrder(order)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h6 class="modal-title pull-left">Загальна сума: {{orderPayment}}грн</h6>
+      <div>
+        <input type="button" value="Редагувати" class="btn btn-warning mt-1" (click)="editOrder('hideModal')">
+        <input type="button" value="Прийняти" class="btn btn-success mt-1" (click)="changeOrderStatus(true)">
+        <input type="button" value="Відхилити" class="btn btn-danger mt-1" (click)="changeOrderStatus(false)">
+      </div>
+    </div>
+  </ng-template>
