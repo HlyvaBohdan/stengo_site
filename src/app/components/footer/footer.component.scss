@@ -46,12 +46,12 @@ footer {
             width: 15%;
             color: white;
             text-align: center;
-            margin-top: 45px; 
+            margin-top: 45px;
         }
     }
 }
 
-.fa-mobile-alt{
+.fa-mobile-alt {
     margin-right: 5px;
 }
 .fab {
@@ -62,28 +62,27 @@ footer {
 
 li {
     padding: 5px;
-    &:hover{
+    &:hover {
         cursor: pointer;
     }
-    &:focus{
+    &:focus {
         outline: none;
     }
 }
 
-@media (min-width:768px){
-    .container{
+@media (min-width: 768px) {
+    .container {
         font-size: 14px;
     }
 }
 
-@media (min-width:969px){
-    .container{
+@media (min-width: 969px) {
+    .container {
         font-size: 16px;
     }
 }
 
-
-@media (min-width:320px) and (max-width:767px){
+@media (min-width: 320px) and (max-width: 767px) {
     footer {
         width: 100%;
         background-color: black;
@@ -95,12 +94,12 @@ li {
             margin: 0 auto;
             width: 100%;
             height: fit-content;
-    font-size: 12px;
+            font-size: 12px;
             display: flex;
             flex-flow: column wrap;
-    
+
             .logo {
-               display: none;
+                display: none;
             }
             .catalog {
                 width: 100%;
@@ -127,10 +126,10 @@ li {
                 width: 100%;
                 color: white;
                 text-align: center;
-                margin-top: 10px; 
+                margin-top: 10px;
             }
         }
-        .fab{
+        .fab {
             font-size: 20px;
         }
     }

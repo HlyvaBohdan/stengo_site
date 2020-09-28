@@ -1,6 +1,3 @@
-import { ICategory } from './category.interface';
-import { ISubcategory } from './subcategory.interface';
-
 export interface IProduct{
     id: number;
     category: string;
@@ -11,9 +8,10 @@ export interface IProduct{
     description: string;
     compability?: string;
     color?: string;
+    secondColor?: string;
     material?: string;
     additional?: string;
-    oldPrice: number;
+    oldPrice?: number;
     price: number;
     top: boolean;
     sale: boolean;

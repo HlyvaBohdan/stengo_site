@@ -41,7 +41,7 @@
         .home_main_product_details {
           height: 80px;
           display: flex;
-          
+
           .home_main_product_details_price {
             width: 50%;
             text-align: center;
@@ -97,20 +97,14 @@
     }
   }
 }
-
-/* Slideshow container */
 .slideshow-container {
   max-width: 1000px;
   position: relative;
   margin: auto;
 }
-
-/* Hide the images by default */
 .mySlides {
   display: none;
 }
-
-/* Next & previous buttons */
 .prev,
 .next {
   cursor: pointer;
@@ -126,19 +120,14 @@
   border-radius: 0 3px 3px 0;
   user-select: none;
 }
-
-/* Position the "next button" to the right */
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
 }
-
-/* On hover, add a black background color with a little bit see-through */
 .prev:hover,
 .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
-
 .dots {
   position: absolute;
   bottom: 20px;
@@ -155,14 +144,10 @@
   display: inline-block;
   transition: background-color 0.6s ease;
 }
-
 .active,
 .dot:hover {
   background-color: #717171;
 }
-
-/* Fading animation */
-
 .img_slide {
   width: 100%;
 }
@@ -195,6 +180,52 @@
     font-size: 18px;
   }
 }
+.myPagination::ng-deep {
+  display: block;
+  margin: 0 auto;
+  font-size: 15px;
+  .current {
+    background: #ff9800c2;
+  }
+  .ngx-pagination,
+  .current {
+    border-radius: 50%;
+    text-align: center;
+    a {
+      color: #4b3c20;
+      width: 2.2em;
+      height: 2.2em;
+    }
+    a:hover,
+    button:hover {
+      background: #ff9800c2;
+      border-radius: 50%;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a:focus,
+    button:focus {
+      outline: none;
+      background: #ff9800c2;
+      border-radius: 50%;
+    }
+    li {
+      width: 2.2em;
+      height: 2.2em;
+      text-align: center;
+      line-height: 1.9em;
+    }
+  }
+
+  ul {
+    .pagination-previous,
+    .pagination-next,
+    .disabled {
+      display: none;
+    }
+  }
+}
+
 @media (min-width: 970px) {
   .home_main_all_products {
     display: flex;
@@ -222,6 +253,7 @@
     font-size: 22px;
   }
 }
+
 @media (max-width: 767px) {
   .container {
     width: 100%;
@@ -240,7 +272,6 @@
           display: flex;
           flex-flow: row wrap;
           border: 1px solid #ebebeb;
-
           position: relative;
           .home_main_product_image {
             width: 40%;
@@ -286,7 +317,6 @@
                 border-top: 1px solid #2e2e2ead;
                 transform: rotate(7deg);
               }
-
               .new_price {
                 font-weight: 700;
               }
@@ -294,12 +324,10 @@
             .home_main_product_details_buy {
               width: 80%;
               height: 36%;
-
               text-align: left;
               margin-top: 7%;
               display: flex;
               justify-content: space-between;
-
               .btn_buy {
                 cursor: pointer;
                 color: #fff;

@@ -13,8 +13,9 @@
             <i>/</i>
         </li>
         <li>
-            <a [routerLink]="[ '/menu', userProduct?.category.toLowerCase(),userProduct?.subcategoryEN,userProduct?.nameEN]">
-                <span>  {{userProduct?.nameUA}} </span>
+            <a
+                [routerLink]="[ '/menu', userProduct?.category.toLowerCase(),userProduct?.subcategoryEN,userProduct?.nameEN]">
+                <span> {{userProduct?.nameUA}} </span>
             </a>
         </li>
     </nav>
@@ -24,7 +25,7 @@
         </div>
         <div class="block_images_add">
             <img class="block_images_add_img" [src]="userProduct?.image" (click)="checkImage('main')" alt="">
-            <img class="block_images_add_img" [src]="userProduct?.imageAdd" (click)="checkImage('additional')"alt="">
+            <img class="block_images_add_img" [src]="userProduct?.imageAdd" (click)="checkImage('additional')" alt="">
         </div>
     </div>
     <div class="block_info">
@@ -37,7 +38,8 @@
                     <div class="block_info_main_info_oneclick_l">Купить в 1 клик: </div>
                     <div class="block_info_main_info_oneclick_r">
                         <form class="block_info_main_info_oneclick_r_form">
-                            <input type="text" name="phone" value=" "mask="(000)-000-00-00" prefix="+38" placeholder="Введите телефон" [(ngModel)]="phoneQuick">
+                            <input type="text" name="phone" value=" " mask="(000)-000-00-00" prefix="+38"
+                                placeholder="Введите телефон" [(ngModel)]="phoneQuick">
                             <button type="button" (click)="addQuickOrder(userProduct)">Заказать</button>
                         </form>
                     </div>
@@ -45,7 +47,13 @@
                 <div class="block_info_main_info_variables" *ngIf="color">
                     <p>Цвет</p>
                     <div class="block_info_main_info_variables_color">
-                    <a class="block_info_main_info_variables_color_a" *ngFor="let block of smallBlockFinal" [ngStyle]="{'background-color': block.color}"[routerLink]="[ '/menu', block?.category.toLowerCase(),block?.subcategoryEN,block?.nameEN]" ></a>
+                        <a class="block_info_main_info_variables_color_a" *ngFor="let block of smallBlockFinal"
+                            [routerLink]="[ '/menu', block?.category.toLowerCase(),block?.subcategoryEN,block?.nameEN]">
+                            <div [ngClass]="block?.secondColor!='' ? 'two_color_first' : 'color_block'"
+                                [ngStyle]="{'background-color': block?.color}"></div>
+                            <div [ngClass]="block?.secondColor!='' ? 'two_color_second' : 'color_hide'"
+                                [ngStyle]="{'background-color': block?.secondColor}"></div>
+                        </a>
                     </div>
                 </div>
                 <div class="block_info_main_info_add">
@@ -59,53 +67,50 @@
                     </div>
                 </div>
                 <div class="block_info_main_info_add_price">
-                    <span class="old_price">{{userProduct?.oldPrice}}<span style="font-size: 12px;">грн</span></span>
+                    <span *ngIf="userProduct?.oldPrice" class="old_price">{{userProduct?.oldPrice}}<span
+                            style="font-size: 12px;">грн</span></span>
                     <br>
                     <span class="new_price">{{userProduct?.price}} <span style="font-size: 12px;">грн</span></span>
-
                 </div>
-                <input class="block_info_main_info_btn_buy" type="button" value="Добавить в корзину" (click)="addBasket(userProduct)">
+                <input class="block_info_main_info_btn_buy" type="button" value="Добавить в корзину"
+                    (click)="addBasket(userProduct)">
             </div>
             <div class="block_info_delivery_info">
                 <div class="block_info_delivery_info_first">
-                    <div class="block_info_delivery_info_first_title block_info_d"><i class="fas fa-truck" ></i>Доставка</div>
+                    <div class="block_info_delivery_info_first_title block_info_d"><i class="fas fa-truck"></i>Доставка
+                    </div>
                     <ul>
                         <li>Самовывоз<br><span>Забрать сегодня, Бесплатно</span></li>
                         <li>Доставка по Львову - <br><span>от 100 грн</span></li>
                         <li>Новая Почта<br><span>от 69 грн</span>
                         </li>
-
-
                     </ul>
                 </div>
                 <div class="block_info_delivery_info_second">
-                    <div class="block_info_delivery_info_second_title block_info_d"><i class="fas fa-wallet"></i>Оплата</div>
+                    <div class="block_info_delivery_info_second_title block_info_d"><i class="fas fa-wallet"></i>Оплата
+                    </div>
                     <ul>
                         <li>Перевод с VISA/MasterCard</li>
                         <li>Наличными при получении </li>
-                        
                     </ul>
                 </div>
                 <div class="block_info_delivery_info_third">
-                    <div class="block_info_delivery_info_third_title block_info_d"><i class="fas fa-shield-alt"></i>Гарантия</div>
+                    <div class="block_info_delivery_info_third_title block_info_d"><i
+                            class="fas fa-shield-alt"></i>Гарантия</div>
                     <ul>
                         <li>Возврат или обмен на протяжении 14 дней</li>
-                        
-                        
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 <div id="myModal" class="modal1">
     <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-         <h5>Спасибо! Ожыдайте дзвонка оператора!</h5>
-         <input type="button" value="На главную" class="go_home" [routerLink]="[ '/home']" (click)="goHome()">
-
-          </div>
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h5>Спасибо! Ожыдайте дзвонка оператора!</h5>
+        <input type="button" value="На главную" class="go_home" [routerLink]="[ '/home']" (click)="goHome()">
     </div>
-  
+</div>
+
 <app-products-viewed></app-products-viewed>

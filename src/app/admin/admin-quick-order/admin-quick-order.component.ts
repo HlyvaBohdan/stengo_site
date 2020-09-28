@@ -8,10 +8,10 @@ import { IQuickorder } from '../../shared/interfaces/quickorder.interface ';
   styleUrls: ['./admin-quick-order.component.scss']
 })
 export class AdminQuickOrderComponent implements OnInit {
-  quickOrders:Array<IQuickorder>;
+  quickOrders: Array<IQuickorder>;
   reverse: boolean = false;
   quickorder: string = 'phone';
-  constructor( private orderService:OrderService) { }
+  constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.adminFirebaseQuickOrders()
@@ -38,5 +38,5 @@ export class AdminQuickOrderComponent implements OnInit {
     }
     this.quickorder = value;
   }
-  
+
 }

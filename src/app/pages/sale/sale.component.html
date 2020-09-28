@@ -1,7 +1,7 @@
 <div class="container">
     <div class="products_head">
         <button class="products_head_btn" type="button"
-            [textContent]="filterOpen || !filterOpenMobile ?'Фильтр':'Скрыть фильтр'" (click)="openfilter()"></button>
+            [textContent]="!filterOpenMobile || filterOpen ?'Фильтр':'Скрыть фильтр'" (click)="openfilter()"></button>
         <button class="products_head_btn reset_filter_btn" type="button" (click)="resetfilter()">Сбросить
             фильтр</button>
         <p *ngIf="countProduct>0">Найдено: {{countProduct}} товаров </p>
@@ -16,9 +16,9 @@
                 </div>
                 <ul class="filter_list">
                     <li class="filter_list_li">
-                        <input type="radio" name="category" id="appleWatch" style="display: none;"
+                        <input type="radio" name="category" id="Apple Watch" style="display: none;"
                             (change)='changeInput($event)'>
-                        <label for="appleWatch"><span><a>Apple Watch</a> <i></i></span></label>
+                        <label for="Apple Watch"><span><a>Apple Watch</a> <i></i></span></label>
                     </li>
                     <li class="filter_list_li">
                         <input type="radio" name="category" id="iphone" style="display: none;"

@@ -37,8 +37,9 @@ export class ProductsViewedComponent implements OnInit {
       localStorage.setItem('myProductViewed', JSON.stringify(this.productsViewed));
     })
   }
-  
+
   addBasket(product: IProduct): void {
     this.orderService.addBasketService(product)
   }
+
 }

@@ -13,9 +13,10 @@ export class Product implements IProduct {
         public description: string,
         public compability: string,
         public color: string,
+        public secondColor: string,
         public material: string,
         public additional: string,
-        public oldPrice:number,
+        public oldPrice: number = null,
         public price: number,
         public top: boolean,
         public sale: boolean,
@@ -23,5 +24,5 @@ export class Product implements IProduct {
         public imageAdd: string,
         public statusWish: boolean = false,
         public count: number = 1,
-    ) {}
+    ) { }
 }

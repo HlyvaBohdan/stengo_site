@@ -1,174 +1,250 @@
 <div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <p class="pProduct">Редагування продуктів</p>
-      <button class="btn btn-dark" (click)="openModal(modal1)">Добавити</button>
-    </div>
-    <div class="card-body">
-      <input type="text" class="form-control" [(ngModel)]="nameProduct" name="nameProduct" placeholder="шукати...">
-      <hr>
-      <table class="table table-bordered">
-        <thead>
-          <tr class="table-active">
-            <th scope="col" [class.active]="product === 'id'" (click)="setProduct('id')">№
-              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
-            </th>
-            <th scope="col" [class.active]="product === 'category'" (click)="setProduct('category')">Категорія
-              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
-            </th>
-            <th scope="col" [class.active]="product === 'subcategory'" (click)="setProduct('subcategory')">Підкатегорія
-                <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
-              </th>
-            <th scope="col" [class.active]="product === 'nameEN'" (click)="setProduct('nameEN')">Назва
-              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
-            </th>
-            <th scope="col" [class.active]="product === 'compability'" (click)="setProduct('compability')">Совмістимість
-              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
-            </th>
-            <th scope="col" [class.active]="product === 'price'" (click)="setProduct('price')">Ціна
-              <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
-            </th>
-            
-            <th scope="col">Картинка</th>
-            <th scope="col">Редагування</th>
-            <th scope="col">Видалення</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let prod of adminProduct |searchProduct:nameProduct | orderBy: product:reverse:'case-insensitive' let i=index">
-            <td>{{i+1}}</td>
-            <td>{{ prod.category}}</td>
-            <td>{{ prod.subcategory }}</td>
-            <td>{{ prod.nameUA }}</td>
-            <td>{{ prod.compability }}</td>
-            <td>{{ prod.price }}</td>
-            <td> <img [src]="prod.image" alt="" style="width: 50px; height: 50px;"></td>
-            <td class="edit">
-              <input type="button" value="Редагувати" class="btn btn-warning" (click)="openModal1(modal1,prod)">
-            </td>
-            <td class="delete">
-              <input type="button" value="Видалити" class="btn btn-danger" (click)="openModal2(modal2,prod.id)">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="card-header d-flex justify-content-between">
+    <p class="pProduct">Редагування продуктів</p>
+    <button class="btn btn-dark" (click)="openModal(modal1)">Добавити</button>
   </div>
-  
-  <ng-template #modal1>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left" [textContent]="!editStatus ?'Добавлення товару':'Редагування товару' ">Редагування
-        товарів</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="resetModel()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="categoryChoose">Виберіть категорію</label>
-          <select class="form-control" [(ngModel)]="categoryName" name="categoryName" (change)="setCategory()"
-            id="categoryChoose">
-            <option *ngFor="let category of categories">
-              {{ category?.nameUA }}
-            </option>
-          </select>
-          <label for="categoryChoose">Виберіть підкатегорію</label>
-          <select class="form-control" [(ngModel)]="subcategoryName" name="subcategoryName" (change)="setSubcategory()"
-            id="categoryChoose">
-            <option *ngFor="let subcategory of subcategories">
-              {{ subcategory?.nameUA }}
-            </option>
-          </select>
-          <div class="form-group mt-2">
-            <label for="productNameEN">Назва EN</label>
-            <input type="text" class="form-control" id="productNameEN" [(ngModel)]="productNameEN" name="productNameEN">
-          </div>
-          <div class="form-group">
-            <label for="productNameUA">Назва УКР</label>
-            <input type="text" class="form-control" id="productNameUA" [(ngModel)]="productNameUA" name="productNameUA">
-          </div>
-          <div class="form-group">
-            <label for="productDescription">Опис</label>
-            <textarea [(ngModel)]="productDescription" name="productDescription" id="productDescription"
-              class="form-control" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="productDescription">Совмістимість</label>
-            <input type="text" class="form-control" id="productCompability"[(ngModel)]="productCompability" name="productCompability" 
-            >
-          </div>
-          <div class="form-group">
-            <label for="productDescription">Колір</label>
-            <input type="text" class="form-control" id="productColor"[(ngModel)]="productColor" name="productColor" id="productColor"
-            >
-          </div>
-          <div class="form-group">
-            <label for="productDescription">Матеріал</label>
-            <input type="text" class="form-control" id="productMaterial"[(ngModel)]="productMaterial" name="productMaterial" id="productMaterial"
-            >
-          </div>
-          <div class="d-flex justify-content-between"></div>
-          <div class="form-group">
-            <label for="productWeight">Додатково</label>
-            <input type="text" class="form-control" id="productAdditional" [(ngModel)]="productAdditional" name="productAdditional">
-          </div>
-          <div class="form-group">
-            <label for="productPrice">Стара ціна</label>
-            <input type="number" class="form-control" id="productOldPrice" [(ngModel)]="productOldPrice" name="productOldPrice">
-          </div>
-          <div class="form-group">
-            <label for="productPrice">Нова ціна</label>
-            <input type="number" class="form-control" id="productPrice" [(ngModel)]="productPrice" name="productPrice">
-          </div>
-          <div class="form-group">
-            <label for="productPrice">ТОП продаж</label>
-            <input type="checkbox" class="form-control" id="productTop"(click)="setAttr()">
-          </div>
-          <div class="form-group">
-            <label for="productPrice">Sale</label>
-            <input type="checkbox" class="form-control" id="productSale"(click)="setAttr()">
-          </div>
-        <p *ngIf="editStatus">При потребі, Ви можете загрузити нову картинку</p>
-            <div class="custom-file mb-3" style="overflow: hidden;" *ngIf="!editStatus">
-              <input (change)="uploadFile($event)" placeholder="Картинка основна" type="file" class="custom-file-input" id="productImage" required>
-              <label class="custom-file-label" for="productImage">Виберіть зображення...</label>
-            </div>
+  <div class="card-body">
+    <input type="text" class="form-control" [(ngModel)]="nameProduct" name="nameProduct" placeholder="шукати...">
+    <hr>
+    <table class="table table-bordered">
+      <thead>
+        <tr class="table-active">
+          <th scope="col" [class.active]="product === 'id'" (click)="setProduct('id')">№
+            <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+          </th>
+          <th scope="col" [class.active]="product === 'category'" (click)="setProduct('category')">Категорія
+            <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+          </th>
+          <th scope="col" [class.active]="product === 'subcategory'" (click)="setProduct('subcategory')">Підкатегорія
+            <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+          </th>
+          <th scope="col" [class.active]="product === 'nameEN'" (click)="setProduct('nameEN')">Назва
+            <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+          </th>
+          <th scope="col" [class.active]="product === 'compability'" (click)="setProduct('compability')">Совмістимість
+            <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+          </th>
+          <th scope="col" [class.active]="product === 'price'" (click)="setProduct('price')">Ціна
+            <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+          </th>
 
-            <div class="progress mb-3" *ngIf="productImage ==''">
-              <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0"
-                aria-valuemax="100" [style.width]="(uploadProgress | async) + '%'"></div>
-            </div>
-         
-          <div class="image mb-3" *ngIf="imageStatus" style="width: 200px; height: 200px;">
-            <p>Основна картинка</p>
-            <img [src]="productImage" alt="" style="width: 100%; height: 100%;">
-          </div>
-          <div class="progress mb-3" *ngIf="productImage !='' && productImageAdd ==''">
-            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0"
-              aria-valuemax="100" [style.width]="(uploadProgressAdd | async) + '%'"></div>
-          </div>
-       
-        <div class="image mb-3" *ngIf="productImageAdd !='' && !editStatus" style="width: 200px; height: 200px;">
+          <th scope="col">Картинка</th>
+          <th scope="col">Редагування</th>
+          <th scope="col">Видалення</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let prod of adminProduct |searchProduct:nameProduct | orderBy: product:reverse:'case-insensitive' let i=index">
+          <td>{{i+1}}</td>
+          <td>{{ prod.category}}</td>
+          <td>{{ prod.subcategory }}</td>
+          <td>{{ prod.nameUA }}</td>
+          <td>{{ prod.compability }}</td>
+          <td>{{ prod.price }}</td>
+          <td> <img [src]="prod.image" alt="" style="width: 50px; height: 50px;"></td>
+          <td class="edit">
+            <input type="button" value="Редагувати" class="btn btn-warning" (click)="openModal1(modal1,prod)">
+          </td>
+          <td class="delete">
+            <input type="button" value="Видалити" class="btn btn-danger" (click)="openModal2(modal2,prod.id)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #modal1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" [textContent]="!editStatus ?'Добавлення товару':'Редагування товару' ">Редагування
+      товарів</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="resetModel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="categoryChoose">Виберіть категорію</label>
+        <select class="form-control" [(ngModel)]="categoryName" name="categoryName" (change)="setCategory()"
+          id="categoryChoose">
+          <option *ngFor="let category of categories">
+            {{ category?.nameUA }}
+          </option>
+        </select>
+        <label for="categoryChoose">Виберіть підкатегорію</label>
+        <select class="form-control" [(ngModel)]="subcategoryName" name="subcategoryName" (change)="setSubcategory()"
+          id="categoryChoose">
+          <option *ngFor="let subcategory of subcategories">
+            {{ subcategory?.nameUA }}
+          </option>
+        </select>
+        <div class="form-group mt-2">
+          <label for="productNameEN">Назва EN</label>
+          <input type="text" class="form-control" id="productNameEN" [(ngModel)]="productNameEN" name="productNameEN">
+        </div>
+        <div class="form-group">
+          <label for="productNameUA">Назва УКР</label>
+          <input type="text" class="form-control" id="productNameUA" [(ngModel)]="productNameUA" name="productNameUA">
+        </div>
+        <div class="form-group">
+          <label for="productDescription">Опис</label>
+          <textarea [(ngModel)]="productDescription" name="productDescription" id="productDescription"
+            class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="productCompability">Совмістимість</label>
+          <select *ngIf="categoryName=='Iphone'" class="form-control" [(ngModel)]="productCompability"
+            name="productCompability" id="productCompability">
+            <option>6/6s</option>
+            <option>6+/6s+</option>
+            <option>7/8</option>
+            <option>7+/8+</option>
+            <option>x/xs</option>
+            <option>xr</option>
+            <option>xsmax</option>
+            <option>11</option>
+            <option>11pro</option>
+            <option>11promax</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='cases_airpods'" class="form-control" [(ngModel)]="productCompability"
+            name="productCompability" id="productCompability">
+            <option>airpods 1/2</option>
+            <option>airpods pro</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='cases_macbook'" class="form-control" [(ngModel)]="productCompability"
+            name="productCompability" id="productCompability">
+            <option>macbook air 11</option>
+            <option>macbook pro/air 13</option>
+            <option>macbook pro/air 15</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='cases_ipad'" class="form-control" [(ngModel)]="productCompability"
+            name="productCompability" id="productCompability">
+            <option>ipad pro 9.7</option>
+            <option>ipad pro 11</option>
+            <option>ipad pro 12.9</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='case_apple'" class="form-control" [(ngModel)]="productCompability"
+            name="productCompability" id="productCompability">
+            <option>38mm</option>
+            <option>40mm</option>
+            <option>42mm</option>
+            <option>44mm</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="productColor">Колір</label>
+          <input type="text" class="form-control" id="productColor" [(ngModel)]="productColor" name="productColor">
+        </div>
+        <div class="form-group">
+          <label for="productColorSecond">Колір додатковий (при наявності)</label>
+          <input type="text" class="form-control" id="productColorSecond" [(ngModel)]="productColorSecond"
+            name="productColorSecond">
+        </div>
+        <div class="form-group">
+          <label for="productMaterial">Матеріал</label>
+          <select *ngIf="subcategoryNameEN=='straps'" class="form-control" [(ngModel)]="productMaterial"
+            name="productMaterial" (change)="setMaterial()" id="productMaterial">
+            <option>silicone</option>
+            <option>siliconenike</option>
+            <option>metal</option>
+            <option>nylon</option>
+            <option>leather</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='glasses_apple'" class="form-control" [(ngModel)]="productMaterial"
+            name="productMaterial" (change)="setMaterial()" id="productMaterial">
+            <option>glass</option>
+            <option>hydrogel</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='case_apple'||'cases'" class="form-control" [(ngModel)]="productMaterial"
+            name="productMaterial" (change)="setMaterial()" id="productMaterial">
+            <option>plastic</option>
+            <option>silicone</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='doc_station'" class="form-control" [(ngModel)]="productMaterial"
+            name="productMaterial" id="productMaterial">
+            <option>wooden</option>
+            <option>plastic</option>
+            <option>metal</option>
+          </select>
+        </div>
+        <div class="d-flex justify-content-between"></div>
+        <div class="form-group">
+          <label for="productAdditional">Додатково</label>
+          <input *ngIf="subcategoryNameEN!='cases'" type="text" class="form-control" id="productAdditional"
+            [(ngModel)]="productAdditional" name="productAdditional">
+          <select *ngIf="subcategoryNameEN=='cases'" class="form-control" [(ngModel)]="productAdditional"
+            name="productAdditional" id="productAdditional">
+            <option>с лого</option>
+            <option>с рисунком</option>
+          </select>
+          <select *ngIf="subcategoryNameEN=='charger'" class="form-control" [(ngModel)]="productAdditional"
+            name="productAdditional" id="productAdditional">
+            <option>зарядка</option>
+            <option>lightning</option>
+            <option>aux</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="productOldPrice">Стара ціна</label>
+          <input type="number" class="form-control" id="productOldPrice" [(ngModel)]="productOldPrice"
+            name="productOldPrice">
+        </div>
+        <div class="form-group">
+          <label for="productPrice">Нова ціна</label>
+          <input type="number" class="form-control" id="productPrice" [(ngModel)]="productPrice" name="productPrice">
+        </div>
+        <div class="form-group">
+          <label for="productTop">ТОП продаж</label>
+          <input type="checkbox" class="form-control" id="productTop" (click)="setAttr()">
+        </div>
+        <div class="form-group">
+          <label for="productSale">Sale</label>
+          <input type="checkbox" class="form-control" id="productSale" (click)="setAttr()">
+        </div>
+        <p *ngIf="editStatus">При потребі, Ви можете загрузити додаткову картинку</p>
+        <div class="custom-file mb-3" style="overflow: hidden;">
+          <input (change)="uploadFile($event)" placeholder="Картинка основна" type="file" class="custom-file-input"
+            id="productImage" required>
+          <label class="custom-file-label" for="productImage">Виберіть зображення...</label>
+        </div>
+
+        <div class="progress mb-3" *ngIf="productImage ==''">
+          <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0"
+            aria-valuemax="100" [style.width]="(uploadProgress | async) + '%'"></div>
+        </div>
+
+        <div class="image mb-3" *ngIf="imageStatus" style="width: 200px; height: 200px;">
+          <p>Основна картинка</p>
+          <img [src]="productImage" alt="" style="width: 100%; height: 100%;">
+        </div>
+        <div class="progress mb-3" *ngIf="productImage !='' && productImageAdd ==''">
+          <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0"
+            aria-valuemax="100" [style.width]="(uploadProgressAdd | async) + '%'"></div>
+        </div>
+
+        <div class="image mb-3" *ngIf="productImageAdd !=''" style="width: 200px; height: 200px;">
           <p>Другорядна картинка</p>
           <img [src]="productImageAdd" alt="" style="width: 100%; height: 100%;">
         </div>
 
 
-          
 
-          <button class="btn btn-success" (click)="addProduct()" [ngClass]="!editStatus ? 'btn-dark' :'btn-light'"
-            [textContent]="!editStatus ? 'Добавити' : 'Зберегти зміни'"></button>
-        </div>
-      </form>
-    </div>
-  </ng-template>
-  <ng-template #modal2>
-    <div class="modal-body change">
-      <form>
-        <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-secondary mt-2 mr-2 change2" (click)="resetModel()">Відміна</button>
-          <button type="button" class="btn btn-danger mt-2 change2" (click)="deleteProduct(modal2)">Видалити</button>
-        </div>
-      </form>
-    </div>
-  </ng-template>
+
+        <button class="btn btn-success" (click)="addProduct()" [ngClass]="!editStatus ? 'btn-dark' :'btn-light'"
+          [textContent]="!editStatus ? 'Добавити' : 'Зберегти зміни'"></button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #modal2>
+  <div class="modal-body change">
+    <form>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary mt-2 mr-2 change2" (click)="resetModel()">Відміна</button>
+        <button type="button" class="btn btn-danger mt-2 change2" (click)="deleteProduct(modal2)">Видалити</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,8 +1,9 @@
 <div class="container">
     <div class="products_head">
-        <button class="products_head_btn" type="button"
-            [textContent]="filterOpen || !filterOpenMobile ?'Фильтр':'Скрыть фильтр'" (click)="openfilter()"></button>
-        <button class="products_head_btn reset_filter_btn" type="button" (click)="resetfilter()">Сбросить
+        <button class="products_head_btn" type="button" [textContent]=" !filterOpenT  ? 'Скрыть фильтр':'Фильтр' "
+            (click)="openfilter()"></button>
+        <button class="products_head_btn reset_filter_btn" type="button" (click)="resetfilter()"
+            *ngIf="userProduct[0]?.subcategoryEN !='other_accessories'|| userProduct[0]?.subcategoryEN =='cases_airpods'">Сбросить
             фильтр</button>
         <p *ngIf="countProduct>0">Найдено: {{countProduct}} товаров </p>
         <p *ngIf="countProduct == 0">По вашому запросу ничего не найдено! </p>
@@ -10,11 +11,20 @@
     <div class="products_all">
         <div class="products_all_filter" [ngClass]="{'openFilter':  filterOpen}"
             [ngClass]="{'filterMobile': filterOpenMobile}">
-            <div class="filter_block">
-                <div class="filter_block_title">
-                    <p>Совместимость:</p>
-                </div>
+            <div class="filter_block" *ngIf="userProduct[0]?.subcategoryEN =='other_accessories'">
                 <ul class="filter_list">
+                    <li class="filter_list_li">
+                        <input type="radio" style="display: none;" disabled>
+                        <label for="38/40mm"><span><a>Фильтров не найдено</a> <i></i></span></label>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter_block"
+                *ngIf="userProduct[0]?.subcategoryEN =='straps'||userProduct[0]?.subcategoryEN =='cases_airpods'||userProduct[0]?.subcategoryEN =='cases_macbook'||userProduct[0]?.subcategoryEN =='cases_ipad'||userProduct[0]?.subcategoryEN =='cases' || userProduct[0]?.subcategoryEN =='glasses'||userProduct[0]?.subcategoryEN =='glasses_apple' || userProduct[0]?.subcategoryEN =='case_apple'">
+                <div class="filter_block_title">
+                    <p>Совместимость</p>
+                </div>
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='straps'">
                     <li class="filter_list_li">
                         <input type="radio" name="compability" id="38/40mm" style="display: none;"
                             (change)='changeInput($event)'>
@@ -26,21 +36,182 @@
                         <label for="42/44mm"><span><a>Apple Watch 42mm/44mm</a> <i></i></span></label>
                     </li>
                 </ul>
+
+
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='cases_airpods'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="airpods 1/2" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="airpods 1/2"><span><a>AirPods 1/2</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="airpods pro" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="airpods pro"><span><a>AirPods Pro</a> <i></i></span></label>
+                    </li>
+                </ul>
+
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='cases_macbook'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="macbook air 11" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="macbook air 11"><span><a>MacBook Air 11</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="macbook pro/air 13" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="macbook pro/air 13"><span><a>MacBook Pro/Air 13</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="macbook pro/air 15" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="macbook pro/air 15"><span><a>MacBook Pro/Air 15</a> <i></i></span></label>
+                    </li>
+                </ul>
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='cases_ipad'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="ipad pro 9.7" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="ipad pro 9.7"><span><a>Ipad Pro 9.7</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="ipad pro 11" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="ipad pro 11"><span><a>Ipad Pro 11</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="ipad pro 12.9" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="ipad pro 12.9"><span><a>Ipad Pro 12.9</a> <i></i></span></label>
+                    </li>
+                </ul>
+                <ul class="filter_list"
+                    *ngIf="userProduct[0]?.subcategoryEN =='cases' || userProduct[0]?.subcategoryEN =='glasses'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="6/6s" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="6/6s"><span><a>Iphone 6/6s</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="6+/6s+" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="6+/6s+"><span><a>Iphone 6+/6s+</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="7/8" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="7/8"><span><a>Iphone 7/8</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="7+/8+" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="7+/8+"><span><a>Iphone 7+/8+</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="x/xs" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="x/xs"><span><a>Iphone X/Xs</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="xr" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="xr"><span><a>Iphone Xr</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="xsmax" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="xsmax"><span><a>Iphone Xs Max</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="11" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="11"><span><a>Iphone 11</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="11pro" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="11pro"><span><a>Iphone 11 Pro</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="11promax" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="11promax"><span><a>Iphone 11 Pro Max</a> <i></i></span></label>
+                    </li>
+                </ul>
+                <ul class="filter_list"
+                    *ngIf="userProduct[0]?.subcategoryEN =='glasses_apple' || userProduct[0]?.subcategoryEN =='case_apple'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="38mm" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="38mm"><span><a>Apple Watch 38mm</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="40mm" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="40mm"><span><a>Apple Watch 40mm</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="42mm" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="42mm"><span><a>Apple Watch 42mm</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="compability" id="44mm" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="44mm"><span><a>Apple Watch 44mm</a> <i></i></span></label>
+                    </li>
+                </ul>
             </div>
-            <div class="filter_block">
+            <div class="filter_block" *ngIf="userProduct[0]?.subcategoryEN =='cases'">
+                <div class="filter_block_title">
+                    <p>Тип</p>
+                </div>
+                <ul class="filter_list"
+                    *ngIf="userProduct[0]?.subcategoryEN =='cases'||userProduct[0]?.subcategoryEN =='charger'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="additional" id="с лого" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="с лого"><span><a>Одноцветный с лого</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="additional" id="с рисунком" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="с рисунком"><span><a>С рисунком</a> <i></i></span></label>
+                    </li>
+                </ul>
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='charger'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="additional" id="зарядка" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="зарядка"><span><a>Беспроводная зарядка</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="additional" id="lightning" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="lightning"><span><a>Кабель Lightning</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="additional" id="aux" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="aux"><span><a>Кабель AUX</a><i></i></span></label>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter_block"
+                *ngIf="userProduct[0]?.subcategoryEN =='straps'||userProduct[0]?.subcategoryEN =='glasses_apple'||userProduct[0]?.subcategoryEN =='case_apple'||userProduct[0]?.subcategoryEN =='cases'||userProduct[0]?.subcategoryEN =='doc_station'">
                 <div class="filter_block_title">
                     <p>Материал</p>
                 </div>
-                <ul class="filter_list">
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='straps'">
                     <li class="filter_list_li">
                         <input type="radio" name="material" id="silicone" style="display: none;"
                             (change)='changeInput($event)'>
                         <label for="silicone"><span><a>Силиконовый</a> <i></i></span></label>
                     </li>
                     <li class="filter_list_li">
-                        <input type="radio" name="material" id="siliconeNike" style="display: none;"
+                        <input type="radio" name="material" id="siliconenike" style="display: none;"
                             (change)='changeInput($event)'>
-                        <label for="siliconeNike"><span><a>Силиконовый Nike</a> <i></i></span></label>
+                        <label for="siliconenike"><span><a>Силиконовый Nike</a> <i></i></span></label>
                     </li>
                     <li class="filter_list_li">
                         <input type="radio" name="material" id="metal" style="display: none;"
@@ -58,11 +229,53 @@
                         <label for="leather"><span><a>Кожанный</a> <i></i></span></label>
                     </li>
                 </ul>
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='glasses_apple'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="glass" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="glass"><span><a>Стекло</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="hydrogel" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="hydrogel"><span><a>Гидрогель</a> <i></i></span></label>
+                    </li>
+                </ul>
+                <ul class="filter_list"
+                    *ngIf="userProduct[0]?.subcategoryEN =='case_apple'||userProduct[0]?.subcategoryEN =='cases'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="plastic" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="plastic"><span><a>Пластик</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="silicone" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="silicone"><span><a>Силикон</a> <i></i></span></label>
+                    </li>
+                </ul>
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='doc_station'">
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="plastic" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="plastic"><span><a>Пластик</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="wooden" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="wooden"><span><a>Дерево</a> <i></i></span></label>
+                    </li>
+                    <li class="filter_list_li">
+                        <input type="radio" name="material" id="metal" style="display: none;"
+                            (change)='changeInput($event)'>
+                        <label for="metal"><span><a>Металл</a> <i></i></span></label>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="products_all_block" [ngStyle]="{'width':  !filterOpen ? '80%' : '100%'}">
             <div class="products_all_block_main_product"
-                *ngFor="let product of userFilterProductFinal  | paginate: { itemsPerPage: 10, currentPage: p }">
+                *ngFor="let product of userFilterProductFinal  | paginate: { itemsPerPage: 9, currentPage: p }">
                 <div class="products_all_block_main_product_image"
                     [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
                     <a>
@@ -75,7 +288,8 @@
                 </div>
                 <div class="products_all_block_main_product_details">
                     <div class="products_all_block_main_product_details_price">
-                        <span class="old_price">{{product?.oldPrice}} <span style="font-size: 12px;">грн</span></span>
+                        <span *ngIf="product?.oldPrice" class="old_price">{{product?.oldPrice}} <span
+                                style="font-size: 12px;">грн</span></span>
                         <br>
                         <span class="new_price">{{product?.price}}<span style="font-size: 12px;">грн</span></span>
                     </div>

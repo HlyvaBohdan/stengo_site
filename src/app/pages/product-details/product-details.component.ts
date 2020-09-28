@@ -12,7 +12,7 @@ import { Quickorder } from '../../shared/models/quickorder.model copy';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
-  color = true;
+  color = false;
   userProduct: IProduct;
   smallBlock: Array<IProduct> = [];
   smallBlockFinal: Array<IProduct> = [];
@@ -41,7 +41,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkWishStatus()
+    this.checkWishStatus();
   }
 
   getProductDetails(productName: string) {
@@ -55,7 +55,7 @@ export class ProductDetailsComponent implements OnInit {
         this.titleImage = this.userProduct?.image
         this.productService.productView.next(this.userProduct)
         this.productService.productWishUser.next(this.userProduct);
-        this.getSmallBlock()
+        this.checkColor()
       }
     )
   }
@@ -70,7 +70,7 @@ export class ProductDetailsComponent implements OnInit {
           const id = document.id;
           this.smallBlock.push({ id, ...data })
         })
-        this.smallBlockFinal = this.smallBlock.filter((elem) => elem.material == this.userProduct.material)
+        this.smallBlockFinal = this.smallBlock.filter((elem) => elem.material == this.userProduct.material && elem.additional == this.userProduct.additional && elem.category == this.userProduct.category)
       }
     )
   }
@@ -126,7 +126,7 @@ export class ProductDetailsComponent implements OnInit {
 
   checkWishStatus() {
     this.productService.productWishUser.subscribe(() => {
-      if (this.userProduct && localStorage.getItem('myProductWishes') ) {
+      if (this.userProduct && localStorage.getItem('myProductWishes')) {
         this.wishProducts = JSON.parse(localStorage.getItem('myProductWishes'));
         if (this.wishProducts.some(prod => prod.id === this.userProduct.id)) {
           this.statusWish = true;
@@ -136,6 +136,16 @@ export class ProductDetailsComponent implements OnInit {
         }
       }
     })
+  }
+  
+  checkColor() {
+    if (this.userProduct.color != '') {
+      this.color = true;
+      this.getSmallBlock()
+    }
+    else {
+      this.color = false;
+    }
   }
 
 }

@@ -13,65 +13,65 @@ import { ProductService } from '../shared/services/product.service';
 })
 export class ProfileComponent implements OnInit {
   viewDetails: boolean;
-  userEmail:string;
-  userName:string;
-  userNameLast:string;
+  userEmail: string;
+  userName: string;
+  userNameLast: string;
   userPhone: string;
   userOrder: any;
   userId: any;
-  userRole:string;
+  userRole: string;
   findUserID: any;
   checkOrderStatus: Array<IProduct> = [];
-  constructor(private authService:AuthService,
+  constructor(private authService: AuthService,
     private firestore: AngularFirestore,
     private productService: ProductService,) { }
 
   ngOnInit(): void {
-      localStorage.removeItem('myProduct');
-this.getUserData()
-this.updateOrderStatus()
+    localStorage.removeItem('myProduct');
+    this.getUserData()
+    this.updateOrderStatus()
   }
+
   private getUserData(): void {
     const user = JSON.parse(localStorage.getItem('user'))
     this.userEmail = user.email;
     this.userName = user.firstName;
     this.userPhone = user.phone;
-    this.userId=user.idAuth
-    this.userRole=user.role
+    this.userId = user.idAuth
+    this.userRole = user.role
     this.userOrder = user.orders;
-   
-
   }
- 
-  signOut(): void{
+
+  signOut(): void {
     this.authService.signOut();
     this.productService.productWish.next('')
   }
- async updateUser() {
+
+  async updateUser() {
     localStorage.removeItem('user');
     let user: IUser;
     user = new User(
       this.userId,
-       this.userName,
-     this.userOrder,
+      this.userName,
+      this.userOrder,
       this.userRole,
-       this.userEmail,
-       this.userPhone);
+      this.userEmail,
+      this.userPhone);
     localStorage.setItem('user', JSON.stringify(user));
-    this.firestore.collection('users').ref.where('idAuth', '==',  this.userId).onSnapshot(
+    this.firestore.collection('users').ref.where('idAuth', '==', this.userId).onSnapshot(
       collection => {
         collection.forEach(document => {
-          const data=document.data() as IUser;
+          const data = document.data() as IUser;
           const id = document.id;
-          this.findUserID=({ id, ...data })
+          this.findUserID = ({ id, ...data })
         })
       },
-       )
-      if (await this.findUserID) {
-   this.firestore.collection('users').doc(this.findUserID.id).update(Object.assign({}, user));              
-       }
- }
-  
+    )
+    if (await this.findUserID) {
+      this.firestore.collection('users').doc(this.findUserID.id).update(Object.assign({}, user));
+    }
+  }
+
   updateOrderStatus(): void {
     for (let i = 0; i < this.userOrder.length; i++) {
       this.firestore.collection('orders').ref.where('dateOrder', '==', this.userOrder[i].dateOrder).onSnapshot(
@@ -85,8 +85,10 @@ this.updateOrderStatus()
     }
     this.userOrder = this.checkOrderStatus;
   }
+
   viewDetailsOrder() {
-    this.viewDetails=!this.viewDetails
+    this.viewDetails = !this.viewDetails
   }
-  }
+  
+}
 

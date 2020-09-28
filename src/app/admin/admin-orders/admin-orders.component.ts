@@ -11,7 +11,7 @@ import { Order } from 'src/app/shared/models/order.model';
   styleUrls: ['./admin-orders.component.scss']
 })
 export class AdminOrdersComponent implements OnInit {
-  adminOrders:Array<IOrder> = [];
+  adminOrders: Array<IOrder> = [];
   orderDetails: Array<IProduct>;
   nameOrder: string;
   reverse: boolean = false;
@@ -32,7 +32,7 @@ export class AdminOrdersComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private orderService:OrderService
+    private orderService: OrderService
   ) { }
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class AdminOrdersComponent implements OnInit {
     }
     this.order = value;
   }
-  
+
   changeOrderStatus(status: boolean): void {
     status == true ? this.orderStatus = 'Прийнято' : this.orderStatus = 'Відхилено';
     this.editOrder()
@@ -89,7 +89,7 @@ export class AdminOrdersComponent implements OnInit {
   private editOrder(comment?: string) {
     let order: IOrder;
     if (this.editStatus) {
-        order = new Order(this.orderId,
+      order = new Order(this.orderId,
         this.orderUserName,
         this.orderUserLastName,
         this.orderPhone,
@@ -100,10 +100,10 @@ export class AdminOrdersComponent implements OnInit {
         this.orderData,
         this.orderStatus);
     }
-    else{
-       order = this.orderComplete;
+    else {
+      order = this.orderComplete;
     }
-    this.orderService.updateFirecloudOrder(Object.assign({},order));
+    this.orderService.updateFirecloudOrder(Object.assign({}, order));
     if (this.orderPayment == 0) {
       alert('Замовлення пусте і буде автоматично видалено!')
       this.deleteOrder(order)
@@ -123,7 +123,7 @@ export class AdminOrdersComponent implements OnInit {
       }
     }
     this.getTotal();
-    
+
   }
   private getTotal(): void {
     this.orderPayment = this.orderDetails.reduce((total, elem) => {

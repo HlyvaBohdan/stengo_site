@@ -27,12 +27,12 @@ export class AdminCategoryComponent implements OnInit {
 
   constructor(private modalService: BsModalService,
     private catService: CategoryService, private afStorage: AngularFireStorage) { }
-    
+
 
   ngOnInit(): void {
     this.adminFirebaseCategories()
   }
-  private adminFirebaseCategories(): void{
+  private adminFirebaseCategories(): void {
     this.catService.getFirecloudCategory().subscribe(
       collection => {
         this.adminCategory = collection.map(category => {
@@ -44,10 +44,10 @@ export class AdminCategoryComponent implements OnInit {
     )
   }
 
-  addCategory():void {
-    const newCategory = new Category(this.categoryID, this.nameEN, this.nameUA,this.categoryImage);
+  addCategory(): void {
+    const newCategory = new Category(this.categoryID, this.nameEN, this.nameUA, this.categoryImage);
     delete newCategory.id;
-    this.catService.postFirecloudCategory(Object.assign({},newCategory));
+    this.catService.postFirecloudCategory(Object.assign({}, newCategory));
     this.resetModel();
   }
 
@@ -99,7 +99,7 @@ export class AdminCategoryComponent implements OnInit {
     this.nameUA = '';
     this.categoryID = 1;
     this.checkInput = false;
-    this.imageStatus=false;
+    this.imageStatus = false;
   }
 
 }

@@ -1,21 +1,38 @@
 <header>
   <div class="wrapper_header_mobile">
-  <div class="header_mobile">
+    <div class="header_mobile">
       <div id="menuToggle">
         <input type="checkbox" />
         <span></span>
         <span></span>
         <span></span>
         <ul id="menu">
-          <a [routerLink]="['/menu/iphone']"><li>Iphone</li></a>
-          <a [routerLink]="['/menu/apple_watch']"><li>Apple Watch</li></a>
-          <a [routerLink]="['/menu/ipad']"><li>Ipad</li></a>
-          <a [routerLink]="['/menu/macbook']"><li>MacBook</li></a>
-          <a [routerLink]="['/menu/airpods']"><li>AirPods</li></a>
-          <a><li style="color: red;" [routerLink]="['/sale']">Sale</li></a>
-          <a class="user_li">
-            <li style="font-size: 18px;"(click)="openModal('login')">Ввойти</li>
-            <li style="font-size: 18px;"(click)="openModal('register')">Регистрация</li></a>
+          <a [routerLink]="['/menu/iphone']">
+            <li>Iphone</li>
+          </a>
+          <a [routerLink]="['/menu/apple watch']">
+            <li>Apple Watch</li>
+          </a>
+          <a [routerLink]="['/menu/ipad']">
+            <li>Ipad</li>
+          </a>
+          <a [routerLink]="['/menu/macbook']">
+            <li>MacBook</li>
+          </a>
+          <a [routerLink]="['/menu/airpods']">
+            <li>AirPods</li>
+          </a>
+          <a>
+            <li style="color: red;" [routerLink]="['/sale']">Sale</li>
+          </a>
+          <a class="user_li" *ngIf="!statusLogin">
+            <li style="font-size: 18px;" (click)="openModal('login')">Ввойти</li>
+            <li style="font-size: 18px;" (click)="openModal('register')">Регистрация</li>
+          </a>
+          <a class="user_li" *ngIf="statusLogin">
+            <li style="font-size: 18px;" [routerLink]="['/' + urlName]">{{menuName | titlecase}}</li>
+          </a>
+
         </ul>
       </div>
       <div class="header_mobile_img">
@@ -23,7 +40,10 @@
       </div>
       <div class="header_mobile_icon">
         <div class="icon_wish" (click)="openWishMobile()">
-          <span class="far fa-heart"></span>
+          <span class="far fa-heart">
+            <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i>
+
+          </span>
         </div>
         <div class="icon_basket" [routerLink]="[ '/basket']">
           <span class="fas fa-shopping-cart">
@@ -31,41 +51,30 @@
           </span>
         </div>
       </div>
-  <div class="header_mobile_wishlist">
-    <ul class="header_mobile_wishlist_ul" [ngStyle]="{'display': openWishList ? 'block':'none'}">
-      <li >
-        <p style="text-align: center;">У Вас нету избранных товаров</p>
-      </li>
-      <li>
-        <img class="header_mobile_wishlist_ul_image" src="/assets/images/nylon_light green.jpg" alt="">
-        <div class="header_mobile_wishlist_ul_info">
-          <p>Ремешок нейлоновый для Apple Watch 38/42mm</p>
-          <div class="header_mobile_wishlist_ul_info_price">
-            <span class="new_price">100 <span style="font-size: 12px;">грн</span></span>
-            <br>
-            <span class="old_price">150 <span style="font-size: 12px;">грн</span></span>
-          </div>
-          <button class="delete"><i class="fa fa-times"></i></button>
-        </div>
-      </li>
-      <li>
-        <img class="header_mobile_wishlist_ul_image" src="/assets/images/nylon_light green.jpg" alt="">
-        <div class="header_mobile_wishlist_ul_info">
-          <p>Ремешок нейлоновый для Apple Watch 38/42mm</p>
-          <div class="header_mobile_wishlist_ul_info_price">
-            <span class="new_price">100 <span style="font-size: 12px;">грн</span></span>
-            <br>
-            <span class="old_price">150 <span style="font-size: 12px;">грн</span></span>
-          </div>
-          <button class="delete"><i class="fa fa-times"></i></button>
-        </div>
-      </li>
-      </ul>
+      <div class="header_mobile_wishlist">
+        <ul class="header_mobile_wishlist_ul" [ngStyle]="{'display': openWishList ? 'block':'none'}">
+          <li *ngFor="let product of productsWish"
+            [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+            <img class="header_mobile_wishlist_ul_image" [src]='product?.image' alt="">
+            <div class="header_mobile_wishlist_ul_info">
+              <p>{{product?.nameUA}}</p>
+              <div class="header_mobile_wishlist_ul_info_price">
+                <span class="new_price">{{product?.price}} <span style="font-size: 12px;">грн</span></span>
+                <br>
+                <span class="old_price" *ngIf="product?.oldPrice">{{product?.oldPrice}} <span
+                    style="font-size: 12px;">грн</span></span>
+              </div>
+              <button class="delete" (click)="deleteProductWish(product)"><i class="fa fa-times"></i></button>
+            </div>
+          </li>
+          <li class="product_enough_head" *ngIf="productsWish?.length==0">
+            <p>Список избранных товаров пуст</p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-  </div>
-</div>
   <div class="first_menu">
-    
     <div class="header_up">
       <p>Введите код "stengo2" и получите 20% скидки на заказ</p>
     </div>
@@ -76,7 +85,6 @@
             <div class="header_phone_numbers_item ">
               <span style="margin-right: 20px;">063 994 20 53</span>
               <span>097 297 67 89</span>
-
             </div>
           </div>
           <div class="header_main_logo">
@@ -86,28 +94,30 @@
           </div>
           <div class="header_main_basket_and_other">
             <div class="header_main_dropdown_menu_wish">
-            <span class="far fa-heart">
-              <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i>
-            </span>
-            <ul class="header_main_dropdown_menu_ul_wish">
-              <li *ngFor="let product of productsWish" [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
-                <img class="header_main_dropdown_menu_image_wish" [src]='product?.image' alt="">
-                <div class="header_main_dropdown_menu_info_wish">
-                  <p>{{product?.nameUA}}</p>
-                  <div class="home_main_product_details_price_wish">
-                    <span class="new_price">{{product?.oldPrice}} <span style="font-size: 12px;">грн</span></span>
-                    <br>
-                    <span class="old_price">{{product?.price}}<span style="font-size: 12px;">грн</span></span>
+              <span class="far fa-heart">
+                <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i>
+              </span>
+              <ul class="header_main_dropdown_menu_ul_wish">
+                <li *ngFor="let product of productsWish"
+                  [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+                  <img class="header_main_dropdown_menu_image_wish" [src]='product?.image' alt="">
+                  <div class="header_main_dropdown_menu_info_wish">
+                    <p>{{product?.nameUA}}</p>
+                    <div class="home_main_product_details_price_wish">
+                      <span class="new_price">{{product?.price}} <span style="font-size: 12px;">грн</span></span>
+                      <br>
+                      <span class="old_price" *ngIf="product?.oldPrice">{{product?.oldPrice}}<span
+                          style="font-size: 12px;">грн</span></span>
+                    </div>
+                    <button class="delete" (click)="deleteProductWish(product)"><i class="fa fa-times"></i></button>
                   </div>
-                  <button class="delete" (click)="deleteProductWish(product)"><i class="fa fa-times"></i></button>
-                </div>
-              </li>
-              <li class="product_enough_head" *ngIf="productsWish?.length==0">
-                <p>Список избранных товаров пуст</p>
-            </li>
+                </li>
+                <li class="product_enough_head" *ngIf="productsWish?.length==0">
+                  <p>Список избранных товаров пуст</p>
+                </li>
               </ul>
-          </div>
-            <div class="header_main_dropdown_menu"  >
+            </div>
+            <div class="header_main_dropdown_menu">
               <span class="fas fa-shopping-cart">
                 <i *ngIf="basket?.length > 0" class="header__cart-count">{{basket?.length}}</i>
               </span>
@@ -119,58 +129,60 @@
                     <div class="header_main_dropdown_menu_info_count">
                       <p class="count_p">Количество:</p>
                       <div class="productCountWrapper">
-                        <span class="productCount lessProduct"(click)="productCount(product,false)"></span>
+                        <span class="productCount lessProduct" (click)="productCount(product,false)"></span>
                         <span>{{product?.count}}</span>
-                        <span class="productCount moreProduct update-cart-product" (click)="productCount(product,true)"></span>
+                        <span class="productCount moreProduct update-cart-product"
+                          (click)="productCount(product,true)"></span>
                       </div>
                     </div>
                     <div class="home_main_product_details_price">
                       <span class="new_price">{{product.price}}<span style="font-size: 12px;">грн</span></span>
                       <br>
-                      <span class="old_price">{{product.oldPrice}}<span style="font-size: 12px;">грн</span></span>
+                      <span class="old_price" *ngIf="product?.oldPrice">{{product.oldPrice}}<span
+                          style="font-size: 12px;">грн</span></span>
                     </div>
                     <button class="delete" (click)="deleteProductBasket(product)"><i class="fa fa-times"></i></button>
                   </div>
-                  
                 </li>
-               <li class="product_enough_head" *ngIf="basket?.length>3">
+                <li class="product_enough_head" *ngIf="basket?.length>3">
                   <p>И ещё {{basket?.length - 3 }} товар в корзине</p>
-                  <li class="product_enough_head" *ngIf="basket?.length==0">
-                    <p>Ваша корзина пустая(</p>
+                <li class="product_enough_head" *ngIf="basket?.length==0">
+                  <p>Ваша корзина пустая(</p>
                 </li>
-                <li class="total_price_header"*ngIf="basket?.length>0">
+                <li class="total_price_header" *ngIf="basket?.length>0">
                   <div class="total_price_header_price">
                     <p>Общая сума заказа:</p>
                     <span>{{totalPrice?.toFixed(0)}} <span style="font-size: 12px;">грн</span></span>
                   </div>
-                  <input type="button" value="Перейти к оформлению" class="block_info_main_info_btn_buy"[routerLink]="[ '/basket']" (click)="removeItem()">
+                  <input type="button" value="Перейти к оформлению" class="block_info_main_info_btn_buy"
+                    [routerLink]="[ '/basket']" (click)="removeItem()">
                 </li>
               </ul>
             </div>
             <div class="header_main_dropdown_menu_profile" *ngIf="!statusLogin">
-            <span class="far fa-user" ></span>
-            <ul class="header_main_dropdown_menu_ul_profile">
-              <li (click)="openModal('login')">Вход</li>
-              <li (click)="openModal('register')">Регистрация</li>
+              <span class="far fa-user"></span>
+              <ul class="header_main_dropdown_menu_ul_profile">
+                <li (click)="openModal('login')">Вход</li>
+                <li (click)="openModal('register')">Регистрация</li>
               </ul>
-          </div>
-          <div class="header_main_dropdown_menu_profile" *ngIf="statusLogin">
-          <a [routerLink]="['/' + urlName]">{{menuName | titlecase}}</a>
-          </div>       
+            </div>
+            <div class="header_main_dropdown_menu_profile" *ngIf="statusLogin">
+              <a [routerLink]="['/' + urlName]">{{menuName | titlecase}}</a>
+            </div>
           </div>
         </div>
         <nav class="navbar-nav">
           <ul class="navbar-nav_img">
             <li class="nav-item img_li" routerLinkActive="active" [ngStyle]="{'padding': '0px'}">
-              <a class="nav-link"[routerLink]="['/menu/iphone']">
+              <a class="nav-link" [routerLink]="['/menu/iphone']">
                 <img class="iphone_img" src="/assets/images/1153633-1024x768.png" alt="">
               </a>
             </li>
             <li class="nav-item img_li" routerLinkActive="active">
-              <a class="nav-link" [routerLink]="['/menu/apple_watch']">
+              <a class="nav-link" [routerLink]="['/menu/apple watch']">
                 <img class="apple_watch_img" src="/assets/images/apple-watch3-38-blackband-spacegrayaluminum-1-3x.png"
                   alt="">
-              </a>             
+              </a>
             </li>
             <li class="nav-item img_li" routerLinkActive="active" [ngStyle]="{'padding-left': '10px'}">
               <a class="nav-link" [routerLink]="['/menu/ipad']">
@@ -201,53 +213,55 @@
       </div>
     </div>
   </div>
-    <nav class="scroll_nav" [ngClass]="{'scroll':scrollStatus}">
-      <ul class="scroll_ul">
-        <li class="nav-item_img" routerLinkActive="active">
-          <img class="header_down_logo_img" src="/assets/images/stengo_white.png" alt="">
-        </li>
-        <li class="nav-item scroll_li" routerLinkActive="active" *ngFor="let category of categories">
-          <a class="nav-link" [routerLink]="[ '/menu/'+category?.nameEN]">
-            <span class="nav-link_span">{{category.nameUA}}</span>
-          </a>
-          <div class="dropdown_menu_scroll">
-            <ul>
-              <li class="dropdown_menu_scroll_li" *ngFor="let subcategory of category.subcategory">
-                <a class="dropdown_menu_scroll_li_a"  [routerLink]="[ '/menu/'+category?.nameEN,subcategory.nameEN]">
-                  <p>{{subcategory.nameUA}}</p>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="nav-item scroll_li" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="[ '/sale']">
-            <span style="color:'red';font-weight:'bold'">SALE</span>
-          </a>
-        </li>
-        <li class="nav-item correct_nav">
-          <div class="header_main_dropdown_menu_wish_scroll">
-            <span class="far fa-heart" style="color: white;">
-             <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i></span>
-            <ul class="header_main_dropdown_menu_ul_wish_scroll">
-              <li *ngFor="let product of productsWish" [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
-                <img class="header_main_dropdown_menu_image_wish_scroll" [src]='product?.image' alt="">
-                <div class="header_main_dropdown_menu_info_wish_scroll">
-                  <p>{{product?.nameUA}}</p>
-                  <div class="home_main_product_details_price_wish_scroll">
-                    <span class="new_price">{{product?.oldPrice}} <span style="font-size: 12px;">грн</span></span>
-                    <br>
-                    <span class="old_price">{{product?.price}}<span style="font-size: 12px;">грн</span></span>
-                  </div>
-                  <button class="delete" (click)="deleteProductWish(product)"><i class="fa fa-times"></i></button>
-                </div>
-              </li>
-              <li class="product_enough_head" *ngIf="productsWish?.length==0">
-                <p>Список избранных товаров пуст</p>
+  <nav class="scroll_nav" [ngClass]="{'scroll':scrollStatus}">
+    <ul class="scroll_ul">
+      <li class="nav-item_img" routerLinkActive="active">
+        <img class="header_down_logo_img" src="/assets/images/stengo_white.png" alt="">
+      </li>
+      <li class="nav-item scroll_li" routerLinkActive="active" *ngFor="let category of categories">
+        <a class="nav-link" [routerLink]="[ '/menu/'+category?.nameEN]">
+          <span class="nav-link_span">{{category.nameUA}}</span>
+        </a>
+        <div class="dropdown_menu_scroll">
+          <ul>
+            <li class="dropdown_menu_scroll_li" *ngFor="let subcategory of category.subcategory">
+              <a class="dropdown_menu_scroll_li_a" [routerLink]="[ '/menu/'+category?.nameEN,subcategory.nameEN]">
+                <p>{{subcategory.nameUA}}</p>
+              </a>
             </li>
-              </ul>
-          </div>
-          <div class="header_main_dropdown_menu_scroll" >
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item scroll_li" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="[ '/sale']">
+          <span style="color:'red';font-weight:'bold'">SALE</span>
+        </a>
+      </li>
+      <li class="nav-item correct_nav">
+        <div class="header_main_dropdown_menu_wish_scroll">
+          <span class="far fa-heart" style="color: white;">
+            <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i></span>
+          <ul class="header_main_dropdown_menu_ul_wish_scroll">
+            <li *ngFor="let product of productsWish"
+              [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
+              <img class="header_main_dropdown_menu_image_wish_scroll" [src]='product?.image' alt="">
+              <div class="header_main_dropdown_menu_info_wish_scroll">
+                <p>{{product?.nameUA}}</p>
+                <div class="home_main_product_details_price_wish_scroll">
+                  <span class="new_price">{{product?.price}} <span style="font-size: 12px;">грн</span></span>
+                  <br>
+                  <span class="old_price" *ngIf="product?.oldPrice">{{product?.oldPrice}}<span
+                      style="font-size: 12px;">грн</span></span>
+                </div>
+                <button class="delete" (click)="deleteProductWish(product)"><i class="fa fa-times"></i></button>
+              </div>
+            </li>
+            <li class="product_enough_head" *ngIf="productsWish?.length==0">
+              <p>Список избранных товаров пуст</p>
+            </li>
+          </ul>
+        </div>
+        <div class="header_main_dropdown_menu_scroll">
           <span class="fas fa-shopping-cart" [ngStyle]="{'color': 'white'}">
             <i *ngIf="basket?.length > 0" class="header__cart-count">{{basket?.length}}</i>
           </span>
@@ -259,66 +273,65 @@
                 <div class="header_main_dropdown_menu_scroll_info_count">
                   <p class="count_p">Количество:</p>
                   <div class="productCountWrapper">
-                    <span class="productCount lessProduct"(click)="productCount(product,false)"></span>
+                    <span class="productCount lessProduct" (click)="productCount(product,false)"></span>
                     <span>{{product?.count}}</span>
-                        <span class="productCount moreProduct update-cart-product" (click)="productCount(product,true)"></span>
+                    <span class="productCount moreProduct update-cart-product"
+                      (click)="productCount(product,true)"></span>
                   </div>
                 </div>
                 <div class="home_main_product_scroll_details_price">
                   <span class="new_price">{{product.price}} <span style="font-size: 12px;">грн</span></span>
                   <br>
-                  <span class="old_price">{{product.oldPrice}} <span style="font-size: 12px;">грн</span></span>
+                  <span class="old_price" *ngIf="product?.oldPrice">{{product.oldPrice}} <span
+                      style="font-size: 12px;">грн</span></span>
                 </div>
               </div>
-              <button class="delete"><i class="fa fa-times"></i></button>
+              <button class="delete" (click)="deleteProductBasket(product)"><i class="fa fa-times"></i></button>
             </li>
-               <li class="product_enough"*ngIf="basket?.length>3">
+            <li class="product_enough" *ngIf="basket?.length>3">
               <p>И ещё {{basket?.length - 3 }} товар в корзине</p>
             </li>
-            <li class="total_price_header" style="display: flex;"*ngIf="basket?.length>0">
+            <li class="total_price_header" style="display: flex;" *ngIf="basket?.length>0">
               <div class="total_price_header_price">
                 <p>Общая сума заказа:</p>
                 <span>{{totalPrice?.toFixed(0)}}<span style="font-size: 12px;">грн</span></span>
               </div>
-              <input _ngcontent-bgx-c24="" type="button" value="Перейти к оформлению" class="block_info_main_info_btn_buy"[routerLink]="[ '/basket']">
-
+              <input type="button" value="Перейти к оформлению" class="block_info_main_info_btn_buy"
+                [routerLink]="[ '/basket']">
             </li>
-            </ul>
+          </ul>
         </div>
         <div class="header_main_dropdown_menu_profile prodile_scroll">
-          <span class="far fa-user"  [routerLink]="[ '/profile']" style="color: white;"></span>
-          <ul class="header_main_dropdown_menu_ul_profile" style="top: 34px; right: -27px;">
+          <span class="far fa-user" [routerLink]="[ '/profile']" style="color: white;"></span>
+          <ul class="header_main_dropdown_menu_ul_profile" style="top: 34px; right: -27px;" *ngIf="!statusLogin">
             <li class="li_profile_scroll" (click)="openModal('login')">Вход</li>
-            <li class="li_profile_scroll"(click)="openModal('register')">Регистрация</li>
-
-            
-            </ul>
+            <li class="li_profile_scroll" (click)="openModal('register')">Регистрация</li>
+          </ul>
+          <ul class="header_main_dropdown_menu_ul_profile" style="top: 34px; right: -27px;" *ngIf="statusLogin">
+            <li class="li_profile_scroll" [routerLink]="['/' + urlName]">{{menuName | titlecase}}</li>
+          </ul>
         </div>
-          
-        </li>
-      </ul>
-    </nav>
- 
-
+      </li>
+    </ul>
+  </nav>
 </header>
 
-
 <div id="myModal" class="modal">
-
-  
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
     <p [textContent]="typeauth=='register' ? 'Регистрация' : 'Вход'"></p>
     <ng-container *ngIf="typeauth=='register'; else elseTemplate">
       <div class="register_block">
         <form (ngSubmit)="registerUser()">
-        <div class="inputElementWrapper">
-            <input class="inputElementItem" type="text" placeholder="Имя" required  [(ngModel)]="firstName" name="firstName">
+          <div class="inputElementWrapper">
+            <input class="inputElementItem" type="text" placeholder="Имя" required [(ngModel)]="firstName"
+              name="firstName">
             <label>Имя</label>
             <span class="focus-border"><i></i></span>
           </div>
           <div class="inputElementWrapper">
-            <input class="inputElementItem" mask="(000)-000-00-00" prefix="+38" type="text" placeholder="Телефон"  required [(ngModel)]="phone" name="phone">
+            <input class="inputElementItem" mask="(000)-000-00-00" prefix="+38" type="text" placeholder="Телефон"
+              required [(ngModel)]="phone" name="phone">
             <span class="focus-border"><i></i></span>
           </div>
           <div class="inputElementWrapper">
@@ -327,32 +340,32 @@
             <span class="focus-border"><i></i></span>
           </div>
           <div class="inputElementWrapper">
-            <input class="inputElementItem" type="text" placeholder="Пароль" required [(ngModel)]="password" name="password">
+            <input class="inputElementItem" type="text" placeholder="Пароль" required [(ngModel)]="password"
+              name="password">
             <label>Пароль</label>
             <span class="focus-border"><i></i></span>
           </div>
-          <button type="submit"class="auth_btn">Регистрация</button>    
+          <button type="submit" class="auth_btn">Регистрация</button>
         </form>
-        </div>
+      </div>
     </ng-container>
     <ng-template #elseTemplate>
       <div class="login_block">
         <form (ngSubmit)='loginUser()'>
-        <div class="inputElementWrapper">
-          <input class="inputElementItem" type="text" placeholder="Email" required [(ngModel)]="email" name="email">
-          <label>Email</label>
-          <span class="focus-border"><i></i></span>
-        </div>
-        <div class="inputElementWrapper">
-          <input class="inputElementItem" type="text" placeholder="Пароль" required  [(ngModel)]="password" name="password">
-          <label>Пароль</label>
-          <span class="focus-border"><i></i></span>
-        </div>
-        <button type="submit" class="auth_btn">Ввойти</button>    
-</form>
+          <div class="inputElementWrapper">
+            <input class="inputElementItem" type="text" placeholder="Email" required [(ngModel)]="email" name="email">
+            <label>Email</label>
+            <span class="focus-border"><i></i></span>
+          </div>
+          <div class="inputElementWrapper">
+            <input class="inputElementItem" type="text" placeholder="Пароль" required [(ngModel)]="password"
+              name="password">
+            <label>Пароль</label>
+            <span class="focus-border"><i></i></span>
+          </div>
+          <button type="submit" class="auth_btn">Ввойти</button>
+        </form>
       </div>
-
     </ng-template>
   </div>
-
 </div>

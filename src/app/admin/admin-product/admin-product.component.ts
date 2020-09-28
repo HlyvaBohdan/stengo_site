@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ICategory } from 'src/app/shared/interfaces/category.interface';
 import { CategoryService } from 'src/app/shared/services/category.service';
-import { ISubcategory} from 'src/app/shared/interfaces/subcategory.interface';
+import { ISubcategory } from 'src/app/shared/interfaces/subcategory.interface';
 import { Category } from 'src/app/shared/models/category.model';
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -20,14 +20,14 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class AdminProductComponent implements OnInit {
   modalRef: BsModalRef;
   nameProduct: string;
-  adminProduct:Array<IProduct> 
+  adminProduct: Array<IProduct>
   categories: Array<ICategory> = [];
-  subcategories:Array<ISubcategory> = []
+  subcategories: Array<ISubcategory> = []
   productID = 1;
   // productCategory: ICategory = { id: 1, nameEN: 'pizza', nameUA: 'піца' };
   categoryName: string;
   subcategoryName: string;
-  subcategoryNameEN:string
+  subcategoryNameEN: string
   productCategory: ICategory;
   productSubcategory: ISubcategory;
   productNameEN = '';
@@ -35,13 +35,14 @@ export class AdminProductComponent implements OnInit {
   productDescription = '';
   productCompability = '';
   productColor = '';
+  productColorSecond = '';
   productMaterial = '';
   productAdditional = '';
   productOldPrice: number;
   productPrice: number;
   productTop = false;
-  productSale= false;
-  productImage : string='';
+  productSale = false;
+  productImage: string = '';
   productImageAdd: string = '';
   subcategory: ISubcategory;
 
@@ -56,12 +57,12 @@ export class AdminProductComponent implements OnInit {
   product: string = 'category';
   sortedCollection: Array<ICategory>;
   editStatus: boolean;
-  
+
   constructor(private catService: CategoryService,
     private modalService: BsModalService,
     private prodService: ProductService,
     private afStorage: AngularFireStorage,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.adminFirebaseProducts();
@@ -102,7 +103,7 @@ export class AdminProductComponent implements OnInit {
       }
     );
   }
-  
+
 
   setProduct(value: string) {
     if (this.product === value) {
@@ -127,6 +128,7 @@ export class AdminProductComponent implements OnInit {
     this.productDescription = product.description;
     this.productCompability = product.compability;
     this.productColor = product.color;
+    this.productColorSecond = product.secondColor;
     this.productMaterial = product.material;
     this.productAdditional = product.additional;
     this.productOldPrice = product.oldPrice;
@@ -155,7 +157,7 @@ export class AdminProductComponent implements OnInit {
       this.modalService.hide(1);
     }
   }
- 
+
   setCategory(): void {
     this.productCategory = this.categories.filter(cat => cat.nameUA === this.categoryName)[0];
     this.subcategories = this.productCategory.subcategory;
@@ -163,35 +165,37 @@ export class AdminProductComponent implements OnInit {
     this.subcategoryNameEN = this.subcategories[0].nameEN;
     console.log(this.subcategoryNameEN)
   }
-  setSubcategory():void{
+  setSubcategory(): void {
     this.productSubcategory = this.subcategories.filter(cat => cat.nameUA === this.subcategoryName)[0];
-    this.subcategoryNameEN=this.productSubcategory .nameEN
-    console.log(this.productSubcategory,this.subcategoryNameEN)
+    this.subcategoryNameEN = this.productSubcategory.nameEN
+    console.log(this.productSubcategory, this.subcategoryNameEN)
   }
   setAttr() {
     let top = <HTMLInputElement>document.getElementById('productTop');
     top.checked
-     ? this.productTop=true
-     :this.productTop=false
+      ? this.productTop = true
+      : this.productTop = false
     console.log(this.productTop)
     let sale = <HTMLInputElement>document.getElementById('productSale');
     sale.checked
-     ? this.productSale=true
-     :this.productSale=false
+      ? this.productSale = true
+      : this.productSale = false
     console.log(this.productSale)
   }
   setAttrEdit() {
     let top = <HTMLInputElement>document.getElementById('productTop');
-    this.productTop==true
-     ? top.checked
-     :console.log('false')
+    this.productTop == true
+      ? top.checked
+      : console.log('false')
     let sale = <HTMLInputElement>document.getElementById('productSale');
-    this.productSale==true
-     ? sale.checked
-     :console.log('false')
-     console.log(this.productTop,this.productSale)
+    this.productSale == true
+      ? sale.checked
+      : console.log('false')
+    console.log(this.productTop, this.productSale)
   }
-  
+  setMaterial() {
+    console.log(this.productMaterial)
+  }
   uploadFile(event): void {
     const file = event.target.files[0];
     const type = file.type.slice(file.type.indexOf('/') + 1);
@@ -201,15 +205,15 @@ export class AdminProductComponent implements OnInit {
     this.productImage == ''
       ? this.uploadProgress = task.percentageChanges()
       : this.uploadProgressAdd = task.percentageChanges();
-  
+
     task.then(image => {
       this.afStorage.ref(`images/${image.metadata.name}`).getDownloadURL().subscribe(url => {
         this.productImage == ''
-         ? this.productImage = url
-         : this.productImageAdd = url;
-        
+          ? this.productImage = url
+          : this.productImageAdd = url;
+
         this.imageStatus = true;
-    console.log(this.subcategoryNameEN)
+        console.log(this.subcategoryNameEN)
 
       })
     })
@@ -217,36 +221,37 @@ export class AdminProductComponent implements OnInit {
   addProduct(): void {
     this.checkInputs()
     const product: IProduct = new Product(this.productID,
-      this.categoryName ,
-      this.subcategoryName ,
-      this.subcategoryNameEN, 
+      this.categoryName,
+      this.subcategoryName,
+      this.subcategoryNameEN,
       this.productNameEN,
       this.productNameUA,
       this.productDescription,
       this.productCompability,
       this.productColor,
+      this.productColorSecond,
       this.productMaterial,
       this.productAdditional,
       this.productOldPrice,
-      this.productPrice, 
+      this.productPrice,
       this.productTop,
       this.productSale,
       this.productImage,
       this.productImageAdd);
-      console.log(this.productImageAdd,this.productID)
 
-    if (this.checkInput ==false) {
+
+    if (this.checkInput == false) {
       if (!this.editStatus) {
-      delete product.id;
-       
-         // this.prodService.postJSONProduct(product).subscribe(() => {
+        delete product.id;
+
+        // this.prodService.postJSONProduct(product).subscribe(() => {
         //   // this.getProducts();
         // });
         this.prodService.postFirecloudProduct(Object.assign({}, product))
-          // .then(() => {
-          //   this.updateSubcategory(product)
-          // })
-          console.log(product)
+        // .then(() => {
+        //   this.updateSubcategory(product)
+        // })
+        console.log(product)
       }
       else {
         // this.prodService.updateJSONProduct(product).subscribe(() => {
@@ -287,6 +292,7 @@ export class AdminProductComponent implements OnInit {
     this.productDescription = '';
     this.productCompability = '';
     this.productColor = '';
+    this.productColorSecond = '';
     this.productMaterial = '';
     this.productAdditional = '';
     this.productPrice = undefined;
@@ -298,6 +304,6 @@ export class AdminProductComponent implements OnInit {
     this.imageStatus = false;
     this.editStatus = false;
 
-    
+
   }
 }

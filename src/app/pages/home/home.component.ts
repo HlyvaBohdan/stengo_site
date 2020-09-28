@@ -11,6 +11,7 @@ import { OrderService } from 'src/app/shared/services/order.service';
 export class HomeComponent implements OnInit {
   slideIndex = 0;
   topProducts: Array<IProduct> = []
+  p: number = 1;
   constructor(
     private afStorage: AngularFirestore,
     private orderService: OrderService
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
     this.slider();
     this.getTopProducts()
   }
-  
+
   getTopProducts() {
     this.afStorage.collection('products').ref.where('top', '==', true).onSnapshot(
       collection => {
@@ -48,5 +49,5 @@ export class HomeComponent implements OnInit {
   addBasket(product: IProduct): void {
     this.orderService.addBasketService(product)
   }
-  
+
 }

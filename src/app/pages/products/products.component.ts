@@ -13,6 +13,7 @@ import { Filter } from 'src/app/shared/models/filter.model';
 })
 export class ProductsComponent implements OnInit {
   filterOpen: boolean;
+  filterOpenT: boolean;
   filterOpenMobile: boolean;
   userProduct: Array<IProduct> = [];
   userFilterProduct: Array<IProduct> = [];
@@ -21,14 +22,13 @@ export class ProductsComponent implements OnInit {
   p: number = 1;
   filterBy: string;
   filterByDetails: string;
-  filterUser=[];
+  filterUser = [];
   constructor(
     private actRoute: ActivatedRoute,
     private router: Router,
     private afStorage: AngularFirestore,
     private orderService: OrderService,
     private productService: ProductService,
-
   ) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -39,8 +39,7 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userFilterProductFinal=[]
-
+    this.userFilterProductFinal = []
   }
 
   setSubcategory(subcategoryName: string) {
@@ -53,15 +52,15 @@ export class ProductsComponent implements OnInit {
           this.userProduct.push({ id, ...data })
           this.userFilterProduct.push({ id, ...data })
           this.userFilterProductFinal.push({ id, ...data })
-
         })
         this.countProduct = this.userProduct.length
-        console.log(this.userProduct)
       }
     )
   }
 
   openfilter() {
+    this.filterOpenT = !this.filterOpenT
+
     if (window.innerWidth > 767) {
       this.filterOpen = !this.filterOpen
     }
@@ -79,7 +78,6 @@ export class ProductsComponent implements OnInit {
   }
 
   changeInput($event) {
-  
     this.filterBy = $event.target.name;
     this.filterByDetails = $event.target.id;
     const filter = new Filter(
@@ -90,49 +88,51 @@ export class ProductsComponent implements OnInit {
       this.filterUser.push(filter)
     }
     else {
-      const index = this.filterUser.findIndex(elem => elem.filterBy == filter.filterBy
-      )
-      if(index!=-1){
-      this.filterUser.splice(index, 1);
-     this.userFilterProduct=this.userProduct
+      const index = this.filterUser.findIndex(elem => elem.filterBy == filter.filterBy)
+      if (index != -1) {
+        this.filterUser.splice(index, 1);
+        this.userFilterProduct = this.userProduct
       }
       this.filterUser.push(filter)
     }
-    console.log(this.filterUser)
-    this.filterUser.forEach((myFilter)=>{
-      this.userFilterProductFinal=[]
+    this.filterUser.forEach((myFilter) => {
+      this.userFilterProductFinal = []
       this.userFilterProduct.filter(elem => elem.compability.toLowerCase() == myFilter.filterDetails.toLowerCase()
-      || elem.color.toString() == myFilter.filterDetails.toLowerCase()
-      || elem.material.toString() == myFilter.filterDetails.toLowerCase() ?
-      this.userFilterProductFinal.push(elem) : elem,
-      this.userFilterProduct = this.userFilterProductFinal
-    )
+        || elem.color.toString() == myFilter.filterDetails.toLowerCase()
+        || elem.material.toString() == myFilter.filterDetails.toLowerCase()
+        || elem.additional.toString() == myFilter.filterDetails.toLowerCase() ?
+        this.userFilterProductFinal.push(elem) : elem,
+        this.userFilterProduct = this.userFilterProductFinal
+      )
     })
     this.countProduct = this.userFilterProductFinal.length;
+    this.p = 1;
   }
-// filteredBy(){
-// let forAppleWatch=[
-//   {name:'Совместимость', value:[
-//     {nameIn:'compability'},
-//     {id:['38/40mm','42/44mm']},
-//     {valueAll:['Apple Watch 38mm/40mm','Apple Watch 42mm/44mm']}
-//   ]},
-//   {name:'Материал', value:[
-//     {nameIn:'material'},
-//     {id:['silicone','siliconeNike','metal','nylon','leather']},
-//     {valueAll:['Силиконовый','Силиконовый Nike','Металлический','Нейлоновий','Кожанний']}
-//   ]},
-// ]
-// this.filterUser=forAppleWatch;
-// console.log(this.filterUser.)
-// }
-resetfilter(){
-  this.userFilterProductFinal=this.userProduct
-  this.countProduct = this.userFilterProductFinal.length;
-  let radios = document.querySelectorAll("input[type=radio]:checked") as any
-  console.log(radios)
-     for (let i = 0; i < radios.length; i++) {
-     radios[i].checked=false
-     }
-}
+  // filteredBy(){
+  // let forAppleWatch=[
+  //   {name:'Совместимость', value:[
+  //     {nameIn:'compability'},
+  //     {id:['38/40mm','42/44mm']},
+  //     {valueAll:['Apple Watch 38mm/40mm','Apple Watch 42mm/44mm']}
+  //   ]},
+  //   {name:'Материал', value:[
+  //     {nameIn:'material'},
+  //     {id:['silicone','siliconeNike','metal','nylon','leather']},
+  //     {valueAll:['Силиконовый','Силиконовый Nike','Металлический','Нейлоновий','Кожанний']}
+  //   ]},
+  // ]
+  // this.filterUser=forAppleWatch;
+  // console.log(this.filterUser.)
+  // }
+  resetfilter() {
+    this.userFilterProductFinal = this.userProduct
+    this.userFilterProduct = this.userProduct
+    this.countProduct = this.userFilterProductFinal.length;
+    this.filterUser = [];
+    let radios = document.querySelectorAll("input[type=radio]:checked") as any
+    console.log(this.filterUser)
+    for (let i = 0; i < radios.length; i++) {
+      radios[i].checked = false
+    }
+  }
 }

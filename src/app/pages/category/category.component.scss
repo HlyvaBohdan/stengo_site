@@ -1,110 +1,104 @@
-.container{
+.container {
     width: 100%;
     position: relative;
     font-family: Sf Pro;
     margin-bottom: -5px;
-    .category_image{
-        width:100%;
+    .category_image {
+        width: 100%;
     }
-    .category_title{
+    .category_title {
         position: absolute;
         width: 30%;
         top: 11%;
-    right: 13%;
+        right: 13%;
         text-align: center;
     }
-    .category_subcatories{
+    .category_subcatories {
         width: 43%;
-    position: absolute;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-    /* font-size: 68px; */
-    top: 20%;
+        position: absolute;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        align-items: center;
+        top: 20%;
         right: 4%;
-        .category_subcatories_details{
+        .category_subcatories_details {
             width: 45%;
             text-align: center;
             text-decoration: none;
-            border: 1px solid #E5E5E5;
+            border: 1px solid #e5e5e5;
             background-color: white;
-            /* border-right: none; */
             display: flex;
             justify-content: center;
             align-items: center;
             flex-flow: row wrap;
-            &:hover{
-            border: 1px solid #0a84ff;
-            cursor: pointer;
+            &:hover {
+                border: 1px solid #0a84ff;
+                cursor: pointer;
             }
-            &:focus{
+            &:focus {
                 outline: none;
             }
-            &:hover .category_subcatories_details_p{
-                color:#0a84ff
+            &:hover .category_subcatories_details_p {
+                color: #0a84ff;
             }
-            .category_subcatories_details_image{
+            .category_subcatories_details_image {
                 width: 55%;
                 padding-top: 5%;
             }
-            .category_subcatories_details_p{
+            .category_subcatories_details_p {
                 width: 100%;
-               padding-top: 4%;
-               padding-bottom: 4%;
-               color:#414141 ;
+                padding-top: 4%;
+                padding-bottom: 4%;
+                color: #414141;
             }
         }
-
     }
 }
 
-@media (max-width:968px){
-    .category_subcatories_details_p{
-       font-size: 14px;
+@media (max-width: 968px) {
+    .category_subcatories_details_p {
+        font-size: 14px;
     }
-    .category_title{
-     font-size: 25px;
+    .category_title {
+        font-size: 25px;
     }
 }
-@media (min-width:968px){
-    .category_subcatories_details_p{
+
+@media (min-width: 968px) {
+    .category_subcatories_details_p {
         font-size: 18px;
-     }
-     .category_title{
-     font-size: 33px;
+    }
+    .category_title {
+        font-size: 33px;
     }
 }
-@media (min-width:320px) and (max-width:768px) {
-    .container{
+
+@media (min-width: 320px) and (max-width: 768px) {
+    .container {
         background-color: #f7f7f7;
         min-height: 385px;
-        .category_subcatories{
+        .category_subcatories {
             width: 100%;
             position: relative;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    margin: -10px auto;
-    padding-bottom: 6%;
-    right: 0%;
-    .category_subcatories_details{
-        width: 40%;
-    }
-
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            align-items: center;
+            margin: -10px auto;
+            padding-bottom: 6%;
+            right: 0%;
+            .category_subcatories_details {
+                width: 40%;
+            }
         }
-        .category_subcatories_details_p{
+        .category_subcatories_details_p {
             font-size: 16px;
-         }
-         .category_title{
-         font-size: 25px;
-        top: 15%;
-        right: 21%;
-    
+        }
+        .category_title {
+            font-size: 25px;
+            top: 15%;
+            right: 21%;
         }
     }
-
 }
-
-

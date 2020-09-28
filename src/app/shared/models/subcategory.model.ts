@@ -8,6 +8,6 @@ export class Subcategory implements ISubcategory {
         public nameUA: string,
         public categoryName: string,
         public image: string,
-        public products:Array<IProduct>=[],
-    ) {}
+        public products: Array<IProduct> = [],
+    ) { }
 }

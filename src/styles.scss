@@ -20,7 +20,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-
+outline: none;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -138,6 +138,6 @@ table {
   .modal-order{
 	max-width:1000px!important;
 	}
-	.modal_open{
-		overflow: auto;
-	}
+body{
+	overflow-y: auto!important;
+}

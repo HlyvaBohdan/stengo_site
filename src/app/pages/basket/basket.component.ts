@@ -2,22 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../shared/services/order.service';
 import { IProduct } from 'src/app/shared/interfaces/product.interface';
 import { BasketService } from '../../shared/services/basket.service';
-import { ProductService } from '../../shared/services/product.service';
 import { ICoupon } from '../../shared/interfaces/coupon.interface';
-import { Coupon } from '../../shared/models/coupon.model';
 import { NgForm } from '@angular/forms';
 import { Order } from 'src/app/shared/models/order.model';
 import { IOrder } from 'src/app/shared/interfaces/order.interface';
 import { User } from 'src/app/shared/models/user.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { IUser } from 'src/app/shared/interfaces/user.interface';
+
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
 export class BasketComponent implements OnInit {
-
   basket: Array<IProduct> = [];
   adminCoupon: Array<ICoupon> = [];
   totalPrice: any;

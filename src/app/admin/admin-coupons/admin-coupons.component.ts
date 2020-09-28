@@ -16,17 +16,17 @@ export class AdminCouponsComponent implements OnInit {
   codeID = 1;
   code: string;
   percent: number;
-  checkInput:boolean;
+  checkInput: boolean;
   reverse: boolean = false;
   coupon: string = 'percent';
 
   constructor(private modalService: BsModalService,
-  private orderService:OrderService) { }
+    private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.adminFirebaseCoupons()
   }
-  private adminFirebaseCoupons(): void{
+  private adminFirebaseCoupons(): void {
     this.orderService.getFirecloudCoupon().subscribe(
       collection => {
         this.adminCoupon = collection.map(category => {
@@ -43,7 +43,7 @@ export class AdminCouponsComponent implements OnInit {
   addCoupon() {
     const newCoupon = new Coupon(this.codeID, this.code, this.percent);
     delete newCoupon.id;
-    this.orderService.postFirecloudCoupon(Object.assign({},newCoupon));
+    this.orderService.postFirecloudCoupon(Object.assign({}, newCoupon));
     this.resetModel();
   }
   deleteCoupon(index): void {

@@ -1,8 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Event } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { fromEvent } from 'rxjs';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { element } from 'protractor';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { ICategory } from 'src/app/shared/interfaces/category.interface';
 import { OrderService } from '../../shared/services/order.service';
@@ -66,11 +64,8 @@ export class HeaderComponent implements OnInit {
       this.count > 0
         ? this.openWishList = true
         : this.openWishList = false
-
     })
-
   }
-
 
   ngOnInit(): void {
     this.getData();
@@ -82,12 +77,11 @@ export class HeaderComponent implements OnInit {
     this.checkUser();
     this.getWishProducts();
     this.getListwishProducts();
-
     document.getElementById('menu').addEventListener('click', (event: any) => {
       let checkbox = document.querySelector("input[type=checkbox]:checked") as any
       checkbox.checked = false
     })
-    
+
   }
 
   private adminFirebaseCategories(): void {
@@ -121,12 +115,12 @@ export class HeaderComponent implements OnInit {
       localStorage.setItem('myProductWishes', JSON.stringify(this.productsWish));
     })
   }
+
   getListwishProducts() {
     if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
       this.productsWish = JSON.parse(localStorage.getItem('myProductWishes'));
     }
   }
-
 
   deleteProductWish(product) {
     this.productService.productWish.next([product, 'delete'])
@@ -138,11 +132,11 @@ export class HeaderComponent implements OnInit {
       this.getData();
     })
   }
+
   checkBasket() {
     this.basketService.allBasket.subscribe(() => {
       this.basket = this.basketService.getBasket()
       this.totalPrice = this.basketService.getTotal()
-      console.log(this.basket)
     })
   }
 
@@ -150,24 +144,22 @@ export class HeaderComponent implements OnInit {
     if (localStorage.length > 0 && localStorage.getItem('myOrder')) {
       this.basket = this.basketService.setBasket()
       this.totalPrice = this.basketService.setTotal()
-      console.log(this.totalPrice)
     }
   }
 
   productCount(product: IProduct, status: boolean): void {
     this.basketService.productCount(product, status)
     this.orderService.basket.next('');
-
   }
 
   deleteProductBasket(product: IProduct): void {
     this.basketService.deleteProductBasketS(product)
   }
+
   removeItem() {
     localStorage.removeItem('myProduct');
     this.basketService.allBasket.next('');
   }
-
 
   scroll() {
     let logo = document.getElementsByClassName('header_main_logo_img') as HTMLCollectionOf<HTMLElement>;
@@ -178,11 +170,9 @@ export class HeaderComponent implements OnInit {
       }, 500 * i)
     }
     fromEvent(window, 'scroll').subscribe(() => {
-      // if(header_hide[0].style.display !='none'){
       if (window.scrollY > window.innerWidth / 3.36 && window.innerWidth > 767) {
         this.scrollStatus = true
       }
-
       else {
         this.scrollStatus = false
       }
@@ -196,9 +186,11 @@ export class HeaderComponent implements OnInit {
     this.typeauth = type;
     this.myModal[0].style.display = 'flex';
   }
+
   closeModal(): void {
     this.reset()
   }
+
   loginUser(): void {
     if (this.email != '' && this.password != '') {
       this.authService.signIn(this.email, this.password);
@@ -208,8 +200,8 @@ export class HeaderComponent implements OnInit {
       alert('Заповніть усі поля')
     }
     this.productService.productWish.next('')
-
   }
+
   registerUser(): void {
     if (this.checkName.test(this.firstName)) {
       if (this.checkPhone.test(this.phone)) {
@@ -234,8 +226,8 @@ export class HeaderComponent implements OnInit {
       alert('Заповніть коректно поле "Імя"')
     }
     this.productService.productWish.next('')
-
   }
+
   private updateCheckUser(): void {
     this.authService.userStatus.subscribe(
       () => {
@@ -269,6 +261,7 @@ export class HeaderComponent implements OnInit {
   openWishMobile() {
     this.openWishList = !this.openWishList
   }
+  
   reset() {
     this.myModal[0].style.display = 'none';
     this.firstName = '';

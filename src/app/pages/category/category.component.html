@@ -4,11 +4,12 @@
         <p>Для {{mainCategory?.nameUA}}</p>
     </div>
     <div class="category_subcatories">
-    <div [routerLink]="[ '/menu/'+mainCategory?.nameEN, sub.nameEN]" class="category_subcatories_details" *ngFor="let sub of mainCategory?.subcategory">
-        <img class="category_subcatories_details_image" [src]='sub?.image' alt="">
-        <p class="category_subcatories_details_p">
-            {{sub?.nameUA}}
-        </p>
-    </div>
+        <div [routerLink]="[ '/menu/'+mainCategory?.nameEN, sub.nameEN]" class="category_subcatories_details"
+            *ngFor="let sub of mainCategory?.subcategory">
+            <img class="category_subcatories_details_image" [src]='sub?.image' alt="">
+            <p class="category_subcatories_details_p">
+                {{sub?.nameUA}}
+            </p>
+        </div>
     </div>
 </div>

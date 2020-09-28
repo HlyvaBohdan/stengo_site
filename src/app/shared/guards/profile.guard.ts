@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileGuard implements CanActivate {
-  constructor(private router:Router){}
+  constructor(private router: Router) { }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.checkLogin();
   }
-  checkLogin(): boolean{
+  checkLogin(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user != null && user.role == 'user') {
       return true;

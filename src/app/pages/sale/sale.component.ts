@@ -20,7 +20,7 @@ export class SaleComponent implements OnInit {
   p: number = 1;
   filterBy: string;
   filterByDetails: string;
-  filterUser=[];
+  filterUser = [];
   constructor(
     private afStorage: AngularFirestore,
     private orderService: OrderService,
@@ -29,8 +29,9 @@ export class SaleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSaleProducts();
-    this.userFilterProductFinal=[];
+    this.userFilterProductFinal = [];
   }
+
   getSaleProducts() {
     this.afStorage.collection('products').ref.where('sale', '==', true).onSnapshot(
       collection => {
@@ -46,6 +47,7 @@ export class SaleComponent implements OnInit {
       }
     )
   }
+
   openfilter() {
     if (window.innerWidth > 767) {
       this.filterOpen = !this.filterOpen
@@ -64,7 +66,6 @@ export class SaleComponent implements OnInit {
   }
 
   changeInput($event) {
-  
     this.filterBy = $event.target.name;
     this.filterByDetails = $event.target.id;
     const filter = new Filter(
@@ -77,30 +78,29 @@ export class SaleComponent implements OnInit {
     else {
       const index = this.filterUser.findIndex(elem => elem.filterBy == filter.filterBy
       )
-      if(index!=-1){
-      this.filterUser.splice(index, 1);
-     this.userFilterProduct=this.saleProducts
+      if (index != -1) {
+        this.filterUser.splice(index, 1);
+        this.userFilterProduct = this.saleProducts
       }
       this.filterUser.push(filter)
     }
-    console.log(this.filterUser)
-      this.userFilterProductFinal=[]
-      this.userFilterProduct.filter(elem => elem.category.toLowerCase() == filter.filterDetails.toLowerCase()
-    ?
+    this.userFilterProductFinal = []
+    this.userFilterProduct.filter(elem => elem.category.toLowerCase() == filter.filterDetails.toLowerCase()
+      ?
       this.userFilterProductFinal.push(elem) : elem,
       this.userFilterProduct = this.userFilterProductFinal
     )
     this.countProduct = this.userFilterProductFinal.length;
   }
 
-resetfilter(){
-  this.userFilterProductFinal=this.saleProducts
-  this.countProduct = this.userFilterProductFinal.length;
-  let radios = document.querySelectorAll("input[type=radio]:checked") as any
-  console.log(radios)
-     for (let i = 0; i < radios.length; i++) {
-     radios[i].checked=false
-     }
-}
-  
+  resetfilter() {
+    this.userFilterProductFinal = this.saleProducts
+    this.countProduct = this.userFilterProductFinal.length;
+    let radios = document.querySelectorAll("input[type=radio]:checked") as any
+    console.log(radios)
+    for (let i = 0; i < radios.length; i++) {
+      radios[i].checked = false
+    }
+  }
+
 }

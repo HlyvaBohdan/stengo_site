@@ -57,7 +57,7 @@
                 width: 35%;
                 margin: 5px;
                 border: 1px solid #e8e8e8;
-                cursor:pointer;
+                cursor: pointer;
             }
         }
     }
@@ -149,9 +149,11 @@
                         margin-left: -3px;
 
                         .block_info_main_info_variables_color_a {
+                            display: flex;
                             border-radius: 5px;
                             position: relative;
                             margin: 3px 3px;
+                            border: 1px solid grey;
                             // &:before{
                             //     content: '';
                             // position: absolute;
@@ -167,6 +169,24 @@
                             // &:active :before{
                             //     display: block;
                             // }
+                            .color_block {
+                                height: 25px;
+                                width: 100%;
+                                border-radius: 4px;
+                            }
+                            .color_hide {
+                                display: none;
+                            }
+                            .two_color_first {
+                                height: 25px;
+                                width: 50%;
+                                border-radius: 4px 0px 0px 4px;
+                            }
+                            .two_color_second {
+                                height: 25px;
+                                width: 50%;
+                                border-radius: 0px 4px 4px 0px;
+                            }
                         }
                     }
                 }
@@ -202,6 +222,9 @@
                     }
                     p {
                         padding: 3px;
+                        &:hover {
+                            cursor: pointer;
+                        }
                     }
                 }
             }
@@ -325,29 +348,29 @@
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888; 
+    border: 1px solid #888;
     width: 39%;
     border-radius: 21px;
     font-family: SF Pro;
     text-align: center;
     .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: -7px;
-      &:hover{
-          cursor: pointer;
-      }
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: -7px;
+        &:hover {
+            cursor: pointer;
+        }
     }
-    .go_home{
+    .go_home {
         background-color: orange;
         color: white;
         font-weight: 700;
@@ -362,12 +385,12 @@
         display: block;
         transition: 0.8s;
         margin: 25px auto;
-&:hover {
-cursor: pointer;
-box-shadow: 0 -45px 0 rgb(170, 112, 3) inset;
-} 
-    }}
-    
+        &:hover {
+            cursor: pointer;
+            box-shadow: 0 -45px 0 rgb(170, 112, 3) inset;
+        }
+    }
+}
 
 @media (max-width: 969px) {
     .breadcrumbs {
@@ -387,6 +410,9 @@ box-shadow: 0 -45px 0 rgb(170, 112, 3) inset;
     .block_info_main_info_variables_color_a {
         width: 24px;
         height: 24px;
+        .color_block {
+            height: inherit;
+        }
     }
     .block_info_main_info_add_instock,
     .block_info_main_info_add_wishlist {
@@ -473,9 +499,10 @@ box-shadow: 0 -45px 0 rgb(170, 112, 3) inset;
         .breadcrumbs {
             margin: 15px 0 10px;
             padding-left: 2%;
+            text-align: center;
             li {
                 span {
-                    font-size: 8px;
+                    font-size: 11px;
                 }
             }
         }
@@ -492,7 +519,7 @@ box-shadow: 0 -45px 0 rgb(170, 112, 3) inset;
             margin-left: 0%;
             padding: 0px 3%;
             .block_info_title {
-                min-height: 13%;
+                min-height: 23%;
                 font-size: 24px;
                 text-align: center;
             }
@@ -504,6 +531,9 @@ box-shadow: 0 -45px 0 rgb(170, 112, 3) inset;
                     display: none;
                 }
             }
+        }
+        .color_block {
+            height: 22px !important;
         }
     }
 }
