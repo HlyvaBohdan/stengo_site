@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from '../interfaces/product.interface';
-import { OrderService } from './order.service';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -11,7 +10,7 @@ export class BasketService {
   allBasket: Subject<any> = new Subject();
   productItem: Subject<any> = new Subject();
   totalPrice: any;
-  constructor(private orderService: OrderService) { }
+  constructor() { }
 
   setBasket(): any {
     if (localStorage.length > 0 && localStorage.getItem("myOrder")) {
@@ -21,18 +20,20 @@ export class BasketService {
   }
 
   setTotal(coupon?) {
-    if (coupon) {
-      this.totalPrice = this.basket.reduce((total, elem) => {
-        return (total + (elem.price * elem.count)) * (100 - coupon) / 100
-      }, 0)
+    if (this.basket!=undefined) {
+      if (coupon) {
+        this.totalPrice = this.basket.reduce((total, elem) => {
+          return (total + (elem.price * elem.count)) * (100 - coupon) / 100
+        }, 0)
+      }
+      else {
+        this.totalPrice = this.basket.reduce((total, elem) => {
+          return total + (elem.price * elem.count)
+        }, 0)
+      }
+      this.allBasket.next('')
+      return this.totalPrice
     }
-    else {
-      this.totalPrice = this.basket.reduce((total, elem) => {
-        return total + (elem.price * elem.count)
-      }, 0)
-    }
-    this.allBasket.next('')
-    return this.totalPrice
   }
 
   productCount(product: IProduct, status: boolean): void {
@@ -66,7 +67,7 @@ export class BasketService {
   getBasket() {
     return this.basket
   }
-  
+
   getTotal() {
     return this.totalPrice
   }

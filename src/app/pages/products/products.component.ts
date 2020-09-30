@@ -39,28 +39,30 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userFilterProductFinal = []
   }
 
-  setSubcategory(subcategoryName: string) {
+  setSubcategory(subcategoryName?: string) {
     this.afStorage.collection('products').ref.where('subcategoryEN', '==', subcategoryName).onSnapshot(
       collection => {
+        this.userFilterProductFinal = [];
+        this.userFilterProduct = [];
         this.userProduct = [];
         collection.forEach(document => {
           const data = document.data() as IProduct;
           const id = document.id;
-          this.userProduct.push({ id, ...data })
           this.userFilterProduct.push({ id, ...data })
+          this.userProduct.push({ id, ...data })
           this.userFilterProductFinal.push({ id, ...data })
+          setTimeout(() => {
+            window.scroll(0, 1)
+          }, 350)
         })
-        this.countProduct = this.userProduct.length
+        this.countProduct = this.userFilterProductFinal.length
       }
     )
   }
 
   openfilter() {
-    this.filterOpenT = !this.filterOpenT
-
     if (window.innerWidth > 767) {
       this.filterOpen = !this.filterOpen
     }
@@ -108,29 +110,13 @@ export class ProductsComponent implements OnInit {
     this.countProduct = this.userFilterProductFinal.length;
     this.p = 1;
   }
-  // filteredBy(){
-  // let forAppleWatch=[
-  //   {name:'Совместимость', value:[
-  //     {nameIn:'compability'},
-  //     {id:['38/40mm','42/44mm']},
-  //     {valueAll:['Apple Watch 38mm/40mm','Apple Watch 42mm/44mm']}
-  //   ]},
-  //   {name:'Материал', value:[
-  //     {nameIn:'material'},
-  //     {id:['silicone','siliconeNike','metal','nylon','leather']},
-  //     {valueAll:['Силиконовый','Силиконовый Nike','Металлический','Нейлоновий','Кожанний']}
-  //   ]},
-  // ]
-  // this.filterUser=forAppleWatch;
-  // console.log(this.filterUser.)
-  // }
+
   resetfilter() {
     this.userFilterProductFinal = this.userProduct
     this.userFilterProduct = this.userProduct
     this.countProduct = this.userFilterProductFinal.length;
     this.filterUser = [];
     let radios = document.querySelectorAll("input[type=radio]:checked") as any
-    console.log(this.filterUser)
     for (let i = 0; i < radios.length; i++) {
       radios[i].checked = false
     }

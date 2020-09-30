@@ -14,7 +14,7 @@ export class ProductsViewedComponent implements OnInit {
     private orderService: OrderService) { }
 
   ngOnInit(): void {
-    this.getViewedProducts()
+    this.getViewedProducts();
   }
 
   getViewedProducts() {

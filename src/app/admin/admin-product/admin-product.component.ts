@@ -25,7 +25,7 @@ export class AdminProductComponent implements OnInit {
   subcategories: Array<ISubcategory> = []
   productID = 1;
   // productCategory: ICategory = { id: 1, nameEN: 'pizza', nameUA: 'піца' };
-  categoryName: string;
+  categoryName: string = 'Iphone';
   subcategoryName: string;
   subcategoryNameEN: string
   productCategory: ICategory;
@@ -69,6 +69,7 @@ export class AdminProductComponent implements OnInit {
     this.adminFirebaseCategories();
     this.adminFirebaseSubcategories();
   }
+
   private adminFirebaseCategories(): void {
     this.catService.getFirecloudCategory().subscribe(
       collection => {
@@ -104,7 +105,6 @@ export class AdminProductComponent implements OnInit {
     );
   }
 
-
   setProduct(value: string) {
     if (this.product === value) {
       this.reverse = !this.reverse;
@@ -137,12 +137,8 @@ export class AdminProductComponent implements OnInit {
     this.productSale = product.sale;
     this.productImage = product.image;
     this.productImageAdd = product.imageAdd;
-
     this.editStatus = true;
-    this.setCategory();
-    this.setSubcategory();
     this.setAttrEdit();
-
   }
 
   openModal2(template: TemplateRef<any>, index: number) {
@@ -163,13 +159,13 @@ export class AdminProductComponent implements OnInit {
     this.subcategories = this.productCategory.subcategory;
     this.subcategoryName = this.subcategories[0].nameUA;
     this.subcategoryNameEN = this.subcategories[0].nameEN;
-    console.log(this.subcategoryNameEN)
   }
+
   setSubcategory(): void {
     this.productSubcategory = this.subcategories.filter(cat => cat.nameUA === this.subcategoryName)[0];
     this.subcategoryNameEN = this.productSubcategory.nameEN
-    console.log(this.productSubcategory, this.subcategoryNameEN)
   }
+
   setAttr() {
     let top = <HTMLInputElement>document.getElementById('productTop');
     top.checked
@@ -180,22 +176,20 @@ export class AdminProductComponent implements OnInit {
     sale.checked
       ? this.productSale = true
       : this.productSale = false
-    console.log(this.productSale)
   }
+
   setAttrEdit() {
     let top = <HTMLInputElement>document.getElementById('productTop');
     this.productTop == true
-      ? top.checked
+      ? top.checked = true
       : console.log('false')
     let sale = <HTMLInputElement>document.getElementById('productSale');
     this.productSale == true
-      ? sale.checked
+      ? sale.checked = true
       : console.log('false')
     console.log(this.productTop, this.productSale)
   }
-  setMaterial() {
-    console.log(this.productMaterial)
-  }
+
   uploadFile(event): void {
     const file = event.target.files[0];
     const type = file.type.slice(file.type.indexOf('/') + 1);
@@ -211,15 +205,12 @@ export class AdminProductComponent implements OnInit {
         this.productImage == ''
           ? this.productImage = url
           : this.productImageAdd = url;
-
         this.imageStatus = true;
-        console.log(this.subcategoryNameEN)
-
       })
     })
   }
+
   addProduct(): void {
-    this.checkInputs()
     const product: IProduct = new Product(this.productID,
       this.categoryName,
       this.subcategoryName,
@@ -238,55 +229,22 @@ export class AdminProductComponent implements OnInit {
       this.productSale,
       this.productImage,
       this.productImageAdd);
-
-
     if (this.checkInput == false) {
       if (!this.editStatus) {
         delete product.id;
-
-        // this.prodService.postJSONProduct(product).subscribe(() => {
-        //   // this.getProducts();
-        // });
         this.prodService.postFirecloudProduct(Object.assign({}, product))
-        // .then(() => {
-        //   this.updateSubcategory(product)
-        // })
-        console.log(product)
       }
       else {
-        // this.prodService.updateJSONProduct(product).subscribe(() => {
-        //   // this.getProducts();
-        // });
         this.prodService.updateFirecloudProduct(Object.assign({}, product))
-        // .then(() => {
-        //   this.updateSubcategory(product)
-        // })
+
         this.editStatus = false
       }
       this.resetModel()
     }
   }
-  // updateSubcategory(product:IProduct) {
-  //   this.subcategory = this.subcategories.filter(cat => cat.nameUA == this.subcategoryName)[0];
-  //   console.log(this.subcategory,this.subcategoryName)
-  //   this.subcategory.products.push(Object.assign({}, product))
-  //   this.firestore.collection('subcategories').doc(this.subcategory.id.toString()).update(Object.assign({}, this.subcategory));
-  // }
-  checkInputs(): void {
-    // if (this.productNameEN == '' || this.productNameUA == ''
-    //   || this.productDescription == '' || this.productCompability == '' ||
-    //   this.productColor == '' ||this.productMaterial == '' ||this.productAdditional == '' ||
-    //   this.productPrice == undefined || this.editStatus == false || this.productImage == '') {
-    //   this.checkInput = false
-    //   alert("Заповніть усі поля!")
-    // }
-    // else {
-    //   this.checkInput = true
-    // }
-  }
+ 
   resetModel(): void {
     this.modalService.hide(1);
-    // this.productCategory = { id: 1, nameEN: 'pizza', nameUA: 'піца' };
     this.productNameEN = '';
     this.productNameUA = '';
     this.productDescription = '';
@@ -298,12 +256,10 @@ export class AdminProductComponent implements OnInit {
     this.productPrice = undefined;
     this.productImage = '';
     this.productImageAdd = '';
-
     this.productID = 1;
     this.checkInput = false;
     this.imageStatus = false;
     this.editStatus = false;
-
-
   }
+
 }

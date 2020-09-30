@@ -3,12 +3,16 @@
         <h2>ПРОСМОТРЕННЫЕ ТОВАРЫ</h2>
     </div>
     <div class="home_main_all_products">
-        <div class="home_main_product" *ngFor="let product of productsViewed">
+        <div class="home_main_product" *ngFor="let product of productsViewed |slice:-6">
             <div class="home_main_product_image">
                 <a>
                     <img class="product_image" [src]='product?.image' alt=""
                         [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
                 </a>
+                <div class="small_icon">
+                    <div class="small_icon_top" *ngIf="product?.top">TOP</div>
+                    <div class="small_icon_sale" *ngIf="product?.sale">SALE</div>
+                </div>
             </div>
             <div class="product_title"
                 [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">

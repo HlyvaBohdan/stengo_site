@@ -10,5 +10,6 @@ export class Order implements IOrder {
         public ordersDetails: Array<IProduct>,
         public totalPayment: number,
         public dateOrder: string,
-        public status: string = 'В обробці') { }
+        public status: string = 'В обробці',
+        public view: boolean=false) { }
 }

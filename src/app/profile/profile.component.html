@@ -18,7 +18,7 @@
                     </div>
                     <div class="inputElementWrapper">
                         <input class="inputElementItem" type="text" placeholder="Телефон" required
-                            [(ngModel)]="userPhone">
+                            [(ngModel)]="userPhone" mask="(000)-000-00-00" prefix="+38">
                         <label>Телефон</label>
                         <span class="focus-border"><i></i></span>
                     </div>
@@ -30,13 +30,14 @@
         </div>
         <div class="customer_info_orders">
             <p class="page_name_add second_page">Мои заказы</p>
+            <p *ngIf="userOrder.length == 0" style="text-align: center">У Вас ещё нету заказов!</p>
             <div class="customer_info_order" *ngFor="let order of userOrder">
                 <div class="customer_info_order_date_status">
                     <p>Заказ от {{order.dateOrder|date:'dd MMMM, HH:mm год'}}</p>
-                    <p style="font-weight: 700;">Cтатус заказа:{{order.status}}</p>
+                    <p style="font-weight: 700;">Cтатус заказа: {{order.status}}</p>
                     <input class="btn_order_details" type="button" value="Детали" (click)="viewDetailsOrder(order)">
                 </div>
-                <div class="customer_info_order_details" *ngIf="viewDetails">
+                <div class="customer_info_order_details" *ngIf="order.view">
                     <ul class="customer_info_order_details_ul">
                         <li *ngFor="let product of order.ordersDetails">
                             <div class="customer_info_order_details_img">
@@ -67,4 +68,3 @@
         </div>
     </div>
 </div>
-<app-products-viewed></app-products-viewed>

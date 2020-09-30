@@ -1,7 +1,6 @@
 <div class="container">
     <div class="products_head">
-        <button class="products_head_btn" type="button" [textContent]=" !filterOpenT  ? 'Скрыть фильтр':'Фильтр' "
-            (click)="openfilter()"></button>
+        <button class="products_head_btn" type="button" (click)="openfilter()">Фильтр</button>
         <button class="products_head_btn reset_filter_btn" type="button" (click)="resetfilter()"
             *ngIf="userProduct[0]?.subcategoryEN !='other_accessories'|| userProduct[0]?.subcategoryEN =='cases_airpods'">Сбросить
             фильтр</button>
@@ -20,7 +19,7 @@
                 </ul>
             </div>
             <div class="filter_block"
-                *ngIf="userProduct[0]?.subcategoryEN =='straps'||userProduct[0]?.subcategoryEN =='cases_airpods'||userProduct[0]?.subcategoryEN =='cases_macbook'||userProduct[0]?.subcategoryEN =='cases_ipad'||userProduct[0]?.subcategoryEN =='cases' || userProduct[0]?.subcategoryEN =='glasses'||userProduct[0]?.subcategoryEN =='glasses_apple' || userProduct[0]?.subcategoryEN =='case_apple'">
+                *ngIf="userProduct[0]?.subcategoryEN =='straps'||userProduct[0]?.subcategoryEN =='cases_airpods'||userProduct[0]?.subcategoryEN =='cases_macbook'||userProduct[0]?.subcategoryEN =='cases_ipad'||userProduct[0]?.subcategoryEN =='cases' || userProduct[0]?.subcategoryEN =='glasses'||userProduct[0]?.subcategoryEN =='glasses_apple' ||userProduct[0]?.subcategoryEN =='case_apple'">
                 <div class="filter_block_title">
                     <p>Совместимость</p>
                 </div>
@@ -162,12 +161,12 @@
                     </li>
                 </ul>
             </div>
-            <div class="filter_block" *ngIf="userProduct[0]?.subcategoryEN =='cases'">
+            <div class="filter_block"
+                *ngIf="userProduct[0]?.subcategoryEN =='cases'||userProduct[0]?.subcategoryEN =='charger'">
                 <div class="filter_block_title">
                     <p>Тип</p>
                 </div>
-                <ul class="filter_list"
-                    *ngIf="userProduct[0]?.subcategoryEN =='cases'||userProduct[0]?.subcategoryEN =='charger'">
+                <ul class="filter_list" *ngIf="userProduct[0]?.subcategoryEN =='cases'">
                     <li class="filter_list_li">
                         <input type="radio" name="additional" id="с лого" style="display: none;"
                             (change)='changeInput($event)'>
@@ -281,6 +280,10 @@
                     <a>
                         <img class="product_image" [src]='product?.image' alt="">
                     </a>
+                    <div class="small_icon">
+                        <div class="small_icon_top" *ngIf="product?.top">TOP</div>
+                        <div class="small_icon_sale" *ngIf="product?.sale">SALE</div>
+                    </div>
                 </div>
                 <div class="product_title"
                     [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
@@ -304,4 +307,4 @@
     </div>
     <pagination-controls class="myPagination" (pageChange)="p = $event"></pagination-controls>
 </div>
-<app-products-viewed></app-products-viewed>
+<!-- <app-products-viewed></app-products-viewed> -->

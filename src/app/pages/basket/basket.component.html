@@ -14,7 +14,7 @@
         </li>
     </nav>
     <h1 class="page_name" *ngIf="basket?.length>0" [textContent]="orderComplete ? 'Спасибо за заказ!' :'Корзина'"></h1>
-    <div class="empty_basket" *ngIf="basket?.length==0 && !orderComplete">
+    <div class="empty_basket" *ngIf="basket ==undefined||basket?.length==0 && !orderComplete">
         <p>Ваша корзина пустая</p>
         <input type="button" value="За покупками!" class="empty_basket_btn" [routerLink]="[ '/home']">
     </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="inputElementWrapper">
                             <input class="inputElementItem" ngModel name="userPhone" #phone="ngModel" type="text"
-                                placeholder="Телефон" required #name="ngModel">
+                                placeholder="Телефон" required #name="ngModel" mask="(000)-000-00-00" prefix="+38">
                             <label>Телефон*</label>
                             <span class="focus-border"><i></i></span>
                         </div>
@@ -145,7 +145,8 @@
                             </li>
                         </ul>
                         <div class="customer_info_order_total">
-                            <span> Скидка: {{salePrice?.toFixed(0)}}<span style="font-size: 12px;">грн</span></span>
+                            <span *ngIf="useCoupon != undefined"> Скидка: {{salePrice?.toFixed(0)}}<span
+                                    style="font-size: 12px;">грн</span></span>
                         </div>
                         <div class="customer_info_order_total">
                             <span> Заказ на суму: {{currentTotalPrice?.toFixed(0)}}<span

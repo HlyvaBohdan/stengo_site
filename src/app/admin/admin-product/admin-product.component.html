@@ -125,6 +125,11 @@
             <option>ipad pro 11</option>
             <option>ipad pro 12.9</option>
           </select>
+          <select *ngIf="subcategoryNameEN=='straps'" class="form-control" [(ngModel)]="productCompability"
+            name="productCompability" id="productCompability">
+            <option>38/40mm</option>
+            <option>42/44mm</option>
+          </select>
           <select *ngIf="subcategoryNameEN=='case_apple'" class="form-control" [(ngModel)]="productCompability"
             name="productCompability" id="productCompability">
             <option>38mm</option>
@@ -157,8 +162,8 @@
             <option>glass</option>
             <option>hydrogel</option>
           </select>
-          <select *ngIf="subcategoryNameEN=='case_apple'||'cases'" class="form-control" [(ngModel)]="productMaterial"
-            name="productMaterial" (change)="setMaterial()" id="productMaterial">
+          <select *ngIf="subcategoryNameEN=='case_apple'||subcategoryNameEN=='cases'" class="form-control"
+            [(ngModel)]="productMaterial" name="productMaterial" (change)="setMaterial()" id="productMaterial">
             <option>plastic</option>
             <option>silicone</option>
           </select>
@@ -172,8 +177,6 @@
         <div class="d-flex justify-content-between"></div>
         <div class="form-group">
           <label for="productAdditional">Додатково</label>
-          <input *ngIf="subcategoryNameEN!='cases'" type="text" class="form-control" id="productAdditional"
-            [(ngModel)]="productAdditional" name="productAdditional">
           <select *ngIf="subcategoryNameEN=='cases'" class="form-control" [(ngModel)]="productAdditional"
             name="productAdditional" id="productAdditional">
             <option>с лого</option>

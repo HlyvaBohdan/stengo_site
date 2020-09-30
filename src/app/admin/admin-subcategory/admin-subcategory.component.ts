@@ -23,7 +23,7 @@ export class AdminSubcategoryComponent implements OnInit {
   nameEN = '';
   nameUA = '';
   subcategoryImage = '';
-  nameSubcategory = 'Ipad';
+  nameSubcategory: string;
   subcategoryCategory = 'Ipad';
   subcategoryID = 1;
   checkInput: boolean;
@@ -71,14 +71,14 @@ export class AdminSubcategoryComponent implements OnInit {
     this.catService.postFirecloudSubcategory(Object.assign({}, newSubcategory))
       .then(() => {
         this.updateCategory(newSubcategory)
+        this.resetModel()
       })
   }
 
   setSubcategory(): void {
     this.subcategoryCategory = this.categories.filter(cat => cat.nameUA === this.categoryName)[0].nameUA;
-    console.log(this.subcategoryCategory)
-
   }
+
   updateCategory(newSubcategory: ISubcategory): void {
     this.category = this.categories.filter(cat => cat.nameUA === this.categoryName)[0];
     this.category.subcategory.push(Object.assign({}, newSubcategory))
@@ -100,14 +100,17 @@ export class AdminSubcategoryComponent implements OnInit {
       this.checkInput = true
     }
   }
+
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     this.categoryName = this.categories[0].nameUA
   }
+
   openModal2(template: TemplateRef<any>, index: number) {
     this.modalRef = this.modalService.show(template);
     this.currentIndexDelete = index;
   }
+
   uploadFile(event): void {
     const file = event.target.files[0];
     const type = file.type.slice(file.type.indexOf('/') + 1);

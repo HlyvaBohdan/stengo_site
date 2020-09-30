@@ -1,63 +1,146 @@
 @font-face {
-    font-family: "SF Pro";
-    src: url(assets/fonts/SF_Pro/FontsFree-Net-SFProDisplay-Regular.ttf);
-  }
-  
-  html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+	font-family: "SF Pro";
+	src: url(assets/fonts/SF_Pro/FontsFree-Net-SFProDisplay-Regular.ttf);
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
 	margin: 0;
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-outline: none;
+	outline: none;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
 	display: block;
 }
 body {
 	line-height: 1;
 	overflow-x: hidden;
 }
-ol, ul {
+ol,
+ul {
 	list-style: none;
 }
-blockquote, q {
+blockquote,
+q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
 	content: none;
 }
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-*,*::before, *::after{
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 .productCountWrapper {
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
 	padding: 0 24px;
-  }
-  
-  .productCount {
+}
+
+.productCount {
 	position: absolute;
 	top: 50%;
 	left: 0;
@@ -71,9 +154,9 @@ table {
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
-  }
-  
-  .productCount.lessProduct:before {
+}
+
+.productCount.lessProduct:before {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -82,18 +165,18 @@ table {
 	margin-top: -1px;
 	margin-left: -5px;
 	background: rgb(17, 17, 17);
-	-webkit-transition: background .250s linear;
-	-o-transition: background .250s linear;
-	transition: background .250s linear;
-	content: '';
-  }
-  .productCount.moreProduct {
+	-webkit-transition: background 0.25s linear;
+	-o-transition: background 0.25s linear;
+	transition: background 0.25s linear;
+	content: "";
+}
+.productCount.moreProduct {
 	left: auto;
 	right: 0;
-  }
-  
-  .productCount.moreProduct:before,
-  .productCount.moreProduct:after {
+}
+
+.productCount.moreProduct:before,
+.productCount.moreProduct:after {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -102,24 +185,23 @@ table {
 	margin-top: -1px;
 	margin-left: -5px;
 	background: rgb(17, 17, 17);
-	-webkit-transition: background .250s linear;
-	-o-transition: background .250s linear;
-	transition: background .250s linear;
-	content: '';
-  }
-  
-  .productCount.moreProduct:after {
+	-webkit-transition: background 0.25s linear;
+	-o-transition: background 0.25s linear;
+	transition: background 0.25s linear;
+	content: "";
+}
+
+.productCount.moreProduct:after {
 	-webkit-transform: rotate(-90deg);
 	-ms-transform: rotate(-90deg);
 	transform: rotate(-90deg);
-  }
-  
-  
-  .productCountWrapper input {
+}
+
+.productCountWrapper input {
 	padding: 0 5px;
-  }
-  
-  .productCountWrapper input {
+}
+
+.productCountWrapper input {
 	font-size: 16px;
 	width: 25px;
 	height: 25px;
@@ -129,15 +211,19 @@ table {
 	padding: 0 6px;
 	font-family: "Roboto";
 	border: 1px solid #eaeaea;
-  }
- input[type='button']{
-	  &:focus{
-		 outline: none;
-	  }
-  }
-  .modal-order{
-	max-width:1000px!important;
+}
+input[type="button"] {
+	&:focus {
+		outline: none;
 	}
-body{
-	overflow-y: auto!important;
+}
+.modal-order {
+	max-width: 1000px !important;
+}
+body {
+	overflow-y: auto !important;
+}
+.modal,
+.modal-backdrop {
+	z-index: 9999999 !important;
 }

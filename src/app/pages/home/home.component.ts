@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   slideIndex = 0;
   topProducts: Array<IProduct> = []
   p: number = 1;
+  mySlider;
   constructor(
     private afStorage: AngularFirestore,
     private orderService: OrderService
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   getTopProducts() {
     this.afStorage.collection('products').ref.where('top', '==', true).onSnapshot(
       collection => {
+        this.topProducts = [];
         collection.forEach(document => {
           const data = document.data() as IProduct;
           const id = document.id;
@@ -43,7 +45,11 @@ export class HomeComponent implements OnInit {
     this.slideIndex++;
     if (this.slideIndex > slides.length) { this.slideIndex = 1 }
     slides[this.slideIndex - 1].style.display = "block";
-    setTimeout(() => { this.slider() }, 4000);
+    this.mySlider = setTimeout(() => { this.slider() }, 4000);
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.mySlider);
   }
 
   addBasket(product: IProduct): void {

@@ -22,6 +22,10 @@
     <div class="block_images">
         <div class="block_images_main">
             <img class="block_images_main_img" [src]='titleImage' alt="">
+            <div class="small_icon">
+                <div class="small_icon_top" *ngIf="userProduct?.top">TOP</div>
+                <div class="small_icon_sale" *ngIf="userProduct?.sale">SALE</div>
+            </div>
         </div>
         <div class="block_images_add">
             <img class="block_images_add_img" [src]="userProduct?.image" (click)="checkImage('main')" alt="">

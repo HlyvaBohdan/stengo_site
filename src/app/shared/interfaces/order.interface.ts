@@ -9,5 +9,6 @@ export interface IOrder{
     ordersDetails: Array<IProduct>;
     totalPayment: number;
     dateOrder: string;
-    status: string;
+    status?: string;
+    view?:boolean;
 }

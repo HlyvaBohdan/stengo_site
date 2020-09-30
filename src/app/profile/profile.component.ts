@@ -12,7 +12,6 @@ import { ProductService } from '../shared/services/product.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  viewDetails: boolean;
   userEmail: string;
   userName: string;
   userNameLast: string;
@@ -23,11 +22,9 @@ export class ProfileComponent implements OnInit {
   findUserID: any;
   checkOrderStatus: Array<IProduct> = [];
   constructor(private authService: AuthService,
-    private firestore: AngularFirestore,
-    private productService: ProductService,) { }
+    private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('myProduct');
     this.getUserData()
     this.updateOrderStatus()
   }
@@ -44,7 +41,6 @@ export class ProfileComponent implements OnInit {
 
   signOut(): void {
     this.authService.signOut();
-    this.productService.productWish.next('')
   }
 
   async updateUser() {
@@ -86,9 +82,9 @@ export class ProfileComponent implements OnInit {
     this.userOrder = this.checkOrderStatus;
   }
 
-  viewDetailsOrder() {
-    this.viewDetails = !this.viewDetails
+  viewDetailsOrder(order): void {
+    order.view = !order.view
   }
-  
+
 }
 

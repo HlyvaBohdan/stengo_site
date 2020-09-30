@@ -23,7 +23,6 @@ export class AuthService {
               if (userRef.data().role === 'admin' && userRef.data().access) {
                 this.router.navigateByUrl('admin');
                 this.userStatus.next('')
-
               }
               else {
                 this.router.navigateByUrl('profile');

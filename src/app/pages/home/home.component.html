@@ -2,7 +2,7 @@
     <div class="home_slider">
         <div class="slideshow-container">
             <div class="mySlides fade">
-                <img class="img_slide" src="/assets/images/baner.jpg">
+                <img class="img_slide" src="/assets/images/banner.jpg">
             </div>
             <div class="mySlides fade">
                 <img class="img_slide" src="/assets/images/banner_2.jpg">
@@ -19,6 +19,10 @@
                 <div class="home_main_product_image"
                     [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
                     <img class="product_image" [src]='product?.image' alt="">
+                    <div class="small_icon">
+                        <div class="small_icon_top" *ngIf="product?.top">TOP</div>
+                        <div class="small_icon_sale" *ngIf="product?.sale">SALE</div>
+                    </div>
                 </div>
                 <div class="product_title"
                     [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
@@ -42,5 +46,3 @@
     </div>
 </div>
 <pagination-controls class="myPagination" (pageChange)="p = $event"></pagination-controls>
-
-<app-products-viewed></app-products-viewed>

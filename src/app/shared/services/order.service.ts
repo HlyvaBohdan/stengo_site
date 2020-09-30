@@ -72,5 +72,5 @@ export class OrderService {
   deleteFirecloudQuickOrder(id: number): Promise<void> {
     return this.firestore.collection('quickorders').doc(id.toString()).delete();
   }
-  
+
 }

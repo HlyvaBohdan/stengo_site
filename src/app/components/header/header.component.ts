@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
   openWishList: boolean;
   modalRef: BsModalRef;
   typeauth: string;
-  count = 0;
   categories: Array<ICategory> = [];
   myModal = document.getElementsByClassName('modal') as HTMLCollectionOf<HTMLElement>;
   firstName: string = '';
@@ -53,34 +52,20 @@ export class HeaderComponent implements OnInit {
     private basketService: BasketService,
     private authService: AuthService,
   ) {
-    window.addEventListener('click', (event: any) => {
-      this.count = 0;
-      for (let i = 0; i < event.path.length - 2; i++) {
-        if (event.path[i].classList[0] == 'header_mobile_wishlist_ul' ||
-          event.path[i].classList[0] == 'far') {
-          this.count++
-        }
-      }
-      this.count > 0
-        ? this.openWishList = true
-        : this.openWishList = false
-    })
+
   }
 
   ngOnInit(): void {
+    this.adminFirebaseCategories();
     this.getData();
     this.checkBasket();
     this.addNewProduct();
     this.scroll();
-    this.adminFirebaseCategories();
+    this.other();
     this.updateCheckUser();
     this.checkUser();
     this.getWishProducts();
     this.getListwishProducts();
-    document.getElementById('menu').addEventListener('click', (event: any) => {
-      let checkbox = document.querySelector("input[type=checkbox]:checked") as any
-      checkbox.checked = false
-    })
 
   }
 
@@ -96,7 +81,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getWishProducts() {
+  getWishProducts(): void {
     this.productService.productWish.subscribe(([product, status]) => {
       if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
         this.productsWish = JSON.parse(localStorage.getItem('myProductWishes'));
@@ -116,13 +101,13 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  getListwishProducts() {
+  getListwishProducts(): void {
     if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
       this.productsWish = JSON.parse(localStorage.getItem('myProductWishes'));
     }
   }
 
-  deleteProductWish(product) {
+  deleteProductWish(product): void {
     this.productService.productWish.next([product, 'delete'])
     this.productService.productWishUser.next('');
   }
@@ -133,14 +118,14 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  checkBasket() {
+  checkBasket(): void {
     this.basketService.allBasket.subscribe(() => {
       this.basket = this.basketService.getBasket()
       this.totalPrice = this.basketService.getTotal()
     })
   }
 
-  getData() {
+  getData(): void {
     if (localStorage.length > 0 && localStorage.getItem('myOrder')) {
       this.basket = this.basketService.setBasket()
       this.totalPrice = this.basketService.setTotal()
@@ -156,12 +141,7 @@ export class HeaderComponent implements OnInit {
     this.basketService.deleteProductBasketS(product)
   }
 
-  removeItem() {
-    localStorage.removeItem('myProduct');
-    this.basketService.allBasket.next('');
-  }
-
-  scroll() {
+  scroll(): void {
     let logo = document.getElementsByClassName('header_main_logo_img') as HTMLCollectionOf<HTMLElement>;
     let headerLiImg = document.getElementsByClassName('img_li') as HTMLCollectionOf<HTMLElement>
     for (let i = 0; i < headerLiImg.length; i++) {
@@ -182,6 +162,22 @@ export class HeaderComponent implements OnInit {
     }, 2400)
   }
 
+  other(): void {
+    window.addEventListener('click', (event: any) => {
+      event.path[1].classList[0] == 'header_mobile_wishlist_ul' ||
+        event.path[0].classList[0] == 'far'
+        ? this.openWishList = true
+        : this.openWishList = false
+
+      let checkbox = document.querySelector("input[type=checkbox]:checked") as any
+      if (checkbox) {
+        event.path[1].id == 'menuToggle'
+         ? checkbox.checked = true
+         : checkbox.checked = false
+        }
+    })
+  }
+
   openModal(type: string): void {
     this.typeauth = type;
     this.myModal[0].style.display = 'flex';
@@ -199,7 +195,6 @@ export class HeaderComponent implements OnInit {
     else {
       alert('Заповніть усі поля')
     }
-    this.productService.productWish.next('')
   }
 
   registerUser(): void {
@@ -225,7 +220,6 @@ export class HeaderComponent implements OnInit {
     else {
       alert('Заповніть коректно поле "Імя"')
     }
-    this.productService.productWish.next('')
   }
 
   private updateCheckUser(): void {
@@ -258,11 +252,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  openWishMobile() {
+  openWishMobile(): void {
     this.openWishList = !this.openWishList
   }
-  
-  reset() {
+
+  reset(): void {
     this.myModal[0].style.display = 'none';
     this.firstName = '';
     this.lastName = '';

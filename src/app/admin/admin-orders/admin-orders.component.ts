@@ -27,6 +27,7 @@ export class AdminOrdersComponent implements OnInit {
   orderData: string;
   orderStatus: string;
   orderComplete: IOrder;
+  orderView: boolean;
   editStatus: boolean;
 
 
@@ -86,6 +87,16 @@ export class AdminOrdersComponent implements OnInit {
   deleteOrder(order: IOrder): void {
     this.orderService.deleteFirecloudOrder(order.id);
   }
+
+  deleteProductOrder(product: IProduct): void {
+    if (confirm('Are you sure?')) {
+      const index = this.orderDetails.findIndex(ord => ord.id === product.id)
+      this.orderDetails.splice(index, 1);
+      this.getTotal()
+      this.editOrder()
+    }
+  }
+
   private editOrder(comment?: string) {
     let order: IOrder;
     if (this.editStatus) {
@@ -98,7 +109,8 @@ export class AdminOrdersComponent implements OnInit {
         this.orderDetails,
         this.orderPayment,
         this.orderData,
-        this.orderStatus);
+        this.orderStatus,
+        this.orderView);
     }
     else {
       order = this.orderComplete;

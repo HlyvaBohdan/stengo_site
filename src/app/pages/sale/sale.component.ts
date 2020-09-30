@@ -41,7 +41,9 @@ export class SaleComponent implements OnInit {
           this.saleProducts.push({ id, ...data })
           this.userFilterProduct.push({ id, ...data })
           this.userFilterProductFinal.push({ id, ...data })
-          console.log(this.saleProducts)
+          setTimeout(() => {
+            window.scroll(0, 1)
+          }, 350)
         })
         this.countProduct = this.saleProducts.length
       }
@@ -97,7 +99,6 @@ export class SaleComponent implements OnInit {
     this.userFilterProductFinal = this.saleProducts
     this.countProduct = this.userFilterProductFinal.length;
     let radios = document.querySelectorAll("input[type=radio]:checked") as any
-    console.log(radios)
     for (let i = 0; i < radios.length; i++) {
       radios[i].checked = false
     }

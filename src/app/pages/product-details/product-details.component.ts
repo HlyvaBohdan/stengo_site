@@ -137,7 +137,7 @@ export class ProductDetailsComponent implements OnInit {
       }
     })
   }
-  
+
   checkColor() {
     if (this.userProduct.color != '') {
       this.color = true;

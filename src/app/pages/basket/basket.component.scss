@@ -44,7 +44,7 @@
     }
     .empty_basket {
         width: 100vw;
-        height: 50vh;
+        height: 68.4vh;
         display: flex;
         flex-flow: row wrap;
         justify-content: center;
@@ -482,7 +482,7 @@
 
         .inputElementItem:focus ~ label,
         .textareaElementItem:focus ~ label {
-            top: -18px;
+            top: -15px;
             left: 0;
             font-size: 12px;
             color: #0e0e0e;
@@ -491,7 +491,7 @@
 
         .inputElementItem:not(:placeholder-shown):not([value=""]) ~ label,
         .textareaElementItem:not(:placeholder-shown):not([value=""]) ~ label {
-            top: -18px;
+            top: -15px;
             left: 0;
             font-size: 12px;
             color: #0e0e0e;
@@ -605,7 +605,6 @@
                 .customer_info_form {
                     .inputElementWrapper {
                         font-size: 14px;
-                        margin-top: 10px;
                     }
                 }
             }

@@ -53,7 +53,7 @@
       </div>
       <div class="header_mobile_wishlist">
         <ul class="header_mobile_wishlist_ul" [ngStyle]="{'display': openWishList ? 'block':'none'}">
-          <li *ngFor="let product of productsWish"
+          <li *ngFor="let product of productsWish | slice:-5"
             [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
             <img class="header_mobile_wishlist_ul_image" [src]='product?.image' alt="">
             <div class="header_mobile_wishlist_ul_info">
@@ -69,6 +69,9 @@
           </li>
           <li class="product_enough_head" *ngIf="productsWish?.length==0">
             <p>Список избранных товаров пуст</p>
+          </li>
+          <li class="product_enough_head" *ngIf="productsWish?.length>5">
+            <p>И ещё {{productsWish?.length - 5 }} товаров в избранных</p>
           </li>
         </ul>
       </div>
@@ -98,7 +101,7 @@
                 <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i>
               </span>
               <ul class="header_main_dropdown_menu_ul_wish">
-                <li *ngFor="let product of productsWish"
+                <li *ngFor="let product of productsWish |slice:-5"
                   [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
                   <img class="header_main_dropdown_menu_image_wish" [src]='product?.image' alt="">
                   <div class="header_main_dropdown_menu_info_wish">
@@ -111,6 +114,9 @@
                     </div>
                     <button class="delete" (click)="deleteProductWish(product)"><i class="fa fa-times"></i></button>
                   </div>
+                </li>
+                <li class="product_enough_head" *ngIf="productsWish?.length>5">
+                  <p>И ещё {{productsWish?.length - 5 }} товаров в избранных</p>
                 </li>
                 <li class="product_enough_head" *ngIf="productsWish?.length==0">
                   <p>Список избранных товаров пуст</p>
@@ -146,6 +152,7 @@
                 </li>
                 <li class="product_enough_head" *ngIf="basket?.length>3">
                   <p>И ещё {{basket?.length - 3 }} товар в корзине</p>
+                </li>
                 <li class="product_enough_head" *ngIf="basket?.length==0">
                   <p>Ваша корзина пустая(</p>
                 </li>
@@ -242,7 +249,7 @@
           <span class="far fa-heart" style="color: white;">
             <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i></span>
           <ul class="header_main_dropdown_menu_ul_wish_scroll">
-            <li *ngFor="let product of productsWish"
+            <li *ngFor="let product of productsWish |slice: -5"
               [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
               <img class="header_main_dropdown_menu_image_wish_scroll" [src]='product?.image' alt="">
               <div class="header_main_dropdown_menu_info_wish_scroll">
@@ -258,6 +265,9 @@
             </li>
             <li class="product_enough_head" *ngIf="productsWish?.length==0">
               <p>Список избранных товаров пуст</p>
+            </li>
+            <li class="product_enough_head" *ngIf="productsWish?.length>5">
+              <p>И ещё {{productsWish?.length - 5 }} товаров в избранных</p>
             </li>
           </ul>
         </div>
