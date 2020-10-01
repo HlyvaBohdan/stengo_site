@@ -58,7 +58,7 @@
                 </div>
                 <div class="products_all_block_main_product_details">
                     <div class="products_all_block_main_product_details_price">
-                        <span class="old_price">{{product?.oldPrice}} <span style="font-size: 12px;">грн</span></span>
+                        <span class="old_price"*ngIf="product?.oldPrice">{{product?.oldPrice}} <span style="font-size: 12px;">грн</span></span>
                         <br>
                         <span class="new_price">{{product?.price}}<span style="font-size: 12px;">грн</span></span>
                     </div>

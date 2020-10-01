@@ -39,6 +39,7 @@
         <img src="/assets/images/stengo_black.png" alt="" [routerLink]="[ '/home']">
       </div>
       <div class="header_mobile_icon">
+        <span class="fas fa-search" (click)="openSearchModal()"></span>
         <div class="icon_wish" (click)="openWishMobile()">
           <span class="far fa-heart">
             <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i>
@@ -96,6 +97,7 @@
             </a>
           </div>
           <div class="header_main_basket_and_other">
+            <span class="fas fa-search" (click)="openSearchModal()"></span>
             <div class="header_main_dropdown_menu_wish">
               <span class="far fa-heart">
                 <i *ngIf="productsWish?.length > 0" class="header__cart-count">{{productsWish?.length}}</i>
@@ -377,5 +379,37 @@
         </form>
       </div>
     </ng-template>
+  </div>
+</div>
+<div id="myModal" class="modal search">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <p>Поиск</p>
+    <div class="inputElementWrapper">
+      <input class="inputElementItem" type="text" placeholder="Введите фразу для поиска" [(ngModel)]="searchProduct"
+        (input)='searchProducts()' name="firstName">
+      <span class="focus-border"><i></i></span>
+    </div>
+    <div class="search_result">
+      <ul class="header_main_dropdown_menu_ul_wish search_ul">
+        <li *ngFor="let product of productResult |slice:-5"
+          [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]"
+          style="width: 100%;" (click)="reset()">
+          <img class="header_main_dropdown_menu_image_wish" [src]='product?.image' alt="">
+          <div class="header_main_dropdown_menu_info_wish">
+            <p class="search_product_p">{{product?.nameUA}}</p>
+            <div class="home_main_product_details_price_wish">
+              <span class="new_price">{{product?.price}} <span style="font-size: 12px;">грн</span></span>
+              <br>
+              <span class="old_price" *ngIf="product?.oldPrice">{{product?.oldPrice}}<span
+                  style="font-size: 12px;">грн</span></span>
+            </div>
+          </div>
+        </li>
+        <li class="product_enough_head" *ngIf="productResult?.length>5">
+          <p>И ещё {{productResult?.length - 5 }} товаров</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

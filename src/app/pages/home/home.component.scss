@@ -23,7 +23,7 @@
         margin-bottom: 0px;
 
         position: relative;
-        &:hover{
+        &:hover {
           cursor: pointer;
         }
         .product_image {
@@ -193,7 +193,8 @@
     font-size: 24px;
   }
   .product_title {
-    font-size: 15px;
+    font-size: 14px;
+    height: 50px;
   }
   .old_price {
     font-size: 12px;
@@ -320,6 +321,7 @@
           .product_title {
             width: 60%;
             margin-top: 3%;
+
             text-align: left;
             font-family: SF Pro;
           }

@@ -8,6 +8,7 @@ import { IProduct } from 'src/app/shared/interfaces/product.interface';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { BasketService } from '../../shared/services/basket.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +24,8 @@ export class HeaderComponent implements OnInit {
   typeauth: string;
   categories: Array<ICategory> = [];
   myModal = document.getElementsByClassName('modal') as HTMLCollectionOf<HTMLElement>;
+  myModalSearch = document.getElementsByClassName('search') as HTMLCollectionOf<HTMLElement>;
+
   firstName: string = '';
   lastName: string = '';
   phone: any;
@@ -44,13 +47,17 @@ export class HeaderComponent implements OnInit {
   userRole: string;
   productsWish: Array<IProduct> = [];
   findUserID: any;
-  hideBurger: boolean
+  hideBurger: boolean;
+  searchProduct: string;
+  allProducts: Array<IProduct> = [];
+  productResult: Array<IProduct> = [];
   constructor(
     private catService: CategoryService,
     private orderService: OrderService,
     private productService: ProductService,
     private basketService: BasketService,
     private authService: AuthService,
+    private afStorage: AngularFirestore
   ) {
 
   }
@@ -66,7 +73,6 @@ export class HeaderComponent implements OnInit {
     this.checkUser();
     this.getWishProducts();
     this.getListwishProducts();
-
   }
 
   private adminFirebaseCategories(): void {
@@ -80,7 +86,17 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
-
+  getAllProducts(): void {
+    this.afStorage.collection('products').ref.where('count', '==', 1).onSnapshot(
+      collection => {
+        collection.forEach(document => {
+          const data = document.data() as IProduct;
+          const id = document.id;
+          this.allProducts.push({ id, ...data })
+        })
+      }
+    )
+  }
   getWishProducts(): void {
     this.productService.productWish.subscribe(([product, status]) => {
       if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
@@ -163,24 +179,33 @@ export class HeaderComponent implements OnInit {
   }
 
   other(): void {
-    window.addEventListener('click', (event: any) => {
-      event.path[1].classList[0] == 'header_mobile_wishlist_ul' ||
-        event.path[0].classList[0] == 'far'
-        ? this.openWishList = true
-        : this.openWishList = false
+    if (screen.width < 767) {
+      window.addEventListener('click', (event: any) => {
+        event.path[1].classList[0] == 'header_mobile_wishlist_ul' ||
+          event.path[0].classList[0] == 'far'
+          ? this.openWishList = true
+          : this.openWishList = false
 
-      let checkbox = document.querySelector("input[type=checkbox]:checked") as any
-      if (checkbox) {
-        event.path[1].id == 'menuToggle'
-         ? checkbox.checked = true
-         : checkbox.checked = false
+        let checkbox = document.querySelector("input[type=checkbox]:checked") as any
+        if (checkbox) {
+          event.path[1].id == 'menuToggle'
+            ? checkbox.checked = true
+            : checkbox.checked = false
         }
-    })
+        event.path[1].id == 'myModal' || event.path[1].className == 'header_mobile_icon' || event.path[1].className == 'inputElementWrapper' || event.path[1].className == 'modal-content' && event.path[0].className != 'close'
+          ? this.myModalSearch[0].style.display = 'flex'
+          : this.myModalSearch[0].style.display = 'none';
+      })
+    }
   }
 
   openModal(type: string): void {
     this.typeauth = type;
     this.myModal[0].style.display = 'flex';
+  }
+  openSearchModal(): void {
+    this.myModalSearch[0].style.display = 'flex';
+    this.getAllProducts();
   }
 
   closeModal(): void {
@@ -255,14 +280,28 @@ export class HeaderComponent implements OnInit {
   openWishMobile(): void {
     this.openWishList = !this.openWishList
   }
+  searchProducts(): void {
+    this.productResult = [];
+    this.allProducts.filter(elem => {
+      elem.nameUA.toLowerCase().includes(this.searchProduct.toLowerCase())
+        ? this.productResult.push(elem)
+        : elem
+    })
+    if (this.searchProduct == '') {
+      this.productResult = [];
+    }
+  }
 
   reset(): void {
     this.myModal[0].style.display = 'none';
+    this.myModalSearch[0].style.display = 'none';
     this.firstName = '';
     this.lastName = '';
     this.phone = undefined;
     this.email = '';
     this.password = '';
+    this.productResult = [];
+    this.searchProduct = ''
   }
 
 }
