@@ -187,7 +187,6 @@ export class AdminProductComponent implements OnInit {
     this.productSale == true
       ? sale.checked = true
       : console.log('false')
-    console.log(this.productTop, this.productSale)
   }
 
   uploadFile(event): void {

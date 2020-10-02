@@ -73,6 +73,7 @@ export class HeaderComponent implements OnInit {
     this.checkUser();
     this.getWishProducts();
     this.getListwishProducts();
+    this.getAllProducts();
   }
 
   private adminFirebaseCategories(): void {
@@ -86,6 +87,7 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
+
   getAllProducts(): void {
     this.afStorage.collection('products').ref.where('count', '==', 1).onSnapshot(
       collection => {
@@ -97,6 +99,7 @@ export class HeaderComponent implements OnInit {
       }
     )
   }
+
   getWishProducts(): void {
     this.productService.productWish.subscribe(([product, status]) => {
       if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
@@ -205,7 +208,6 @@ export class HeaderComponent implements OnInit {
   }
   openSearchModal(): void {
     this.myModalSearch[0].style.display = 'flex';
-    this.getAllProducts();
   }
 
   closeModal(): void {
