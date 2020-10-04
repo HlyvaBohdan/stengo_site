@@ -9,11 +9,11 @@
             </div>
         </div>
     </div>
-    <div class="home_main">
+    <div class="home_main"#block>
         <div class="home_main_title">
             <h2>ТОП ПРОДАЖ</h2>
         </div>
-        <div class="home_main_all_products">
+        <div class="home_main_all_products" >
             <div class="home_main_product"
                 *ngFor="let product of topProducts| paginate: { itemsPerPage: 9, currentPage: p }">
                 <div class="home_main_product_image"
@@ -45,4 +45,9 @@
         </div>
     </div>
 </div>
-<pagination-controls class="myPagination" (pageChange)="p = $event"></pagination-controls>
+<div id="myModal" class="modal" *ngIf="addBasketComplete">
+    <div class="modal-content">
+        <p>Товар добавлен в корзину успешно!</p>
+    </div>
+</div>
+<pagination-controls class="myPagination" (pageChange)="p = $event" (click)="scrollTo(block)"></pagination-controls>

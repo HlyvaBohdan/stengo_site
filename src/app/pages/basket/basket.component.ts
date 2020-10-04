@@ -30,6 +30,13 @@ export class BasketComponent implements OnInit {
   currentDate: Date;
   myUser: any;
   salePrice: number;
+  checkName = /[А-Яа-я]{2,20}/;
+  checkEmail = /^[\w\.\-]{1,}@\w{1,}\.\w{2,7}$/;
+  checkPhone = /^\d{10}$/;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
 
   constructor(private orderService: OrderService,
     private basketService: BasketService,
@@ -38,11 +45,11 @@ export class BasketComponent implements OnInit {
   ngOnInit(): void {
     this.adminFirebaseCoupons();
     this.getData();
+    this.getUserData();
     this.checkBasket();
     this.addNewProduct();
     this.checkCoupon();
     this.radioValue();
-    this.getUserData();
   }
 
   private adminFirebaseCoupons(): void {
@@ -57,22 +64,40 @@ export class BasketComponent implements OnInit {
     )
   }
 
-  addNewProduct(): void {
-    this.orderService.basket.subscribe(() => {
-      this.getData();
-    })
-  }
-
-  checkBasket() {
+  private checkBasket() {
     this.basketService.allBasket.subscribe(() => {
       this.basket = this.basketService.getBasket()
       this.totalPrice = this.basketService.getTotal()
     })
   }
 
-  getData() {
+  private getData() {
     this.basket = this.basketService.setBasket()
     this.totalPrice = this.basketService.setTotal()
+  }
+
+  private getUserData(): void {
+    if (localStorage.length > 0 && localStorage.getItem('user')) {
+      let user = JSON.parse(localStorage.getItem('user'));
+      this.firestore.collection('users').ref.where('idAuth', '==', user.idAuth).onSnapshot(
+        collection => {
+          collection.forEach(document => {
+            const data = document.data() as IUser;
+            const id = document.id;
+            this.myUser = ({ id, ...data })
+          })
+          this.firstName = this.myUser.firstName;
+          this.phone = this.myUser.phone;
+          this.email = this.myUser.email;
+        }
+      )
+    }
+  }
+
+  private addNewProduct(): void {
+    this.orderService.basket.subscribe(() => {
+      this.getData()
+    })
   }
 
   productCount(product: IProduct, status: boolean): void {
@@ -84,7 +109,7 @@ export class BasketComponent implements OnInit {
     this.basketService.deleteProductBasketS(product)
   }
 
-  checkCoupon() {
+  private checkCoupon() {
     if (this.nameCoupon != '') {
       this.useCoupon = this.adminCoupon.filter(coupon => coupon.code == this.nameCoupon)[0].percent;
       if (this.useCoupon != undefined) {
@@ -96,7 +121,7 @@ export class BasketComponent implements OnInit {
     }
   }
 
-  radioValue() {
+  private radioValue() {
     let radios = document.getElementsByName("radio") as any
     for (let i = 0; i < radios.length; i++) {
       if (radios[i].checked) {
@@ -105,12 +130,37 @@ export class BasketComponent implements OnInit {
     }
   }
 
-  addOrder(form: NgForm): void {
+  checkInputs(): void {
+    if (this.checkName.test(this.firstName)) {
+      if (this.checkName.test(this.lastName)) {
+        if (this.checkPhone.test(this.phone)) {
+          if (this.checkEmail.test(this.email)) {
+            this.reset();
+            this.addOrder();
+          }
+          else {
+            alert('Некорректно указан емайл')
+          }
+        }
+        else {
+          alert('Некорректно указан телефон')
+        }
+      }
+      else {
+        alert('Некорректно указана фамилия')
+      }
+    }
+    else {
+      alert('Некорерктно указано имя')
+    }
+  }
+
+  addOrder(): void {
     const order = new Order(this.orderID,
-      form.controls.userName.value,
-      form.controls.userLastName.value,
-      form.controls.userPhone.value,
-      form.controls.userEmail.value,
+      this.firstName,
+      this.lastName,
+      this.phone,
+      this.email,
       this.valueRadio,
       this.basket,
       this.totalPrice,
@@ -130,22 +180,7 @@ export class BasketComponent implements OnInit {
       })
     this.orderComplete = true;
     this.basket = [];
-    form.reset
-  }
-
-  private getUserData(): void {
-    if (localStorage.length > 0 && localStorage.getItem('user')) {
-      let user = JSON.parse(localStorage.getItem('user'));
-      this.firestore.collection('users').ref.where('idAuth', '==', user.idAuth).onSnapshot(
-        collection => {
-          collection.forEach(document => {
-            const data = document.data() as IUser;
-            const id = document.id;
-            this.myUser = ({ id, ...data })
-          })
-        }
-      )
-    }
+    this.reset
   }
 
   updateUser(user: any, order: IOrder) {
@@ -166,6 +201,13 @@ export class BasketComponent implements OnInit {
 
   goHome(): void {
     this.orderComplete = false;
+  }
+
+  reset(): void {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.phone = ''
   }
 
 }

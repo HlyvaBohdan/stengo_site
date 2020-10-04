@@ -60,34 +60,30 @@
                 </div>
             </div>
         </div>
-        <form id="make-order-form" #orderForm="ngForm" novalidate (submit)="addOrder(orderForm)"
-            *ngIf="!orderComplete && basket?.length>0">
+        <form id="make-order-form" *ngIf="!orderComplete && basket?.length>0">
             <div class="customer_details">
                 <div class="customer_info">
                     <p>Покупатель</p>
                     <div class="customer_info_form">
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" ngModel name="userName" type="text" placeholder="Имя"
-                                required #name="ngModel">
+                            <input class="inputElementItem" [(ngModel)]="firstName" name="firstName" type="text" placeholder="Имя">
                             <label>Имя*</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" ngModel name="userLastName" type="text"
-                                placeholder="Фамилия" required #name="ngModel">
+                            <input class="inputElementItem" type="text" [(ngModel)]="lastName" name="lastName" placeholder="Фамилия">
                             <label>Фамилия*</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" ngModel name="userPhone" #phone="ngModel" type="text"
-                                placeholder="Телефон" required #name="ngModel" mask="(000)-000-00-00" prefix="+38">
+                            <input class="inputElementItem" type="text" [(ngModel)]="phone" name="phone" placeholder="Телефон"
+                                mask="(000)-000-00-00" prefix="+38">
                             <label>Телефон*</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" type="text" ngModel name="userEmail" placeholder="Емайл"
-                                required #name="ngModel">
-                            <label>Емайл</label>
+                            <input class="inputElementItem" type="text" [(ngModel)]="email" name="email" placeholder="Емайл">
+                            <label>Емайл*</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                     </div>
@@ -95,23 +91,23 @@
                 <div class="customer_delivery">
                     <p>Способ доставки</p>
                     <div class="customer_delivery_radio">
-                        <input class="radio_but" type="radio" id="radio" name="radio" checked
+                        <input class="radio_but" type="radio" name="radio" checked
                             value="Курєром по Львову (80грн)" (click)="radioValue()">Курєром по Львову (80грн)
                         <label for="radio"></label>
                     </div>
                     <div class="customer_delivery_radio">
-                        <input class="radio_but" type="radio" id="radio" name="radio" value="Самовывоз"
+                        <input class="radio_but" type="radio" name="radio" value="Самовывоз"
                             (click)="radioValue()">Самовывоз
                         <label for="radio"></label>
                     </div>
                     <div class="customer_delivery_radio">
-                        <input class="radio_but" type="radio" id="radio" name="radio"
+                        <input class="radio_but" type="radio" name="radio"
                             value="Доставка в отделения Новой Почты" (click)="radioValue()">Доставка в отделения Новой
                         Почты
                         <label for="radio"></label>
                     </div>
                 </div>
-                <input type="submit" [disabled]="orderForm.invalid" value="Оформить заказ" class="customer_buy">
+                <input type="button"  value="Оформить заказ" class="customer_buy" (click)="checkInputs()">
             </div>
         </form>
         <div class="order_success" *ngIf="orderComplete && basket.length==0">

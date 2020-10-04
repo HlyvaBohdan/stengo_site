@@ -116,5 +116,10 @@
         <input type="button" value="На главную" class="go_home" [routerLink]="[ '/home']" (click)="goHome()">
     </div>
 </div>
+<div id="myModal" class="modal1 myModalBasket" *ngIf="addBasketComplete">
+    <div class="modal-content basketModal">
+        <p>Товар добавлен в корзину успешно!</p>
+    </div>
+</div>
 
 <app-products-viewed></app-products-viewed>

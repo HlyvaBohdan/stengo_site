@@ -24,7 +24,6 @@ export class AdminProductComponent implements OnInit {
   categories: Array<ICategory> = [];
   subcategories: Array<ISubcategory> = []
   productID = 1;
-  // productCategory: ICategory = { id: 1, nameEN: 'pizza', nameUA: 'піца' };
   categoryName: string = 'Iphone';
   subcategoryName: string;
   subcategoryNameEN: string
@@ -45,11 +44,8 @@ export class AdminProductComponent implements OnInit {
   productImage: string = '';
   productImageAdd: string = '';
   subcategory: ISubcategory;
-
-
   uploadProgress: Observable<number>;
   uploadProgressAdd: Observable<number>;
-
   imageStatus: boolean;
   currentIndexDelete: number;
   checkInput: boolean = false;

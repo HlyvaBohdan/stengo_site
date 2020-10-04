@@ -5,6 +5,7 @@ import { IUser } from '../shared/interfaces/user.interface';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { IProduct } from 'src/app/shared/interfaces/product.interface';
 import { ProductService } from '../shared/services/product.service';
+import { OrderService } from '../shared/services/order.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,11 +23,12 @@ export class ProfileComponent implements OnInit {
   findUserID: any;
   checkOrderStatus: Array<IProduct> = [];
   constructor(private authService: AuthService,
+    private orderService: OrderService,
     private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     this.getUserData()
-    this.updateOrderStatus()
+    this.updateOrderStatus();
   }
 
   private getUserData(): void {
@@ -44,31 +46,36 @@ export class ProfileComponent implements OnInit {
   }
 
   async updateUser() {
-    localStorage.removeItem('user');
-    let user: IUser;
-    user = new User(
-      this.userId,
-      this.userName,
-      this.userOrder,
-      this.userRole,
-      this.userEmail,
-      this.userPhone);
-    localStorage.setItem('user', JSON.stringify(user));
-    this.firestore.collection('users').ref.where('idAuth', '==', this.userId).onSnapshot(
-      collection => {
-        collection.forEach(document => {
-          const data = document.data() as IUser;
-          const id = document.id;
-          this.findUserID = ({ id, ...data })
-        })
-      },
-    )
-    if (await this.findUserID) {
-      this.firestore.collection('users').doc(this.findUserID.id).update(Object.assign({}, user));
+    let userWait = new Promise((resolve, reject) => {
+      localStorage.removeItem('user');
+      let user: IUser;
+      user = new User(
+        this.userId,
+        this.userName,
+        this.userOrder,
+        this.userRole,
+        this.userEmail,
+        this.userPhone);
+      localStorage.setItem('user', JSON.stringify(user));
+      this.firestore.collection('users').ref.where('idAuth', '==', this.userId).onSnapshot(
+        collection => {
+          collection.forEach(document => {
+            const data = document.data() as IUser;
+            const id = document.id;
+            this.findUserID = ({ id, ...data })
+          }, resolve(user)
+          )
+        }
+      )
     }
+    )
+    userWait.then((user) => {
+      this.firestore.collection('users').doc(this.findUserID.id).update(Object.assign({}, user));
+    })
+
   }
 
-  updateOrderStatus(): void {
+  private updateOrderStatus(): void {
     for (let i = 0; i < this.userOrder.length; i++) {
       this.firestore.collection('orders').ref.where('dateOrder', '==', this.userOrder[i].dateOrder).onSnapshot(
         collection => {

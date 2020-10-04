@@ -32,7 +32,7 @@ export class SaleComponent implements OnInit {
     this.userFilterProductFinal = [];
   }
 
-  getSaleProducts() {
+  private getSaleProducts() {
     this.afStorage.collection('products').ref.where('sale', '==', true).onSnapshot(
       collection => {
         collection.forEach(document => {
@@ -102,6 +102,10 @@ export class SaleComponent implements OnInit {
     for (let i = 0; i < radios.length; i++) {
       radios[i].checked = false
     }
+  }
+  
+  scrollTo(target:HTMLElement): void{
+    target.scrollIntoView()
   }
 
 }

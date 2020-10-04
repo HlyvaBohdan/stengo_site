@@ -27,7 +27,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setCategory(categoryName: string) {
+  private setCategory(categoryName: string) {
     this.afStorage.collection('categories').ref.where('nameEN', '==', categoryName).onSnapshot(
       collection => {
         collection.forEach(document => {

@@ -15,6 +15,7 @@ export class ProductsComponent implements OnInit {
   filterOpen: boolean;
   filterOpenT: boolean;
   filterOpenMobile: boolean;
+  addBasketComplete: boolean;
   userProduct: Array<IProduct> = [];
   userFilterProduct: Array<IProduct> = [];
   userFilterProductFinal: Array<IProduct> = [];
@@ -41,7 +42,7 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setSubcategory(subcategoryName?: string) {
+  private setSubcategory(subcategoryName?: string) {
     this.afStorage.collection('products').ref.where('subcategoryEN', '==', subcategoryName).onSnapshot(
       collection => {
         this.userFilterProductFinal = [];
@@ -73,6 +74,12 @@ export class ProductsComponent implements OnInit {
 
   addBasket(product: IProduct): void {
     this.orderService.addBasketService(product)
+    if (window.innerWidth > 767) {
+      this.addBasketComplete = true;
+      setTimeout(() => {
+        this.addBasketComplete = false;
+      }, 1200)
+    }
   }
 
   addToWish(product): void {
@@ -121,4 +128,9 @@ export class ProductsComponent implements OnInit {
       radios[i].checked = false
     }
   }
+  
+  scrollTo(target:HTMLElement): void{
+    target.scrollIntoView()
+  }
+  
 }

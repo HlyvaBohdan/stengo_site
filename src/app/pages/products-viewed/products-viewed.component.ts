@@ -9,7 +9,9 @@ import { OrderService } from 'src/app/shared/services/order.service';
   styleUrls: ['./products-viewed.component.scss']
 })
 export class ProductsViewedComponent implements OnInit {
-  productsViewed: Array<IProduct> = []
+  productsViewed: Array<IProduct> = [];
+  addBasketComplete: boolean;
+
   constructor(private productService: ProductService,
     private orderService: OrderService) { }
 
@@ -17,7 +19,7 @@ export class ProductsViewedComponent implements OnInit {
     this.getViewedProducts();
   }
 
-  getViewedProducts() {
+  private getViewedProducts() {
     this.productService.productView.subscribe((product) => {
       if (localStorage.length > 0 && localStorage.getItem('myProductViewed')) {
         this.productsViewed = JSON.parse(localStorage.getItem('myProductViewed'));
@@ -39,7 +41,13 @@ export class ProductsViewedComponent implements OnInit {
   }
 
   addBasket(product: IProduct): void {
-    this.orderService.addBasketService(product)
+    this.orderService.addBasketService(product);
+    if (window.innerWidth > 767) {
+      this.addBasketComplete = true;
+      setTimeout(() => {
+        this.addBasketComplete = false;
+      }, 1200)
+    }
   }
 
 }

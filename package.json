@@ -26,6 +26,7 @@
     "ngx-order-pipe": "^2.1.0",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.5.5",
+    "scroll-into-view": "^1.15.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

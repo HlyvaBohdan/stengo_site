@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" #block>
     <div class="products_head">
         <button class="products_head_btn" type="button"
             [textContent]="!filterOpenMobile || filterOpen ?'Фильтр':'Скрыть фильтр'" (click)="openfilter()"></button>
@@ -51,6 +51,10 @@
                     <a>
                         <img class="product_image" [src]='product?.image' alt="">
                     </a>
+                    <div class="small_icon">
+                        <div class="small_icon_top" *ngIf="product?.top">TOP</div>
+                        <div class="small_icon_sale" *ngIf="product?.sale">SALE</div>
+                    </div>
                 </div>
                 <div class="product_title"
                     [routerLink]="[ '/menu/'+product?.category.toLowerCase(), product?.subcategoryEN, product?.nameEN]">
@@ -67,11 +71,10 @@
                             (click)="addBasket(product)">
                         <input type="button" class="btn_basket" value="В корзину" (click)="addBasket(product)">
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-    <pagination-controls class="myPagination" (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls class="myPagination" (pageChange)="p = $event" (click)="scrollTo(block)"></pagination-controls>
 </div>
 <app-products-viewed></app-products-viewed>

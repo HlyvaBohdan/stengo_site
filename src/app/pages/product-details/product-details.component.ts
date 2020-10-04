@@ -25,6 +25,8 @@ export class ProductDetailsComponent implements OnInit {
   wishProducts: Array<IProduct>
   myModal = document.getElementsByClassName('modal1') as HTMLCollectionOf<HTMLElement>;
   productsWish: Array<IProduct>
+  addBasketComplete: boolean;
+
   constructor(
     private actRoute: ActivatedRoute,
     private router: Router,
@@ -44,7 +46,7 @@ export class ProductDetailsComponent implements OnInit {
     this.checkWishStatus();
   }
 
-  getProductDetails(productName: string) {
+  private getProductDetails(productName: string) {
     this.afStorage.collection('products').ref.where('nameEN', '==', productName).onSnapshot(
       collection => {
         collection.forEach(document => {
@@ -60,7 +62,7 @@ export class ProductDetailsComponent implements OnInit {
     )
   }
 
-  private getSmallBlock(): void {
+  getSmallBlock(): void {
     this.smallBlock = [];
     this.afStorage.collection('products').ref.where('compability', '==', this.userProduct.compability).onSnapshot(
       collection => {
@@ -77,6 +79,12 @@ export class ProductDetailsComponent implements OnInit {
 
   addBasket(product: IProduct): void {
     this.orderService.addBasketService(product)
+    if (window.innerWidth > 767) {
+      this.addBasketComplete = true;
+      setTimeout(() => {
+        this.addBasketComplete = false;
+      }, 1200)
+    }
   }
 
   checkImage(image?: string) {
@@ -124,7 +132,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.productWishUser.next('');
   }
 
-  checkWishStatus() {
+  private checkWishStatus() {
     this.productService.productWishUser.subscribe(() => {
       if (this.userProduct && localStorage.getItem('myProductWishes')) {
         this.wishProducts = JSON.parse(localStorage.getItem('myProductWishes'));

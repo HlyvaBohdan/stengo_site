@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   topProducts: Array<IProduct> = []
   p: number = 1;
   mySlider;
+  addBasketComplete: boolean;
   constructor(
     private afStorage: AngularFirestore,
     private orderService: OrderService
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
     this.getTopProducts()
   }
 
-  getTopProducts() {
+  private getTopProducts() {
     this.afStorage.collection('products').ref.where('top', '==', true).onSnapshot(
       collection => {
         this.topProducts = [];
@@ -36,7 +37,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  slider(n?: number): any {
+  private slider(): any {
     let i: number;
     let slides = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
     for (i = 0; i < slides.length; i++) {
@@ -53,7 +54,15 @@ export class HomeComponent implements OnInit {
   }
 
   addBasket(product: IProduct): void {
-    this.orderService.addBasketService(product)
+    this.orderService.addBasketService(product);
+    if (window.innerWidth > 767) {
+      this.addBasketComplete = true;
+      setTimeout(() => {
+        this.addBasketComplete = false;
+      }, 1200)
+    }
   }
-
+  scrollTo(target:HTMLElement): void{
+    target.scrollIntoView()
+}
 }

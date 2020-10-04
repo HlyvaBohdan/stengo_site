@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.adminFirebaseCategories();
+    this.getAllProducts();
     this.getData();
     this.checkBasket();
     this.addNewProduct();
@@ -73,7 +74,7 @@ export class HeaderComponent implements OnInit {
     this.checkUser();
     this.getWishProducts();
     this.getListwishProducts();
-    this.getAllProducts();
+    
   }
 
   private adminFirebaseCategories(): void {
@@ -88,7 +89,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getAllProducts(): void {
+  private getAllProducts(): void {
     this.afStorage.collection('products').ref.where('count', '==', 1).onSnapshot(
       collection => {
         collection.forEach(document => {
@@ -100,7 +101,7 @@ export class HeaderComponent implements OnInit {
     )
   }
 
-  getWishProducts(): void {
+  private getWishProducts(): void {
     this.productService.productWish.subscribe(([product, status]) => {
       if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
         this.productsWish = JSON.parse(localStorage.getItem('myProductWishes'));
@@ -120,7 +121,7 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  getListwishProducts(): void {
+  private getListwishProducts(): void {
     if (localStorage.length > 0 && localStorage.getItem('myProductWishes')) {
       this.productsWish = JSON.parse(localStorage.getItem('myProductWishes'));
     }
@@ -131,20 +132,20 @@ export class HeaderComponent implements OnInit {
     this.productService.productWishUser.next('');
   }
 
-  addNewProduct(): void {
+  private addNewProduct(): void {
     this.orderService.basket.subscribe(() => {
       this.getData();
     })
   }
 
-  checkBasket(): void {
+  private checkBasket(): void {
     this.basketService.allBasket.subscribe(() => {
       this.basket = this.basketService.getBasket()
       this.totalPrice = this.basketService.getTotal()
     })
   }
 
-  getData(): void {
+  private getData(): void {
     if (localStorage.length > 0 && localStorage.getItem('myOrder')) {
       this.basket = this.basketService.setBasket()
       this.totalPrice = this.basketService.setTotal()
@@ -160,7 +161,7 @@ export class HeaderComponent implements OnInit {
     this.basketService.deleteProductBasketS(product)
   }
 
-  scroll(): void {
+  private scroll(): void {
     let logo = document.getElementsByClassName('header_main_logo_img') as HTMLCollectionOf<HTMLElement>;
     let headerLiImg = document.getElementsByClassName('img_li') as HTMLCollectionOf<HTMLElement>
     for (let i = 0; i < headerLiImg.length; i++) {
@@ -181,14 +182,13 @@ export class HeaderComponent implements OnInit {
     }, 2400)
   }
 
-  other(): void {
+  private other(): void {
     if (screen.width < 767) {
       window.addEventListener('click', (event: any) => {
         event.path[1].classList[0] == 'header_mobile_wishlist_ul' ||
           event.path[0].classList[0] == 'far'
           ? this.openWishList = true
           : this.openWishList = false
-
         let checkbox = document.querySelector("input[type=checkbox]:checked") as any
         if (checkbox) {
           event.path[1].id == 'menuToggle'
