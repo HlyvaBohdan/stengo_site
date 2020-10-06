@@ -52,8 +52,6 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                display: flex;
-
                 .small_icon_top,
                 .small_icon_sale {
                     width: 42px;
@@ -113,11 +111,14 @@
                         text-transform: uppercase;
                         font-weight: 700;
                         font-size: 14px;
+                        width: 100%;
+                        text-align: center;
                     }
                     .block_info_main_info_oneclick_r {
                         .block_info_main_info_oneclick_r_form {
                             display: flex;
                             padding-left: 12px;
+                            justify-content: center;
                             input {
                                 height: 42px;
                                 border-radius: 3px;
@@ -415,6 +416,11 @@
     color: #ff8a00;
     font-size: 18px;
 }
+input[type="text"],
+input[type="button"],
+textarea {
+    -webkit-appearance: none;
+}
 
 @media (max-width: 969px) {
     .breadcrumbs {
@@ -467,9 +473,6 @@
         justify-content: center;
         padding: 0px 0 15px;
     }
-    .block_info_main_info_oneclick {
-        padding: 0px 0 15px !important;
-    }
 }
 
 @media (min-width: 970px) {
@@ -482,7 +485,7 @@
         font-size: 30px;
     }
     .block_info_main_info_oneclick {
-        padding: 19px 0 15px;
+        padding: 0px 0 15px;
     }
     .block_info_main_info_variables {
         p {
@@ -558,6 +561,12 @@
         }
     }
     .color_block {
+        height: 22px !important;
+    }
+    .two_color_first {
+        height: 22px !important;
+    }
+    .two_color_second {
         height: 22px !important;
     }
     .modal-content {

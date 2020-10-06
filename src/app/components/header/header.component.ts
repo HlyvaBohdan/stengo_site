@@ -185,17 +185,18 @@ export class HeaderComponent implements OnInit {
   private other(): void {
     if (screen.width < 767) {
       window.addEventListener('click', (event: any) => {
-        event.path[1].classList[0] == 'header_mobile_wishlist_ul' ||
-          event.path[0].classList[0] == 'far'
+        let eventCrossbrowser=event.path||event.composedPath()
+        eventCrossbrowser[1].classList[0] == 'header_mobile_wishlist_ul' ||
+        eventCrossbrowser[0].classList[0] == 'far'
           ? this.openWishList = true
           : this.openWishList = false
         let checkbox = document.querySelector("input[type=checkbox]:checked") as any
         if (checkbox) {
-          event.path[1].id == 'menuToggle'
+          eventCrossbrowser[1].id == 'menuToggle'
             ? checkbox.checked = true
             : checkbox.checked = false
         }
-        event.path[1].id == 'myModal' || event.path[1].className == 'header_mobile_icon' || event.path[1].className == 'inputElementWrapper' || event.path[1].className == 'modal-content' && event.path[0].className != 'close'
+        eventCrossbrowser[1].id == 'myModal' || eventCrossbrowser[1].className == 'header_mobile_icon' || eventCrossbrowser[1].className == 'inputElementWrapper' || eventCrossbrowser[1].className == 'modal-content' && eventCrossbrowser[0].className != 'close'
           ? this.myModalSearch[0].style.display = 'flex'
           : this.myModalSearch[0].style.display = 'none';
       })

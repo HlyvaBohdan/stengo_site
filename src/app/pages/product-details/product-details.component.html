@@ -29,7 +29,7 @@
         </div>
         <div class="block_images_add">
             <img class="block_images_add_img" [src]="userProduct?.image" (click)="checkImage('main')" alt="">
-            <img class="block_images_add_img" [src]="userProduct?.imageAdd" (click)="checkImage('additional')" alt="">
+            <img class="block_images_add_img" *ngIf="userProduct?.imageAdd" [src]="userProduct?.imageAdd" (click)="checkImage('additional')" alt="">
         </div>
     </div>
     <div class="block_info">

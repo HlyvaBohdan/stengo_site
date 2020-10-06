@@ -264,6 +264,9 @@
         }
     }
 }
+input[type=text], input[type=button], textarea{
+	-webkit-appearance: none;
+}
 
 @media (min-width: 969px) {
     .page_name {

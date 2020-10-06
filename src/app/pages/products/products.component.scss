@@ -148,8 +148,6 @@
                     position: absolute;
                     top: 0;
                     left: 0;
-                    display: flex;
-
                     .small_icon_top,
                     .small_icon_sale {
                         width: 42px;
@@ -226,8 +224,7 @@
                             border-radius: 6px;
                             display: inline-block;
                             padding-top: 5px;
-                            padding-bottom: 6px;
-                            box-sizing: border-box;
+                            padding-bottom: 5px;
                             margin: 0;
                             text-align: center;
                             box-shadow: 0 -3px 0 #007038 inset;
@@ -342,6 +339,9 @@
 .openFilter {
     width: 0% !important;
     transform: translateX(-500px);
+}
+input[type=text], input[type=button], textarea{
+	-webkit-appearance: none;
 }
 
 @media (max-width: 968px) {
@@ -500,35 +500,29 @@
                             display: flex;
                             justify-content: space-between;
 
-                            .btn_buy {
+                            .btn_buy, .btn_basket {
                                 cursor: pointer;
                                 color: #fff;
                                 width: 45%;
                                 border: none;
-                                background-color: #03b65d;
                                 border-radius: 6px;
                                 display: inline-block;
                                 padding-top: 5px;
-                                padding-bottom: 6px;
-                                margin-right: 2%;
+                                padding-bottom: 5px;
                                 box-sizing: border-box;
                                 margin: 0;
                                 text-align: center;
+                                box-shadow: none;
+                              }
+                              .btn_buy{
+                                background-color: #03b65d;
+                                margin-right: 6%;
                                 font-size: 13px;
-                            }
-                            .btn_basket {
-                                width: 45%;
-                                cursor: pointer;
-                                color: #fff;
-                                border: none;
+                              }
+                              .btn_basket {
                                 background-color: #fa9600;
-                                border-radius: 6px;
-                                padding-top: 5px;
-                                padding-bottom: 6px;
-                                margin-top: 0px;
-                                text-align: center;
                                 font-size: 12px;
-                            }
+                              }
                         }
                     }
                 }

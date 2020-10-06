@@ -33,7 +33,6 @@
           position: absolute;
           top: 0;
           left: 0;
-          display: flex;
 
           .small_icon_top,
           .small_icon_sale {
@@ -97,29 +96,22 @@
             text-align: center;
             margin-top: -5px;
 
-            .btn_buy {
+            .btn_buy, .btn_basket {
               cursor: pointer;
               color: #fff;
               border: none;
-              background-color: #03b65d;
               border-radius: 6px;
               display: inline-block;
               padding-top: 5px;
-              padding-bottom: 6px;
-              box-sizing: border-box;
-              margin: 0;
+              padding-bottom: 5px;
+              margin: 2px;
               text-align: center;
             }
             .btn_basket {
-              cursor: pointer;
-              color: #fff;
-              border: none;
               background-color: #fa9600;
-              border-radius: 6px;
-              padding-top: 5px;
-              padding-bottom: 6px;
-              margin-top: 3px;
-              text-align: center;
+            }
+            .btn_buy {
+              background-color: #03b65d;
             }
           }
         }
@@ -206,6 +198,9 @@
   p {
       font-family: Sf Pro;
   }
+}
+input[type=text], input[type=button], textarea{
+	-webkit-appearance: none;
 }
 
 @media (max-width: 969px) {
@@ -390,38 +385,29 @@
             }
             .home_main_product_details_buy {
               width: 80%;
-              height: 36%;
               text-align: left;
               margin-top: 7%;
               display: flex;
               justify-content: space-between;
-              .btn_buy {
+              .btn_buy, .btn_basket {
                 cursor: pointer;
                 color: #fff;
-                width: 45%;
                 border: none;
-                background-color: #03b65d;
                 border-radius: 6px;
                 display: inline-block;
                 padding-top: 5px;
-                padding-bottom: 6px;
-                margin-right: 2%;
+                padding-bottom: 5px;
                 box-sizing: border-box;
                 margin: 0;
                 text-align: center;
+              }
+              .btn_buy{
+                background-color: #03b65d;
+                margin-right: 6%;
                 font-size: 13px;
               }
               .btn_basket {
-                width: 45%;
-                cursor: pointer;
-                color: #fff;
-                border: none;
                 background-color: #fa9600;
-                border-radius: 6px;
-                padding-top: 5px;
-                padding-bottom: 6px;
-                margin-top: 0px;
-                text-align: center;
                 font-size: 12px;
               }
             }
