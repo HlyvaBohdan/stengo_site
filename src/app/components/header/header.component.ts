@@ -196,7 +196,7 @@ export class HeaderComponent implements OnInit {
             ? checkbox.checked = true
             : checkbox.checked = false
         }
-        eventCrossbrowser[1].id == 'myModal' || eventCrossbrowser[1].className == 'header_mobile_icon' || eventCrossbrowser[1].className == 'inputElementWrapper' || eventCrossbrowser[1].className == 'modal-content' && eventCrossbrowser[0].className != 'close'
+        eventCrossbrowser[1].id == 'myModal' || eventCrossbrowser[1].className == 'header_mobile_icon' || eventCrossbrowser[1].className == 'inputElementWrapperSearch' || eventCrossbrowser[1].className == 'modal-content' && eventCrossbrowser[0].className != 'close'
           ? this.myModalSearch[0].style.display = 'flex'
           : this.myModalSearch[0].style.display = 'none';
       })
@@ -234,19 +234,19 @@ export class HeaderComponent implements OnInit {
             this.reset();
           }
           else {
-            alert('Пароль має бути від 8 символів')
+            alert('Пароль должен быть от 8 символов')
           }
         }
         else {
-          alert('Заповніть коректно поле "Email"')
+          alert('Некорректно указан емайл')
         }
       }
       else {
-        alert('Заповніть коректно поле "Телефон"')
+        alert('Некорректно указан телефон')
       }
     }
     else {
-      alert('Заповніть коректно поле "Імя"')
+      alert('Некорректно указано имя')
     }
   }
 

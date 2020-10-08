@@ -27,11 +27,13 @@ export class AdminQuickOrderComponent implements OnInit {
       }
     );
   }
+
   deleteQuickOrder(index): void {
     if (confirm('Are you sure?')) {
       this.orderService.deleteFirecloudQuickOrder(index)
     }
   }
+  
   setOrder(value: string) {
     if (this.quickorder === value) {
       this.reverse = !this.reverse;

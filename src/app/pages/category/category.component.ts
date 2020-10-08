@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Event, NavigationEnd } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { CategoryService } from 'src/app/shared/services/category.service';
 import { ICategory } from 'src/app/shared/interfaces/category.interface';
 
 @Component({
@@ -33,7 +32,7 @@ export class CategoryComponent implements OnInit {
         collection.forEach(document => {
           const data = document.data() as ICategory;
           const id = document.id;
-          this.mainCategory = ({ id, ...data })
+          this.mainCategory=({ id, ...data })
         });
       }
     )

@@ -28,13 +28,13 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let subcategory of adminCategory | orderBy: subcategory:reverse:'case-insensitive'| search:nameSubcategory; let i=index">
+          *ngFor="let subcategory of subcategories | orderBy: subcategory:reverse:'case-insensitive'| search:nameSubcategory; let i=index">
           <td>{{ i+1 }}</td>
           <td>{{ subcategory.categoryName }}</td>
           <td>{{ subcategory.nameEN }}</td>
           <td>{{ subcategory.nameUA }}</td>
           <td class="delete">
-            <input type="button" value="Видалити" class="btn btn-danger" (click)="openModal2(modal2,subcategory.id)">
+            <input type="button" value="Видалити" class="btn btn-danger" (click)="openModal2(modal2,subcategory)">
           </td>
         </tr>
       </tbody>

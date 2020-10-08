@@ -178,11 +178,11 @@ export class AdminProductComponent implements OnInit {
     let top = <HTMLInputElement>document.getElementById('productTop');
     this.productTop == true
       ? top.checked = true
-      : console.log('false')
+      : top.checked = false
     let sale = <HTMLInputElement>document.getElementById('productSale');
     this.productSale == true
       ? sale.checked = true
-      : console.log('false')
+      : sale.checked = false
   }
 
   uploadFile(event): void {
@@ -194,7 +194,6 @@ export class AdminProductComponent implements OnInit {
     this.productImage == ''
       ? this.uploadProgress = task.percentageChanges()
       : this.uploadProgressAdd = task.percentageChanges();
-
     task.then(image => {
       this.afStorage.ref(`images/${image.metadata.name}`).getDownloadURL().subscribe(url => {
         this.productImage == ''
@@ -231,13 +230,12 @@ export class AdminProductComponent implements OnInit {
       }
       else {
         this.prodService.updateFirecloudProduct(Object.assign({}, product))
-
         this.editStatus = false
       }
       this.resetModel()
     }
   }
- 
+
   resetModel(): void {
     this.modalService.hide(1);
     this.productNameEN = '';

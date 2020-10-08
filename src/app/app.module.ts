@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap/modal'
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -71,7 +72,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     AdminQuickOrderComponent,
     SearchPipe,
     SearchProductPipe,
-    SearchOrderPipe
+    SearchOrderPipe,
   ],
 
   imports: [
@@ -80,6 +81,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,

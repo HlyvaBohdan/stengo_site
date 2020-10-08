@@ -22,13 +22,16 @@ export class AdminOrdersComponent implements OnInit {
   orderUserLastName: string;
   orderEmail: string;
   orderPhone: string;
-  orderMethodOfDelivery: string;
+  orderMethodOfDelivery: any;
+  ordernpCity = '';
+  ordernpDepartment = '';
   orderPayment: number
   orderData: string;
   orderStatus: string;
   orderComplete: IOrder;
   orderView: boolean;
   editStatus: boolean;
+  npStatus: boolean
 
 
   constructor(
@@ -50,6 +53,7 @@ export class AdminOrdersComponent implements OnInit {
     );
   }
   openDetailsModal(order: IOrder, template: TemplateRef<any>) {
+    this.npStatus = false;
     this.modalRef = this.modalService.show(template,
       { class: 'modal-dialog-centered modal-order' });
     this.orderId = order.id;
@@ -58,11 +62,20 @@ export class AdminOrdersComponent implements OnInit {
     this.orderPhone = order.userPhone;
     this.orderEmail = order.userEmail;
     this.orderMethodOfDelivery = order.userMethodOfDelivery;
+    this.ordernpCity = order.userMethodOfDelivery.city;
+    this.ordernpDepartment = order.userMethodOfDelivery.department;
     this.orderDetails = order.ordersDetails;
     this.orderPayment = order.totalPayment;
     this.orderData = order.dateOrder;
     this.orderStatus = order.status;
     this.editStatus = true;
+    if (this.ordernpCity != undefined && this.ordernpDepartment != undefined) {
+      this.orderMethodOfDelivery = {
+        city: this.ordernpCity,
+        departmanet: this.ordernpDepartment
+      }
+      this.npStatus = true;
+    }
   }
 
   setOrder(value: string) {
@@ -125,6 +138,7 @@ export class AdminOrdersComponent implements OnInit {
       this.modalService.hide(1);
     }
   }
+  
   productCount(product: IProduct, status: boolean): void {
     if (status) {
       product.count++;

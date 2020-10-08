@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { OrderService } from '../../shared/services/order.service';
 import { IProduct } from 'src/app/shared/interfaces/product.interface';
 import { BasketService } from '../../shared/services/basket.service';
+import { HttpService } from '../../shared/services/http.service';
 import { ICoupon } from '../../shared/interfaces/coupon.interface';
-import { NgForm } from '@angular/forms';
 import { Order } from 'src/app/shared/models/order.model';
 import { IOrder } from 'src/app/shared/interfaces/order.interface';
 import { User } from 'src/app/shared/models/user.model';
@@ -22,7 +22,7 @@ export class BasketComponent implements OnInit {
   orderID: number = 1;
   nameCoupon = '';
   useCoupon = undefined;
-  valueRadio = 'Курєром по Львову (80грн)';
+  valueRadio: any = 'Курєром по Львову (80грн)';
   currentOrder: Array<IProduct>;
   currentTotalPrice: number;
   orderComplete: boolean;
@@ -37,10 +37,24 @@ export class BasketComponent implements OnInit {
   lastName: string;
   phone: string;
   email: string;
+  cityArr: Array<any>;
+  cityName: string = '';
+  cityRef: string = '';
+  showCityBlock: boolean;
+  showCityList: boolean;
+  departmentArr: Array<any>;
+  departmentArrFilter: Array<any>;
+  departmentName: string = '';
+  showDepartmentBlock: boolean;
+  showDepartmentList: boolean;
+
 
   constructor(private orderService: OrderService,
     private basketService: BasketService,
-    private firestore: AngularFirestore) { }
+    private httpService: HttpService,
+
+    private firestore: AngularFirestore,
+  ) { }
 
   ngOnInit(): void {
     this.adminFirebaseCoupons();
@@ -128,6 +142,62 @@ export class BasketComponent implements OnInit {
         this.valueRadio = radios[i].value;
       }
     }
+    if (this.valueRadio == 'Доставка в отделения Новой Почты') {
+      this.showCityBlock = true;
+    }
+    else {
+      this.showCityBlock = false;
+      this.showDepartmentBlock = false;
+      this.cityName = '';
+      this.cityRef = '';
+      this.departmentName = '';
+    }
+  }
+  changeCity(): void {
+    this.httpService.postData(this.cityName).subscribe((info: any) => {
+      this.cityArr = info.data[0].Addresses;
+      this.showCityList = true;
+    })
+
+  }
+  setCity(city: any): void {
+    this.cityName = city.Present
+    this.showCityList = false;
+    this.showDepartmentBlock = true;
+    this.cityRef = city.Ref;
+    this.getDepartments();
+  }
+
+  resetCity():void{
+    this.cityName = '';
+    this.departmentName = '';
+    this.showDepartmentList = false;
+    this.showDepartmentBlock = false;
+  }
+
+  getDepartments() {
+    this.httpService.postData(this.cityName, this.cityRef).subscribe((info: any) => {
+      this.departmentArr = info.data;
+      this.departmentArrFilter = info.data;
+    })
+  }
+
+  changeDepartment(): void {
+    this.departmentArrFilter = [];
+    this.departmentArr.forEach((elem) => {
+      elem.Description.toLowerCase().includes(this.departmentName.toLowerCase()) ? this.departmentArrFilter.push(elem) : elem
+    })
+    this.showDepartmentList = true;
+  }
+
+  setDepartment(department): void {
+    this.departmentName = department.Description;
+    this.showDepartmentList = false;
+  }
+
+  resetDepartment(): void{
+    this.departmentName = '';
+    this.showCityList = false;
   }
 
   checkInputs(): void {
@@ -135,8 +205,21 @@ export class BasketComponent implements OnInit {
       if (this.checkName.test(this.lastName)) {
         if (this.checkPhone.test(this.phone)) {
           if (this.checkEmail.test(this.email)) {
-            this.reset();
-            this.addOrder();
+            if (this.showCityBlock == true) {
+              if (this.cityName != '' && this.departmentName != '') {
+                this.valueRadio = {
+                  city: this.cityName,
+                  department: this.departmentName
+                }
+                this.addOrder();
+              }
+              else {
+                alert('Некорректно указан город или отделения получателя')
+              }
+            }
+            else {
+              this.addOrder();
+            }
           }
           else {
             alert('Некорректно указан емайл')
@@ -151,7 +234,7 @@ export class BasketComponent implements OnInit {
       }
     }
     else {
-      alert('Некорерктно указано имя')
+      alert('Некорректно указано имя')
     }
   }
 
@@ -207,7 +290,10 @@ export class BasketComponent implements OnInit {
     this.firstName = '';
     this.lastName = '';
     this.email = '';
-    this.phone = ''
+    this.phone = '';
+    this.cityName = '';
+    this.cityRef = '';
+    this.departmentName = '';
   }
 
 }

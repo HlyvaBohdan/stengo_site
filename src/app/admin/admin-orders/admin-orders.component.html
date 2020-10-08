@@ -60,7 +60,10 @@
           <th>Імя</th>
           <th style="text-align: center;">Прізвище</th>
           <th>Телефон</th>
-          <th>Спосіб доставки</th>
+          <th *ngIf="!npStatus">Спосіб доставки</th>
+          <th *ngIf="npStatus">Місто</th>
+          <th *ngIf="npStatus">Відділення НП</th>
+
         </tr>
       </thead>
       <tbody>
@@ -68,8 +71,9 @@
           <td><input type="text" class="form-control" [(ngModel)]="orderUserName" name="orderUserName"></td>
           <td><input type="text" class="form-control" [(ngModel)]="orderUserLastName" name="orderUserLastName"></td>
           <td> <input type="text" class="form-control" [(ngModel)]="orderPhone" name="orderPhone"></td>
-          <td><input type="text" class="form-control" [(ngModel)]="orderMethodOfDelivery" name="orderMethodOfDelivery">
-          </td>
+          <td *ngIf="!npStatus"><input type="text" class="form-control" [(ngModel)]="orderMethodOfDelivery" name="orderMethodOfDelivery"></td>
+          <td *ngIf="npStatus"><input type="text" class="form-control" [(ngModel)]="ordernpCity" name="ordernpCity"></td>
+          <td *ngIf="npStatus"><input type="text" class="form-control" [(ngModel)]="ordernpDepartment" name="ordernpDepartment"></td>
         </tr>
       </tbody>
     </table>

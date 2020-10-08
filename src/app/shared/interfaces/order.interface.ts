@@ -5,7 +5,7 @@ export interface IOrder{
     userLastName: string;
     userPhone: string;
     userEmail?: string;
-    userMethodOfDelivery: string;
+    userMethodOfDelivery: any;
     ordersDetails: Array<IProduct>;
     totalPayment: number;
     dateOrder: string;

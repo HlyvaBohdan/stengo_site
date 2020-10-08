@@ -66,24 +66,27 @@
                     <p>Покупатель</p>
                     <div class="customer_info_form">
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" [(ngModel)]="firstName" name="firstName" type="text" placeholder="Имя">
-                            <label>Имя*</label>
+                            <input class="inputElementItem" [(ngModel)]="firstName" name="firstName" type="text"
+                                placeholder="Имя">
+                            <label>Имя</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" type="text" [(ngModel)]="lastName" name="lastName" placeholder="Фамилия">
-                            <label>Фамилия*</label>
+                            <input class="inputElementItem" type="text" [(ngModel)]="lastName" name="lastName"
+                                placeholder="Фамилия">
+                            <label>Фамилия</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" type="text" [(ngModel)]="phone" name="phone" placeholder="Телефон"
-                                mask="(000)-000-00-00" prefix="+38">
-                            <label>Телефон*</label>
+                            <input class="inputElementItem" type="text" [(ngModel)]="phone" name="phone"
+                                placeholder="Телефон" mask="(000)-000-00-00" prefix="+38">
+                            <label>Телефон</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                         <div class="inputElementWrapper">
-                            <input class="inputElementItem" type="text" [(ngModel)]="email" name="email" placeholder="Емайл">
-                            <label>Емайл*</label>
+                            <input class="inputElementItem" type="text" [(ngModel)]="email" name="email"
+                                placeholder="Емайл">
+                            <label>Емайл</label>
                             <span class="focus-border"><i></i></span>
                         </div>
                     </div>
@@ -91,8 +94,8 @@
                 <div class="customer_delivery">
                     <p>Способ доставки</p>
                     <div class="customer_delivery_radio">
-                        <input class="radio_but" type="radio" name="radio" checked
-                            value="Курєром по Львову (80грн)" (click)="radioValue()">Курєром по Львову (80грн)
+                        <input class="radio_but" type="radio" name="radio" checked value="Курєром по Львову (80грн)"
+                            (click)="radioValue()">Курєром по Львову (80грн)
                         <label for="radio"></label>
                     </div>
                     <div class="customer_delivery_radio">
@@ -101,13 +104,37 @@
                         <label for="radio"></label>
                     </div>
                     <div class="customer_delivery_radio">
-                        <input class="radio_but" type="radio" name="radio"
-                            value="Доставка в отделения Новой Почты" (click)="radioValue()">Доставка в отделения Новой
+                        <input class="radio_but" type="radio" name="radio" value="Доставка в отделения Новой Почты"
+                            (click)="radioValue()">Доставка в отделения Новой
                         Почты
                         <label for="radio"></label>
                     </div>
+                    <div class="shipping_np_city" *ngIf="showCityBlock">
+                        <div class="inputElementWrapper">
+                            <input class="inputElementItem" placeholder="Город доставки" type="text"
+                                [(ngModel)]="cityName" name="cityName" (input)='changeCity()' (focus)='resetCity()'>
+                            <label>Город доставки</label>
+                            <span class="focus-border"><i></i></span>
+                        </div>
+                        <ul class="shipping_ul" *ngIf="showCityList">
+                            <li *ngFor="let city of cityArr" (click)="setCity(city)">{{city.Present}}</li>
+                        </ul>
+                    </div>
+                    <div class="shipping_np_department" *ngIf="showDepartmentBlock">
+                        <div class="inputElementWrapper">
+                            <input class="inputElementItem" placeholder="Отделения" type="text"
+                                [(ngModel)]="departmentName" name="departmentName" (input)='changeDepartment()'
+                                (focus)='resetDepartment()'>
+                            <label>Отделения НП</label>
+                            <span class="focus-border"><i></i></span>
+                        </div>
+                        <ul class="shipping_ul" *ngIf="showDepartmentList">
+                            <li *ngFor="let department of departmentArrFilter" (click)="setDepartment(department)">
+                                {{department.Description}}</li>
+                        </ul>
+                    </div>
                 </div>
-                <input type="button"  value="Оформить заказ" class="customer_buy" (click)="checkInputs()">
+                <input type="button" value="Оформить заказ" class="customer_buy" (click)="checkInputs()">
             </div>
         </form>
         <div class="order_success" *ngIf="orderComplete && basket.length==0">

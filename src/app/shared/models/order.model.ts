@@ -6,7 +6,7 @@ export class Order implements IOrder {
         public userLastName: string,
         public userPhone: string,
         public userEmail: string,
-        public userMethodOfDelivery: string,
+        public userMethodOfDelivery: any,
         public ordersDetails: Array<IProduct>,
         public totalPayment: number,
         public dateOrder: string,

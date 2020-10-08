@@ -6,16 +6,16 @@ import { ICategory } from "src/app/shared/interfaces/category.interface";
 })
 export class SearchPipe implements PipeTransform {
 
-  transform(adminCategory: Array<ICategory>, nameCategory: string): unknown {
-    if (!adminCategory) {
+  transform(subcategories: Array<ICategory>, nameCategory: string): unknown {
+    if (!subcategories) {
       return null;
     }
     if (!nameCategory) {
-      return adminCategory;
+      return subcategories;
     }
-    return adminCategory.filter(elem => elem.nameEN.toLowerCase().includes(nameCategory.toLowerCase())
+    return subcategories.filter(elem => elem.nameEN.toLowerCase().includes(nameCategory.toLowerCase())
       || elem.nameUA.toLowerCase().includes(nameCategory.toLowerCase())
     )
   }
-  
+
 }

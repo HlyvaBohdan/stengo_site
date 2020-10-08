@@ -16,7 +16,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AdminSubcategoryComponent implements OnInit {
 
-  adminCategory: Array<ISubcategory> = [];
+  subcategories: Array<ISubcategory> = [];
   modalRef: BsModalRef;
   reverse: boolean = false;
   subcategory: string = 'status';
@@ -28,6 +28,7 @@ export class AdminSubcategoryComponent implements OnInit {
   subcategoryID = 1;
   checkInput: boolean;
   currentIndexDelete: number;
+  currentNameEnDelete: string
   imageStatus: boolean;
   uploadProgress: Observable<number>;
   categories: Array<ICategory> = [];
@@ -35,7 +36,6 @@ export class AdminSubcategoryComponent implements OnInit {
   category: ICategory;
   constructor(private modalService: BsModalService,
     private catService: CategoryService, private afStorage: AngularFireStorage, private firestore: AngularFirestore) { }
-
 
   ngOnInit(): void {
     this.adminFirebaseSubcategories();
@@ -45,7 +45,7 @@ export class AdminSubcategoryComponent implements OnInit {
   private adminFirebaseSubcategories(): void {
     this.catService.getFirecloudSubcategory().subscribe(
       collection => {
-        this.adminCategory = collection.map(subcategory => {
+        this.subcategories = collection.map(subcategory => {
           const data = subcategory.payload.doc.data() as ISubcategory;
           const id = subcategory.payload.doc.id;
           return { id, ...data };
@@ -53,6 +53,7 @@ export class AdminSubcategoryComponent implements OnInit {
       }
     )
   }
+
   private adminFirebaseCategories(): void {
     this.catService.getFirecloudCategory().subscribe(
       collection => {
@@ -65,50 +66,13 @@ export class AdminSubcategoryComponent implements OnInit {
     )
   }
 
-  addSubcategory(): void {
-    const newSubcategory = new Subcategory(this.subcategoryID, this.nameEN, this.nameUA, this.subcategoryCategory, this.subcategoryImage);
-    delete newSubcategory.id;
-    this.catService.postFirecloudSubcategory(Object.assign({}, newSubcategory))
-      .then(() => {
-        this.updateCategory(newSubcategory)
-        this.resetModel()
-      })
-  }
-
-  setSubcategory(): void {
-    this.subcategoryCategory = this.categories.filter(cat => cat.nameUA === this.categoryName)[0].nameUA;
-  }
-
-  updateCategory(newSubcategory: ISubcategory): void {
-    this.category = this.categories.filter(cat => cat.nameUA === this.categoryName)[0];
-    this.category.subcategory.push(Object.assign({}, newSubcategory))
-    this.firestore.collection('categories').doc(this.category.id.toString()).update(Object.assign({}, this.category));
-  }
-
-  deleteSubcategory(): void {
-    if (confirm('Are you sure?')) {
-      this.catService.deleteFirecloudSubcategory(this.currentIndexDelete);
-      this.modalService.hide(1);
-    }
-  }
-
-  checkInputs(): void {
-    if (this.nameEN == '' || this.nameUA == '') {
-      this.checkInput = false
-    }
-    else {
-      this.checkInput = true
-    }
-  }
-
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     this.categoryName = this.categories[0].nameUA
   }
 
-  openModal2(template: TemplateRef<any>, index: number) {
-    this.modalRef = this.modalService.show(template);
-    this.currentIndexDelete = index;
+  setSubcategory(): void {
+    this.subcategoryCategory = this.categories.filter(cat => cat.nameUA === this.categoryName)[0].nameUA;
   }
 
   uploadFile(event): void {
@@ -122,19 +86,71 @@ export class AdminSubcategoryComponent implements OnInit {
       this.afStorage.ref(`images/${image.metadata.name}`).getDownloadURL().subscribe(url => {
         this.subcategoryImage = url;
         this.imageStatus = true;
+    this.checkInputs()
+
       })
     })
   }
+
+  checkInputs(): void {
+    if (this.nameEN == '' || this.nameUA == '' || this.subcategoryImage== '') {
+      this.checkInput = false
+    }
+    else {
+      this.checkInput = true
+    }
+  }
+
+  addSubcategory(): void {
+    const newSubcategory = new Subcategory(this.subcategoryID, this.nameEN, this.nameUA, this.subcategoryCategory, this.subcategoryImage);
+    delete newSubcategory.id;
+    this.catService.postFirecloudSubcategory(Object.assign({}, newSubcategory))
+      .then(() => {
+        this.updateCategory('add', newSubcategory)
+        this.resetModel()
+      })
+  }
+
+  updateCategory(message: string, newSubcategory?: ISubcategory): void {
+    this.category = this.categories.filter(cat => cat.nameUA === this.categoryName)[0];
+    if (message == 'add') {
+      this.category.subcategory.push(Object.assign({}, newSubcategory))
+    }
+    else {
+      this.currentIndexDelete = this.category.subcategory.findIndex(elem => elem.nameEN == this.currentNameEnDelete)
+      if (this.currentIndexDelete != -1) {
+        this.category.subcategory.splice(this.currentIndexDelete, 1)
+      }
+    }
+    this.firestore.collection('categories').doc(this.category.id.toString()).update(Object.assign({}, this.category));
+  }
+
+  deleteSubcategory(): void {
+    if (confirm('Are you sure?')) {
+      this.catService.deleteFirecloudSubcategory(this.currentIndexDelete);
+      this.modalService.hide(1);
+      this.updateCategory('delete')
+    }
+  }
+
+  openModal2(template: TemplateRef<any>, subcategory: ISubcategory) {
+    this.modalRef = this.modalService.show(template);
+    this.currentIndexDelete = subcategory.id;
+    this.currentNameEnDelete = subcategory.nameEN
+  }
+
   setSubcategoryS(value: string) {
     if (this.subcategory === value) {
       this.reverse = !this.reverse;
     }
     this.subcategory = value;
   }
+
   resetModel(): void {
     this.modalService.hide(1);
     this.nameEN = '';
     this.nameUA = '';
+    this.subcategoryImage = '';
     this.subcategoryID = 1;
     this.checkInput = false;
     this.imageStatus = false;
